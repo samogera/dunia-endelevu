@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /dunia-endelevu/src/
+
+Sitemap: https://samogera.github.io/dunia-endelevu/sitemap.xml

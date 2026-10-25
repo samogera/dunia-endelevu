@@ -1,0 +1,116 @@
+<main id="main">
+
+  <section class="wrap" aria-labelledby="contact-title" style="padding-top: clamp(56px, 8vw, 112px); padding-bottom: clamp(72px, 9vw, 112px)">
+    <div class="split" style="gap: 48px 80px; align-items: flex-start">
+
+      <div class="stack stack--lg" style="flex: 1 1 340px">
+        <h1 id="contact-title" class="title title--md">Get in touch</h1>
+        <p class="body" style="max-width: 420px">Parents and guardians can apply for a child here. Schools, partners and press can send an enquiry.</p>
+        <dl class="contact-list">
+          <div><dt>Email</dt><dd><a href="mailto:{{email}}">{{email}}</a></dd></div>
+          <div><dt>Based in</dt><dd>Nairobi, Kenya</dd></div>
+          <div><dt>Reply time</dt><dd>Within three working days</dd></div>
+        </dl>
+        <p class="note">Applications must come from a parent or legal guardian. Please don’t send photos of children through this form.</p>
+      </div>
+
+      <div class="form-card stack" style="flex: 1 1 600px; min-width: 0; gap: 28px">
+        <div class="segmented" role="tablist" aria-label="Choose a form">
+          <button type="button" role="tab" id="tab-apply" aria-controls="apply" aria-selected="true" data-hash="apply">Apply for a child</button>
+          <button type="button" role="tab" id="tab-enquiry" aria-controls="enquiry" aria-selected="false" data-hash="enquiry" tabindex="-1">School, partner or press</button>
+        </div>
+
+        <div id="apply" role="tabpanel" aria-labelledby="tab-apply" tabindex="0">
+          <form class="form form--roomy" data-form data-subject="Programme application" data-ok-title="Application received. Thank you." data-ok=" We’ll call you within three working days to talk it through. A confirmation is on its way to your email." data-autoresponse="Thank you for applying to Dunia Endelevu. We have received your application and will call you within three working days to talk it through. Nothing else happens until you have spoken to us and signed our consent form. With thanks, the Dunia Endelevu team">
+            <fieldset>
+              <legend>About the child</legend>
+              <div class="form-row">
+                <label class="field field--wide" for="c-name"><span class="field__label">Child’s full name</span><input class="input" id="c-name" type="text" name="child_name" autocomplete="off" required></label>
+                <label class="field field--narrow" for="c-age"><span class="field__label">Age</span>
+                  <select class="select" id="c-age" name="child_age" required>
+                    <option value="">Select</option>
+                    <option>Under 5</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option>
+                  </select>
+                </label>
+              </div>
+              <div class="form-row">
+                <label class="field" for="c-school"><span class="field__label">School <span class="hint">(optional)</span></span><input class="input" id="c-school" type="text" name="school" autocomplete="off"></label>
+                <label class="field" for="c-track"><span class="field__label">Track of interest</span>
+                  <select class="select" id="c-track" name="track">
+                    <option>Not sure yet</option>
+                    <option>Storyteller (publishing)</option>
+                    <option>Voice (podcast and media)</option>
+                    <option>Diplomat (events and panels)</option>
+                  </select>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Parent or guardian <small>· required</small></legend>
+              <div class="form-row">
+                <label class="field field--wide" for="g-name"><span class="field__label">Full name</span><input class="input" id="g-name" type="text" name="parent_name" autocomplete="name" required></label>
+                <label class="field" for="g-rel" style="flex: 1 1 180px"><span class="field__label">Relationship to child</span>
+                  <select class="select" id="g-rel" name="relationship" required>
+                    <option value="">Select</option>
+                    <option>Mother</option><option>Father</option><option>Legal guardian</option>
+                  </select>
+                </label>
+              </div>
+              <div class="form-row">
+                <label class="field" for="g-phone"><span class="field__label">Phone number</span><input class="input" id="g-phone" type="tel" name="parent_phone" autocomplete="tel" inputmode="tel" placeholder="+254" pattern="[\d \+\(\)\-]{9,20}" required></label>
+                <label class="field" for="g-email"><span class="field__label">Email</span><input class="input" id="g-email" type="email" name="email" autocomplete="email" required></label>
+              </div>
+              <label class="field" for="g-msg"><span class="field__label">Anything we should know? <span class="hint">Interests, access needs, best times to call</span></span><textarea class="textarea" id="g-msg" name="message" rows="4"></textarea></label>
+            </fieldset>
+
+            <div class="stack" style="gap: 12px">
+              <label class="check"><input type="checkbox" name="is_parent_or_guardian" value="Yes" required><span>I am this child’s parent or legal guardian.</span></label>
+              <label class="check"><input type="checkbox" name="consent_to_process" value="Yes" required><span>I agree to Dunia Endelevu using these details to process this application and contact me about it, as set out in the <a href="privacy.html">Privacy Policy</a>.</span></label>
+            </div>
+            <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="form" value="Programme application">
+            <div class="form-foot">
+              <button class="btn btn--primary" type="submit">Send application</button>
+              <span class="fine">We’ll call you to talk it through before anything else happens.</span>
+            </div>
+          </form>
+        </div>
+
+        <div id="enquiry" role="tabpanel" aria-labelledby="tab-enquiry" tabindex="0">
+          <form class="form" data-form data-subject="Website enquiry" data-ok-title="Thank you. Your message is with us." data-ok=" We reply within three working days." data-autoresponse="Thank you for contacting Dunia Endelevu. We have received your message and will reply within three working days.">
+            <h2 class="serif" style="font-size: 22px">Schools, partners and press</h2>
+            <div class="form-row">
+              <label class="field" for="e-name"><span class="field__label">Your name</span><input class="input" id="e-name" type="text" name="name" autocomplete="name" required></label>
+              <label class="field" for="e-org"><span class="field__label">Organisation or school</span><input class="input" id="e-org" type="text" name="organisation" autocomplete="organization" required></label>
+            </div>
+            <div class="form-row">
+              <label class="field" for="e-email"><span class="field__label">Email</span><input class="input" id="e-email" type="email" name="email" autocomplete="email" required></label>
+              <label class="field" for="e-phone"><span class="field__label">Phone <span class="hint">(optional)</span></span><input class="input" id="e-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="[\d \+\(\)\-]{9,20}"></label>
+            </div>
+            <label class="field" for="e-interest"><span class="field__label">What’s it about?</span>
+              <select class="select" id="e-interest" name="interest">
+                <option data-topic="school">Becoming a partner school</option>
+                <option data-topic="podcast">Podcast sponsorship</option>
+                <option data-topic="speakers">Youth speakers for an event</option>
+                <option data-topic="anthology">Ordering the anthology</option>
+                <option data-topic="author">Funding a young author</option>
+                <option data-topic="grant">A grant or accelerator</option>
+                <option data-topic="press">Press or interview</option>
+                <option data-topic="volunteer">Volunteering</option>
+                <option data-topic="other">Something else</option>
+              </select>
+            </label>
+            <label class="field" for="e-msg"><span class="field__label">Message</span><textarea class="textarea" id="e-msg" name="message" rows="5"></textarea></label>
+            <label class="check"><input type="checkbox" name="privacy_agreed" value="Yes" required><span>I agree to Dunia Endelevu using these details to reply to my enquiry, as set out in the <a href="privacy.html">Privacy Policy</a>.</span></label>
+            <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="form" value="Website enquiry">
+            <div class="form-foot"><button class="btn btn--primary" type="submit">Send enquiry</button></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
