@@ -66,9 +66,15 @@ Only publish photos of children with separate written permission from a parent o
 
 ## Brand
 
-- Colours: White `#FFFFFF`, Evergreen `#12372F`, Ink `#0F2A23`, Sun `#F2B233`. Use the accents sparingly: Leaf `#2F6B57` and Clay `#B9542F`.
-- Type: Fraunces (headings) and Inter (text). Both are under the SIL Open Font License, included in `assets/fonts/`.
-- The full logo pack (SVG, PNG, favicon, social banner) is at `assets/brand/dunia-endelevu-logo-pack.zip`.
+- **Logo, "The Speaking D":** the D of Dunia is a speech bubble, the E of Endelevu hides inside it, and a sun rises over the horizon. In the wordmark, the dot of the i is the same sun. The full logo pack (SVG, PNG, favicon, social banner) is at `assets/brand/dunia-endelevu-logo-pack.zip`.
+- **Colours:** White `#FFFFFF`, Evergreen `#12372F`, Ink `#0F2A23`, Sun `#F2B233`. Use the accents sparingly: Leaf `#2F6B57` and Clay `#B9542F`.
+- **Type:** Fraunces (headings) and Inter (text). Both are under the SIL Open Font License, included in `assets/fonts/`.
+- **Buttons, one rule:** the filled Evergreen button is the main action, used once per section; the outlined button is the secondary action beside it. Sun yellow is used only on dark Evergreen surfaces (the newsletter), where Evergreen would not show.
+- **Forms:** field borders are `#8A938F`, which meets the 3:1 contrast needed for form controls.
+
+### Photos
+
+Photos live in `assets/img/photos/`, each as `.webp` with a `.jpg` fallback. Before launch, confirm the licence for every stock photo (some free licences require a credit line). Only publish photos of children with written permission from a parent or guardian.
 
 ## Before launch
 

@@ -68,15 +68,22 @@ PAGES = [
 ]
 
 
-def mark(fg='#12372F', w=26, h=39, cls=None):
+# The Speaking D: a D-shaped speech bubble; its spine, top, bottom and horizon form an E; a sun rises inside.
+MARK_D = ('M12 8 H31 A22 22 0 0 1 31 52 H24 L12 60 Z M20 16 H31 A14 14 0 0 1 31 44 H20 Z')
+MARK_SUN = 'M22 33 A10 10 0 0 1 42 33 Z'
+MARK_BAR = 'M19.25 33 H39.75 A3.25 3.25 0 0 1 39.75 39.5 H19.25 Z'
+WORDMARK_RATIO = 9.075  # width / height of assets/img/wordmark.svg
+
+
+def mark(fg='#12372F', w=29, h=36, cls=None):
     c = f' class="{cls}"' if cls else ''
-    return (f'<svg{c} width="{w}" height="{h}" viewBox="5.4 4 27.6 41" aria-hidden="true" focusable="false">'
-            f'<path d="M16 43V14.5" fill="none" stroke="{fg}" stroke-width="4" stroke-linecap="round"/>'
-            f'<path d="M16 13A15 15 0 0 1 16 43" fill="none" stroke="{fg}" stroke-width="4" stroke-linecap="round"/>'
-            '<path d="M16 19A9 9 0 0 1 16 37" fill="none" stroke="#F2B233" stroke-width="4" stroke-linecap="round"/>'
-            '<path d="M16 24.2A3.8 3.8 0 0 1 16 31.8Z" fill="#F2B233"/>'
-            f'<path d="M16.6 14.2C15.8 8.2 12 4.6 6 4.6C6.2 10.4 10 14.4 16.6 14.2Z" fill="{fg}"/>'
-            f'<path d="M15.6 13.6C16.4 9 19.6 6.4 24.6 6.4C24.2 11 20.8 13.8 15.6 13.6Z" fill="{fg}"/></svg>')
+    return (f'<svg{c} width="{w}" height="{h}" viewBox="10.5 6.5 44 55" aria-hidden="true" focusable="false">'
+            f'<path d="{MARK_D}" fill="{fg}" fill-rule="evenodd"/>'
+            f'<path d="{MARK_SUN}" fill="#F2B233"/><path d="{MARK_BAR}" fill="{fg}"/></svg>')
+
+
+def wordmark(h):
+    return (f'<img class="brand__word" src="assets/img/wordmark.svg" alt="" width="{round(h * WORDMARK_RATIO)}" height="{h}">')
 
 
 def asset_version():
@@ -152,7 +159,7 @@ def header(active):
   <div class="wrap site-header__inner">
     <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">
       {mark()}
-      <span class="brand__name">Dunia Endelevu</span>
+      {wordmark(19)}
     </a>
     <nav class="nav" aria-label="Main">
         {nav_links(active)}
@@ -199,7 +206,7 @@ def footer(name):
     </div>
     <div class="footer-cols">
       <div class="footer-brand">
-        <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">{mark(w=22, h=33)}<span class="brand__name">Dunia Endelevu</span></a>
+        <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">{mark(w=24, h=30)}{wordmark(16)}</a>
         <p>A youth-led climate incubator giving children the platform to lead the conversation.</p>
         <a class="email" href="mailto:{EMAIL}">{EMAIL}</a>
       </div>
@@ -238,7 +245,7 @@ def footer(name):
 
 
 def expand(body):
-    body = body.replace('{{mark_white}}', mark(fg='#FFFFFF', w=24, h=36))
+    body = body.replace('{{mark_white}}', mark(fg='#FFFFFF', w=26, h=32))
     body = body.replace('{{mark}}', mark())
     body = body.replace('{{email}}', EMAIL)
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
