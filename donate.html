@@ -24,9 +24,9 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=e9407178">
+<link rel="stylesheet" href="assets/css/site.css?v=540ec66c">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
-<script src="assets/js/site.js?v=e9407178" defer></script>
+<script src="assets/js/site.js?v=540ec66c" defer></script>
 </head>
 <body>
 <svg class="shape-defs" aria-hidden="true" focusable="false"><defs><clipPath id="bubble" clipPathUnits="objectBoundingBox"><path d="M0.06 0H0.4634A0.5366 0.4231 0 0 1 0.4634 0.8462H0.2927L0 1V0.045Q0 0 0.06 0Z"/></clipPath></defs></svg>
@@ -42,6 +42,7 @@
         <a href="about.html">About</a>
         <a href="programs.html">Programmes</a>
         <a href="donate.html" aria-current="page">Donate</a>
+        <a href="contact.html">Contact</a>
       </nav>
       <a class="btn btn--sun btn--sm header-cta" href="contact.html#apply">Join us <svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
@@ -56,6 +57,7 @@
         <a href="about.html">About</a>
         <a href="programs.html">Programmes</a>
         <a href="donate.html" aria-current="page">Donate</a>
+        <a href="contact.html">Contact</a>
   </nav>
   <div class="mobile-menu__foot">
     <a class="btn btn--sun" href="contact.html#apply">Apply for a child <svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
@@ -65,38 +67,41 @@
 </div>
 <main id="main">
 
-  <section class="wrap page-hero" aria-labelledby="donate-title">
-    <div class="panel">
-      <span class="chip">Donate</span>
-      <h1 id="donate-title" class="h1 split">Help a child be heard.</h1>
-      <p class="lead">Your gift pays for books, podcast episodes and stages. Families never pay a shilling.</p>
+  <section class="wrap" aria-labelledby="donate-title">
+    <div class="donate-hero">
+      <div class="donate-hero__copy">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">›</span><span aria-current="page">Donate</span></nav>
+        <h1 id="donate-title" class="h1 split">Help a child be heard.</h1>
+        <p class="lead">Your gift pays for books, podcast episodes and stages. Families never pay a shilling.</p>
+      </div>
+      <div class="donate-hero__faces" aria-hidden="true">
+        <figure><picture><source type="image/webp" srcset="assets/img/photos/kids-circle.webp"><img src="assets/img/photos/kids-circle.jpg" alt="" width="472" height="472"></picture></figure>
+        <figure><picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="" width="568" height="720"></picture></figure>
+        <figure><picture><source type="image/webp" srcset="assets/img/photos/book-tower.webp"><img src="assets/img/photos/book-tower.jpg" alt="" width="730" height="926"></picture></figure>
+      </div>
     </div>
   </section>
 
-  <section class="wrap section" aria-label="Donation form" style="padding-top: clamp(40px, 5vw, 64px)">
-    <div class="split2 split2--form">
-      <div class="stack stack--lg donate-aside">
-        <figure class="frame donate-photo">
-          <picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="A young boy laughing outdoors" width="568" height="720" loading="lazy"></picture>
-        </figure>
-        <ol class="steps" aria-label="How giving works">
-          <li><b>1</b><div><strong>Choose</strong><span>Pick what your gift pays for.</span></div></li>
-          <li><b>2</b><div><strong>Pledge</strong><span>Tell us the amount. No card details here.</span></div></li>
-          <li><b>3</b><div><strong>Pay</strong><span>We email you how to pay within two working days.</span></div></li>
-        </ol>
-      </div>
+  <section class="wrap donate" aria-label="Make a donation">
+    <ol class="stepper" data-stepper aria-label="Your progress">
+      <li class="is-current"><span class="stepper__dot" aria-hidden="true"></span>Gift</li>
+      <li><span class="stepper__dot" aria-hidden="true"></span>Amount</li>
+      <li><span class="stepper__dot" aria-hidden="true"></span>Your details</li>
+      <li><span class="stepper__dot" aria-hidden="true"></span>We email you</li>
+    </ol>
 
+    <div class="donate__grid">
       <div class="form-card">
         <form class="form form--roomy" data-form data-donate data-subject="Donation pledge" data-ok-title="Thank you for your gift." data-ok=" We’ll email you within two working days with how to pay." data-autoresponse="Thank you for choosing to support Dunia Endelevu. We have received your pledge and will email you within two working days with how to pay. Thank you for helping a child be heard. The Dunia Endelevu team">
           <fieldset>
-            <legend>What would you like to fund?</legend>
+            <legend>What would you like to fund? <small class="legend-sub">Choose one or more.</small></legend>
             <div class="field">
               <div class="choices">
-                <label class="choice"><input type="radio" name="fund" value="A child’s book" data-key="book" data-amount="50000" required><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2z"/><path d="M22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/></svg></span><strong>A child’s book</strong><small>KSh 50,000 publishes one book.</small></span></label>
-                <label class="choice"><input type="radio" name="fund" value="A podcast episode" data-key="podcast"><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span><strong>A podcast episode</strong><small>Studio time and editing for a young host.</small></span></label>
-                <label class="choice"><input type="radio" name="fund" value="A child at an event" data-key="event"><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg></span><strong>A child at an event</strong><small>Travel, tickets and a chaperone.</small></span></label>
-                <label class="choice"><input type="radio" name="fund" value="Books for a school" data-key="books"><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4v16H4z"/><path d="M10 4h4v16h-4z"/><path d="M16.5 5l3.5 1-3.5 14-3.5-1z"/></svg></span><strong>Books for a school</strong><small>Anthology copies for a school library.</small></span></label>
-                <label class="choice choice--wide"><input type="radio" name="fund" value="Where it’s needed most" data-key="any"><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg></span><strong>Where it’s needed most</strong><small>We put your gift where it helps most.</small></span></label>
+                <label class="choice"><input type="checkbox" name="fund" value="A child’s book" data-key="book" data-amount="50000" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 15.5V40h15.5c2 0 3.6.8 4.5 2 .9-1.2 2.5-2 4.5-2H44V15.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 41.5C20 38 14.5 36.6 8 37V11.6c6.3-.5 11.8 1 16 4.4z" fill="#FFFFFF" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 41.5c4-3.5 9.5-4.9 16-4.5V11.6c-6.3-.5-11.8 1-16 4.4z" fill="#FFFFFF" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16C23 9.6 25.6 5 31 2.5c2.8 6.5 2.2 14-1.6 20-1.6 2.4-3.4 4.3-5.4 5.8z" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16v25.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.5 27c2-.5 4-.7 5.6-.6M31.5 31.6c2-.5 4-.7 5.6-.6M11 20.5c2.4-.1 5 .4 7 1.3M11 25.5c2.4-.1 5 .4 7 1.3" fill="none" stroke="#12372F" stroke-width="1.8" stroke-linecap="round" opacity=".45"/></svg></span><strong>A child’s book</strong><small>KSh 50,000 publishes one book.</small></span></label>
+                <label class="choice"><input type="checkbox" name="fund" value="A podcast episode" data-key="podcast" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><rect x="17" y="4" width="14" height="23" rx="7" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 12.5h4.5M17 17h4.5M17 21.5h4.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 21a13 13 0 0 0 26 0" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 34v8M16 43h16" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>A podcast episode</strong><small>Studio time and editing for a young host.</small></span></label>
+                <label class="choice"><input type="checkbox" name="fund" value="A child at an event" data-key="event" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 14.5a3.5 3.5 0 0 0 3.5-3.5h31a3.5 3.5 0 0 0 3.5 3.5v5a4.5 4.5 0 0 0 0 9v5a3.5 3.5 0 0 0-3.5 3.5h-31A3.5 3.5 0 0 0 5 33.5v-5a4.5 4.5 0 0 0 0-9z" fill="#FCEBC0" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 13v4M32 22v4M32 31v4" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 15.8l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8z" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>A child at an event</strong><small>Travel, tickets and a chaperone.</small></span></label>
+                <label class="choice"><input type="checkbox" name="fund" value="Books for a school" data-key="books" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="35" width="35" height="8" rx="2.5" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M35.5 35v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="27" width="32" height="8" rx="2.5" fill="#CFE3D6" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 27v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="19" width="33" height="8" rx="2.5" fill="#F3C3AE" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.5 19v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 10.5v4.8c0 1.6 4 2.7 9 2.7s9-1.1 9-2.7v-4.8" fill="#12372F" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 3.5l17 6.3-17 6.3-17-6.3z" fill="#12372F" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.5 10v6.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40.5" cy="18.3" r="2" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Books for a school</strong><small>Anthology copies for a school library.</small></span></label>
+                <label class="choice choice--wide"><input type="checkbox" name="fund" value="Where it’s needed most" data-key="any" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 41.5S6.5 31.7 6.5 18.8C6.5 13 10.9 8.5 16.4 8.5c3.3 0 6 1.6 7.6 4.2 1.6-2.6 4.3-4.2 7.6-4.2 5.5 0 9.9 4.5 9.9 10.3C41.5 31.7 24 41.5 24 41.5z" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 17.5c.3-2.3 2-4 4.2-4.3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Where it’s needed most</strong><small>We put your gift where it helps most.</small></span></label>
               </div>
             </div>
           </fieldset>
@@ -104,39 +109,80 @@
           <fieldset>
             <legend>How much?</legend>
             <div class="field">
-              <div class="amounts">
-                <label class="amount"><input type="radio" name="amount" value="KSh 1,000" required><span>KSh 1,000</span></label>
-                <label class="amount"><input type="radio" name="amount" value="KSh 5,000"><span>KSh 5,000</span></label>
-                <label class="amount"><input type="radio" name="amount" value="KSh 10,000"><span>KSh 10,000</span></label>
-                <label class="amount"><input type="radio" name="amount" value="KSh 50,000"><span>KSh 50,000</span></label>
-                <label class="amount"><input type="radio" name="amount" value="Other amount" data-other><span>Other</span></label>
-              </div>
+              <label class="amount-bar" for="d-amount"><span class="amount-bar__cur">KSh</span><input class="amount-bar__input" id="d-amount" type="text" name="amount" inputmode="numeric" autocomplete="off" pattern="0*[1-9][0-9,]*" placeholder="Any amount" required data-msg-pattern="Please enter an amount above zero." aria-label="Amount in Kenyan shillings" data-msg-missing="Please enter any amount." data-msg-min="Please enter an amount above zero."></label>
             </div>
-            <label class="field other-field" for="d-other" data-other-field><span class="field__label">Your amount in KSh</span><input class="input" id="d-other" type="number" name="other_amount" min="100" step="1" inputmode="numeric" placeholder="e.g. 2,500"></label>
+            <div class="amounts" role="group" aria-label="Quick amounts">
+              <button type="button" class="amount" data-amount-chip="1000">1,000</button>
+              <button type="button" class="amount" data-amount-chip="2500">2,500</button>
+              <button type="button" class="amount" data-amount-chip="5000">5,000</button>
+              <button type="button" class="amount" data-amount-chip="10000">10,000</button>
+              <button type="button" class="amount" data-amount-chip="50000">50,000</button>
+              <button type="button" class="amount amount--custom" data-amount-chip="custom">Custom amount</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>How would you like to pay?</legend>
+            <div class="paymethods">
+              <label class="paymethod"><input type="radio" name="pay_by" value="M-Pesa" checked><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14z"/><path d="M11 4h2"/><path d="M12 17v.01"/></svg>M-Pesa</span></label>
+              <label class="paymethod"><input type="radio" name="pay_by" value="Bank transfer"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l18 0"/><path d="M3 10l18 0"/><path d="M5 6l7 -3l7 3"/><path d="M4 10l0 11"/><path d="M20 10l0 11"/><path d="M8 14l0 3"/><path d="M12 14l0 3"/><path d="M16 14l0 3"/></svg>Bank transfer</span></label>
+              <label class="paymethod"><input type="radio" name="pay_by" value="Card"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"/><path d="M3 10l18 0"/><path d="M7 15l.01 0"/><path d="M11 15l2 0"/></svg>Card</span></label>
+            </div>
           </fieldset>
 
           <fieldset>
             <legend>Your details</legend>
             <div class="form-row">
-              <label class="field" for="d-name"><span class="field__label">Full name</span><input class="input" id="d-name" type="text" name="name" autocomplete="name" required></label>
-              <label class="field" for="d-email"><span class="field__label">Email</span><input class="input" id="d-email" type="email" name="email" autocomplete="email" required></label>
+              <label class="field" for="d-name"><span class="field__label">Full name <span class="hint">(optional)</span></span><input class="input" id="d-name" type="text" name="name" autocomplete="name"></label>
+              <label class="field" for="d-email"><span class="field__label">Email</span><input class="input" id="d-email" type="email" name="email" autocomplete="email" required data-msg-missing="Please enter your email, so we can tell you how to pay."></label>
             </div>
             <div class="form-row">
               <label class="field" for="d-phone"><span class="field__label">Phone <span class="hint">(optional)</span></span><input class="input" id="d-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+254" pattern="[\d \+\(\)\-]{9,20}"></label>
               <label class="field" for="d-org"><span class="field__label">Company or school <span class="hint">(optional)</span></span><input class="input" id="d-org" type="text" name="organisation" autocomplete="organization"></label>
             </div>
-            <label class="field" for="d-msg"><span class="field__label">A note for us <span class="hint">(optional)</span></span><textarea class="textarea" id="d-msg" name="message" rows="3"></textarea></label>
+            <div class="field">
+              <span class="field__label" id="credit-label">Can we thank you by name in public?</span>
+              <div class="paymethods paymethods--2" role="radiogroup" aria-labelledby="credit-label">
+                <label class="paymethod paymethod--row"><input type="radio" name="credit" value="Anonymous" checked><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.585 10.587a2 2 0 0 0 2.829 2.828"/><path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87"/><path d="M3 3l18 18"/></svg>Stay anonymous</span></label>
+                <label class="paymethod paymethod--row"><input type="radio" name="credit" value="Show my name"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg>Show my name</span></label>
+              </div>
+            </div>
           </fieldset>
 
           <label class="check"><input type="checkbox" name="privacy_agreed" value="Yes" required><span>I agree to Dunia Endelevu using these details to arrange my gift, as set out in the <a href="privacy.html">Privacy Policy</a>.</span></label>
           <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <input type="hidden" name="form" value="Donation pledge">
-          <div class="form-foot">
-            <button class="btn btn--sun" type="submit">Send my pledge</button>
-            <span class="fine">No payment is taken on this website.</span>
+          <input type="hidden" name="currency" value="KES">
+          <div class="stack" style="gap: 12px">
+            <button class="btn btn--sun btn--block" type="submit"><span data-pay-label>Donate</span> <svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+            <p class="fine" style="text-align: center">We’ll email you how to pay. No payment is taken on this website.</p>
           </div>
         </form>
       </div>
+
+      <aside class="donate__side" aria-label="Your gift">
+        <div class="summary" data-summary>
+          <figure class="summary__img"><picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="" width="568" height="720" loading="lazy"></picture></figure>
+          <h2 class="h3">Your gift</h2>
+          <ul class="summary__items" data-sum-items aria-live="polite"><li class="summary__empty">Choose what to fund.</li></ul>
+          <dl class="summary__rows">
+            <div><dt>Gifts chosen</dt><dd data-sum-count>0</dd></div>
+            <div><dt>Paying by</dt><dd data-sum-pay>M-Pesa</dd></div>
+            <div><dt>Thanked as</dt><dd data-sum-credit>Anonymous</dd></div>
+            <div class="summary__total"><dt>Total</dt><dd data-sum-total>KSh 0</dd></div>
+          </dl>
+          <p class="summary__note"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></svg><span>Nothing is charged here. We email you how to pay.</span></p>
+        </div>
+        <div class="organizer">
+          <span class="label">Organised by</span>
+          <div class="organizer__row">
+            <picture><source type="image/webp" srcset="assets/img/photos/alana-portrait.webp"><img src="assets/img/photos/alana-portrait.jpg" alt="" width="640" height="800" loading="lazy"></picture>
+            <div><strong>Alana Chelangat</strong><span>Founder, Dunia Endelevu</span></div>
+          </div>
+          <a class="organizer__line" href="mailto:hello@duniaendelevu.org"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/></svg>hello@duniaendelevu.org</a>
+          <span class="organizer__line"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg>Nairobi, Kenya</span>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -182,9 +228,15 @@
           <a href="terms.html">Terms</a>
           <a href="cookies.html">Cookies</a>
         </nav>
-        <div class="footer-social">
-          <a href="https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq" target="_blank" rel="noopener" aria-label="Climate Gumzo on Spotify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.2 9.4c3.3-1 6.9-.7 9.8.9"/><path d="M7.8 12.4c2.7-.8 5.6-.5 8 .8"/><path d="M8.4 15.2c2.1-.6 4.3-.4 6.2.6"/></svg></a>
-          <a href="mailto:hello@duniaendelevu.org" aria-label="Email us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7.5l8 5.5 8-5.5"/></svg></a>
+        <div class="footer-social" aria-label="Social media">
+          <span class="is-soon" title="Instagram, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></svg></span>
+          <span class="is-soon" title="TikTok, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"/></svg></span>
+          <span class="is-soon" title="X, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg></span>
+          <span class="is-soon" title="Facebook, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"/></svg></span>
+          <span class="is-soon" title="LinkedIn, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 1 0 -4 0"/><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"/></svg></span>
+          <span class="is-soon" title="YouTube, link coming soon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"/><path d="M10 9l5 3l-5 3z"/></svg></span>
+          <a href="https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq" target="_blank" rel="noopener" aria-label="Climate Gumzo on Spotify" title="Spotify"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M8 11.973c2.5 -1.473 5.5 -.973 7.5 .527"/><path d="M9 15c1.5 -1 4 -1 5 .5"/><path d="M7 9c2 -1 6 -2 10 .5"/></svg></a>
+          <a href="mailto:hello@duniaendelevu.org" aria-label="Email us" title="Email"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/></svg></a>
         </div>
       </div>
     </div>

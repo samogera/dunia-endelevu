@@ -85,6 +85,7 @@ NAV = [
     ('about', 'about.html', 'About'),
     ('programs', 'programs.html', 'Programmes'),
     ('donate', 'donate.html', 'Donate'),
+    ('contact', 'contact.html', 'Contact'),
 ]
 
 ARROW = ('<svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
@@ -205,10 +206,71 @@ def header(active):
 </div>'''
 
 
-SPOTIFY_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">'
-                '<circle cx="12" cy="12" r="9.5"/><path d="M7.2 9.4c3.3-1 6.9-.7 9.8.9"/><path d="M7.8 12.4c2.7-.8 5.6-.5 8 .8"/><path d="M8.4 15.2c2.1-.6 4.3-.4 6.2.6"/></svg>')
-MAIL_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-             '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7.5l8 5.5 8-5.5"/></svg>')
+# Line icons from Tabler Icons (MIT licence, tabler.io/icons)
+_ICON_PATHS = {
+    'instagram': ['M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z', 'M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0', 'M16.5 7.5v.01'],
+    'tiktok': ['M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z'],
+    'x': ['M4 4l11.733 16h4.267l-11.733 -16z', 'M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772'],
+    'facebook': ['M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3'],
+    'linkedin': ['M8 11v5', 'M8 8v.01', 'M12 16v-5', 'M16 16v-3a2 2 0 1 0 -4 0', 'M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z'],
+    'youtube': ['M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z', 'M10 9l5 3l-5 3z'],
+    'spotify': ['M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0', 'M8 11.973c2.5 -1.473 5.5 -.973 7.5 .527', 'M9 15c1.5 -1 4 -1 5 .5', 'M7 9c2 -1 6 -2 10 .5'],
+    'mail': ['M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z', 'M3 7l9 6l9 -6'],
+    'lock': ['M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z', 'M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0', 'M8 11v-4a4 4 0 1 1 8 0v4'],
+    'phone': ['M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14z', 'M11 4h2', 'M12 17v.01'],
+    'bank': ['M3 21l18 0', 'M3 10l18 0', 'M5 6l7 -3l7 3', 'M4 10l0 11', 'M20 10l0 11', 'M8 14l0 3', 'M12 14l0 3', 'M16 14l0 3'],
+    'card': ['M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z', 'M3 10l18 0', 'M7 15l.01 0', 'M11 15l2 0'],
+    'user': ['M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0', 'M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2'],
+    'eye-off': ['M10.585 10.587a2 2 0 0 0 2.829 2.828', 'M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87', 'M3 3l18 18'],
+    'pin': ['M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0', 'M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z'],
+}
+
+
+def icon(name):
+    paths = ''.join(f'<path d="{d}"/>' for d in _ICON_PATHS[name])
+    return (f'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
+
+
+# Duotone gift icons (48 x 48), drawn for Dunia Endelevu in the brand colours.
+_DE, _DS, _DSOFT, _DMINT, _DCLAY = '#12372F', '#F2B233', '#FCEBC0', '#CFE3D6', '#F3C3AE'
+_DST = f'stroke="{_DE}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"'
+_DUO = {
+    'book': f'''<path d="M4 15.5V40h15.5c2 0 3.6.8 4.5 2 .9-1.2 2.5-2 4.5-2H44V15.5" fill="none" {_DST}/><path d="M24 41.5C20 38 14.5 36.6 8 37V11.6c6.3-.5 11.8 1 16 4.4z" fill="#FFFFFF" {_DST}/><path d="M24 41.5c4-3.5 9.5-4.9 16-4.5V11.6c-6.3-.5-11.8 1-16 4.4z" fill="#FFFFFF" {_DST}/><path d="M24 16C23 9.6 25.6 5 31 2.5c2.8 6.5 2.2 14-1.6 20-1.6 2.4-3.4 4.3-5.4 5.8z" fill="{_DS}" {_DST}/><path d="M24 16v25.5" fill="none" {_DST}/><path d="M31.5 27c2-.5 4-.7 5.6-.6M31.5 31.6c2-.5 4-.7 5.6-.6M11 20.5c2.4-.1 5 .4 7 1.3M11 25.5c2.4-.1 5 .4 7 1.3" fill="none" stroke="{_DE}" stroke-width="1.8" stroke-linecap="round" opacity=".45"/>''',
+    'mic': f'''<rect x="17" y="4" width="14" height="23" rx="7" fill="{_DS}" {_DST}/><path d="M17 12.5h4.5M17 17h4.5M17 21.5h4.5" fill="none" {_DST}/><path d="M11 21a13 13 0 0 0 26 0" fill="none" {_DST}/><path d="M24 34v8M16 43h16" fill="none" {_DST}/>''',
+    'ticket': f'''<path d="M5 14.5a3.5 3.5 0 0 0 3.5-3.5h31a3.5 3.5 0 0 0 3.5 3.5v5a4.5 4.5 0 0 0 0 9v5a3.5 3.5 0 0 0-3.5 3.5h-31A3.5 3.5 0 0 0 5 33.5v-5a4.5 4.5 0 0 0 0-9z" fill="{_DSOFT}" {_DST}/><path d="M32 13v4M32 22v4M32 31v4" fill="none" {_DST}/><path d="M19 15.8l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8z" fill="{_DS}" {_DST}/>''',
+    'school': f'''<rect x="6" y="35" width="35" height="8" rx="2.5" fill="{_DS}" {_DST}/><path d="M35.5 35v8" fill="none" {_DST}/><rect x="9" y="27" width="32" height="8" rx="2.5" fill="{_DMINT}" {_DST}/><path d="M14.5 27v8" fill="none" {_DST}/><rect x="7" y="19" width="33" height="8" rx="2.5" fill="{_DCLAY}" {_DST}/><path d="M34.5 19v8" fill="none" {_DST}/><path d="M15 10.5v4.8c0 1.6 4 2.7 9 2.7s9-1.1 9-2.7v-4.8" fill="{_DE}" {_DST}/><path d="M24 3.5l17 6.3-17 6.3-17-6.3z" fill="{_DE}" {_DST}/><path d="M40.5 10v6.5" fill="none" {_DST}/><circle cx="40.5" cy="18.3" r="2" fill="{_DS}" {_DST}/>''',
+    'heart': f'''<path d="M24 41.5S6.5 31.7 6.5 18.8C6.5 13 10.9 8.5 16.4 8.5c3.3 0 6 1.6 7.6 4.2 1.6-2.6 4.3-4.2 7.6-4.2 5.5 0 9.9 4.5 9.9 10.3C41.5 31.7 24 41.5 24 41.5z" fill="{_DS}" {_DST}/><path d="M13.5 17.5c.3-2.3 2-4 4.2-4.3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>''',
+}
+
+
+def duo(name):
+    return f'<svg class="duo" viewBox="0 0 48 48" aria-hidden="true">{_DUO[name]}</svg>'
+
+
+# Social profiles for the footer. Paste a full link (https://...) to switch an icon on.
+# Icons without a link are shown, but are not clickable until a link is added.
+SOCIAL = [
+    ('Instagram', 'instagram', ''),
+    ('TikTok', 'tiktok', ''),
+    ('X', 'x', ''),
+    ('Facebook', 'facebook', ''),
+    ('LinkedIn', 'linkedin', ''),
+    ('YouTube', 'youtube', ''),
+    ('Spotify', 'spotify', SPOTIFY_SHOW),
+]
+
+
+def social_links():
+    out = []
+    for label, key, url in SOCIAL:
+        if url:
+            name = 'Climate Gumzo on Spotify' if key == 'spotify' else f'Dunia Endelevu on {label}'
+            out.append(f'<a href="{url}" target="_blank" rel="noopener" aria-label="{name}" title="{label}">{icon(key)}</a>')
+        else:
+            out.append(f'<span class="is-soon" title="{label}, link coming soon" aria-hidden="true">{icon(key)}</span>')
+    out.append(f'<a href="mailto:{EMAIL}" aria-label="Email us" title="Email">{icon("mail")}</a>')
+    return '\n          '.join(out)
 
 
 def footer(name):
@@ -245,9 +307,8 @@ def footer(name):
           {legal('terms.html', 'Terms', 'terms')}
           {legal('cookies.html', 'Cookies', 'cookies')}
         </nav>
-        <div class="footer-social">
-          <a href="{SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Climate Gumzo on Spotify">{SPOTIFY_ICON}</a>
-          <a href="mailto:{EMAIL}" aria-label="Email us">{MAIL_ICON}</a>
+        <div class="footer-social" aria-label="Social media">
+          {social_links()}
         </div>
       </div>
     </div>
@@ -266,6 +327,8 @@ def expand(body):
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
     body = body.replace('{{updated}}', '1 November 2026')
     body = body.replace('{{arrow}}', ARROW)
+    body = re.sub(r'\{\{icon:([a-z-]+)\}\}', lambda m: icon(m.group(1)), body)
+    body = re.sub(r'\{\{duo:([a-z]+)\}\}', lambda m: duo(m.group(1)), body)
     body = re.sub(r'\{\{doodle:([a-z]+)\}\}', lambda m: DOODLES[m.group(1)], body)
     body = re.sub(r'\{\{sticker:([^|}]+)\|([^|}]+)\|([a-z]+)\}\}', lambda m: sticker(m.group(1), m.group(2), m.group(3)), body)
 

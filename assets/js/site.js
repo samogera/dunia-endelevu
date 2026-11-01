@@ -286,6 +286,9 @@
     if (msg) msg.remove();
   }
   function messageFor(el) {
+    if (el.validity.valueMissing && el.getAttribute('data-msg-missing')) return el.getAttribute('data-msg-missing');
+    if (el.validity.rangeUnderflow && el.getAttribute('data-msg-min')) return el.getAttribute('data-msg-min');
+    if (el.validity.patternMismatch && el.getAttribute('data-msg-pattern')) return el.getAttribute('data-msg-pattern');
     if (el.validity.valueMissing) {
       if (el.type === 'checkbox') return 'Please tick this box to continue.';
       if (el.type === 'radio') return 'Please choose one.';
@@ -302,8 +305,9 @@
     clearError(el);
     wrap.classList.add('is-invalid');
     el.setAttribute('aria-invalid', 'true');
-    if (el.type === 'checkbox') return;
-    if (el.type === 'radio' && wrap.querySelector('.field__error')) return;
+    var grouped = el.type === 'radio' || (el.type === 'checkbox' && el.closest('.choices'));
+    if (el.type === 'checkbox' && !grouped) return;
+    if (grouped && wrap.querySelector('.field__error')) return;
     var msg = document.createElement('span');
     msg.className = 'field__error';
     msg.id = (el.id || el.name) + '-error';
@@ -401,37 +405,97 @@
     });
   });
 
-  /* ---------- Donate: preselect what to fund, suggest an amount, show "other" ---------- */
+  /* ---------- Donate: several gifts, quick amounts, live summary and progress ---------- */
   var donate = document.querySelector('form[data-donate]');
   if (donate) {
-    var otherField = donate.querySelector('[data-other-field]');
-    var otherInput = otherField ? otherField.querySelector('input') : null;
-    var syncOther = function () {
-      var other = donate.querySelector('input[name="amount"][data-other]');
-      var on = !!(other && other.checked);
-      if (otherField) otherField.classList.toggle('is-on', on);
-      if (otherInput) {
-        otherInput.required = on;
-        if (!on) clearError(otherInput);
+    var funds = Array.prototype.slice.call(donate.querySelectorAll('input[name="fund"]'));
+    var amountInput = donate.querySelector('#d-amount');
+    var chips = Array.prototype.slice.call(donate.querySelectorAll('[data-amount-chip]'));
+    var payLabel = donate.querySelector('[data-pay-label]');
+    var nameInput = donate.querySelector('#d-name');
+    var emailInput = donate.querySelector('#d-email');
+    var steps = Array.prototype.slice.call(document.querySelectorAll('[data-stepper] li'));
+    var sumItems = document.querySelector('[data-sum-items]');
+    var sumCount = document.querySelector('[data-sum-count]');
+    var sumPay = document.querySelector('[data-sum-pay]');
+    var sumTotal = document.querySelector('[data-sum-total]');
+    var sumCredit = document.querySelector('[data-sum-credit]');
+    var ksh = function (n) { return 'KSh ' + Math.round(n).toLocaleString('en'); };
+    var amount = function () { var n = parseInt(amountInput.value.replace(/[^0-9]/g, ''), 10); return isNaN(n) ? 0 : n; };
+    var setAmount = function (n) { amountInput.value = n ? Number(n).toLocaleString('en') : ''; };
+    // show thousands separators while typing: 50000 becomes 50,000
+    amountInput.addEventListener('input', function () {
+      var digits = amountInput.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+      setAmount(digits ? parseInt(digits, 10) : 0);
+    });
+
+    var update = function () {
+      var chosen = funds.filter(function (f) { return f.checked; });
+      // at least one gift is needed: every box is required until one is ticked
+      funds.forEach(function (f) { f.required = chosen.length === 0; });
+      var n = amount();
+      chips.forEach(function (c) { c.classList.toggle('is-on', parseFloat(c.getAttribute('data-amount-chip')) === n); });
+      if (payLabel) payLabel.textContent = n > 0 ? 'Donate ' + ksh(n) : 'Donate';
+      if (sumItems) {
+        sumItems.innerHTML = '';
+        if (!chosen.length) {
+          sumItems.innerHTML = '<li class="summary__empty">Choose what to fund.</li>';
+        }
+        chosen.forEach(function (f) {
+          var li = document.createElement('li');
+          var iconEl = f.parentNode.querySelector('.choice__icon');
+          li.innerHTML = iconEl ? iconEl.outerHTML : '';
+          li.appendChild(document.createTextNode(f.value));
+          sumItems.appendChild(li);
+        });
       }
+      if (sumCount) sumCount.textContent = String(chosen.length);
+      var pay = donate.querySelector('input[name="pay_by"]:checked');
+      if (sumPay) sumPay.textContent = pay ? pay.value : 'Not chosen';
+      if (sumTotal) sumTotal.textContent = ksh(n);
+      var credit = donate.querySelector('input[name="credit"]:checked');
+      if (sumCredit) sumCredit.textContent = credit && credit.value === 'Show my name' ? (nameInput.value.trim() || 'Your name') : 'Anonymous';
+      var done = [chosen.length > 0, n > 0, !!(emailInput.value && emailInput.checkValidity())];
+      var current = done.indexOf(false);
+      if (current === -1) current = 3;
+      steps.forEach(function (li, i) {
+        li.classList.toggle('is-done', i < 3 && done[i]);
+        li.classList.toggle('is-current', i === current);
+        if (i === current) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+      });
     };
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var v = chip.getAttribute('data-amount-chip');
+        if (v === 'custom') {
+          amountInput.value = '';
+          amountInput.focus();
+        } else {
+          setAmount(parseInt(v, 10));
+          clearError(amountInput);
+        }
+        update();
+      });
+    });
     donate.addEventListener('change', function (e) {
       var t = e.target;
-      if (t.name === 'fund' && t.getAttribute('data-amount') && !donate.querySelector('input[name="amount"]:checked')) {
-        var value = 'KSh ' + Number(t.getAttribute('data-amount')).toLocaleString('en');
-        var match = donate.querySelector('input[name="amount"][value="' + value + '"]');
-        if (match) { match.checked = true; clearError(match); }
+      // suggest the full cost of a book the first time it is ticked
+      if (t.name === 'fund' && t.checked && t.getAttribute('data-amount') && !amountInput.value) {
+        setAmount(parseInt(t.getAttribute('data-amount'), 10));
+        clearError(amountInput);
       }
-      syncOther();
+      update();
     });
-    donate.addEventListener('reset', function () { setTimeout(syncOther, 0); });
+    donate.addEventListener('input', update);
+    donate.addEventListener('reset', function () { setTimeout(update, 0); });
     var wanted = (window.location.search.match(/[?&]for=([a-z]+)/) || [])[1];
     var pick = wanted ? donate.querySelector('input[name="fund"][data-key="' + wanted + '"]') : null;
     if (pick) {
       pick.checked = true;
       pick.dispatchEvent(new Event('change', { bubbles: true }));
     }
-    syncOther();
+    update();
   }
 
   /* ---------- Footer year ---------- */

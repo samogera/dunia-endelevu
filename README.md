@@ -11,7 +11,7 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 | `index.html` | Home |
 | `about.html` | Who we are, what we believe, founder bio, volunteer form, safety FAQ |
 | `programs.html` | The Youth Advocate Journey: Storyteller, Voice and Diplomat tracks, sponsor options, FAQ |
-| `donate.html` | Donation pledge form: a child’s book, a podcast episode, a child at an event, books for a school |
+| `donate.html` | Donation pledge: choose one or more gifts (a child’s book, a podcast episode, a child at an event, books for a school, where it’s needed most), any amount, payment preference, named or anonymous. We email the donor how to pay. |
 | `contact.html` | Apply for a child (parent or guardian form) and an enquiry form |
 | `privacy.html`, `terms.html`, `cookies.html` | Legal pages |
 | `404.html` | Page not found |
@@ -21,6 +21,10 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 1. On GitHub, open **Settings → Pages**.
 2. Under **Build and deployment**, choose **Deploy from a branch**, then branch **main** and folder **/ (root)**. Save.
 3. After a minute the site is live at **https://samogera.github.io/dunia-endelevu/**.
+
+## Social media links
+
+The footer shows Instagram, TikTok, X, Facebook, LinkedIn, YouTube and Spotify icons. Only Spotify (Climate Gumzo) has a link so far. To switch the others on, paste each full profile link into `SOCIAL` near the top of `src/build.py`, then run `python3 src/build.py`. Icons without a link are shown but are not clickable.
 
 ## Switch on the forms
 
