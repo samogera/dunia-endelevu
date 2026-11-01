@@ -24,15 +24,6 @@ EMAIL = 'hello@duniaendelevu.org'
 SPOTIFY_SHOW = 'https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq'
 UPDATED = '2026-10-25'
 
-NAV = [
-    ('index', 'index.html', 'Home'),
-    ('about', 'about.html', 'About'),
-    ('programs', 'programs.html', 'Programs'),
-    ('stories', 'stories.html', 'Stories'),
-    ('partner', 'partner.html', 'Partner'),
-    ('contact', 'contact.html', 'Contact'),
-]
-
 PAGES = [
     # name, title, description, nav key, sitemap priority
     ('index', 'Dunia Endelevu · Youth-led climate incubator in Kenya',
@@ -93,9 +84,43 @@ def asset_version():
     return h.hexdigest()[:8]
 
 
-def nav_links(active, cls=''):
+NAV = [
+    ('about', 'about.html', 'About'),
+    ('programs', 'programs.html', 'Programmes'),
+    ('stories', 'stories.html', 'Stories'),
+    ('partner', 'partner.html', 'Partner'),
+    ('contact', 'contact.html', 'Contact'),
+]
+
+ARROW = ('<svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+         'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>')
+DOODLES = {
+    'sparkle': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.4 16.6 11.1 24 12 16.6 12.9 12.9 16.6 12 24 11.1 16.6 7.4 12.9 0 12 7.4 11.1 11.1 7.4 12 0Z" fill="currentColor"/></svg>',
+    'squiggle': '<svg viewBox="0 0 80 24" aria-hidden="true"><path d="M3 14C11 3 19 23 27 12S43 3 51 12 67 23 77 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',
+    'arrow': '<svg viewBox="0 0 70 52" aria-hidden="true"><path d="M4 6C24 4 46 14 58 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M47 36L58 42L62 29" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'burst': '<svg class="marquee__burst" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="7" fill="currentColor"/><g stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M20 2v6M20 32v6M2 20h6M32 20h6M7.3 7.3l4.2 4.2M28.5 28.5l4.2 4.2M7.3 32.7l4.2-4.2M28.5 11.5l4.2-4.2"/></g></svg>',
+    'sun': '<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="26" fill="#F2B233"/><g stroke="#F2B233" stroke-width="7" stroke-linecap="round"><path d="M60 8v14M60 98v14M8 60h14M98 60h14M23 23l10 10M87 87l10 10M23 97l10-10M87 33l10-10"/></g></svg>',
+}
+SHAPES = ('<svg class="shape-defs" aria-hidden="true" focusable="false"><defs>'
+          '<clipPath id="bubble" clipPathUnits="objectBoundingBox">'
+          '<path d="M0.06 0H0.4634A0.5366 0.4231 0 0 1 0.4634 0.8462H0.2927L0 1V0.045Q0 0 0.06 0Z"/></clipPath>'
+          '</defs></svg>')
+_sticker_n = [0]
+
+
+def sticker(text, core, variant='ink', cls=''):
+    _sticker_n[0] += 1
+    pid = f'ring{_sticker_n[0]}'
+    return (f'<div class="sticker sticker--{variant} {cls}" aria-hidden="true">'
+            f'<svg class="sticker__ring" viewBox="0 0 136 136"><defs><path id="{pid}" d="M68 68m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs>'
+            f'<text><textPath href="#{pid}" textLength="312" lengthAdjust="spacing">{text}</textPath></text></svg>'
+            f'<span class="sticker__core">{core}</span></div>')
+
+
+def nav_links(active, home=False):
+    items = ([('index', 'index.html', 'Home')] if home else []) + NAV
     out = []
-    for key, href, label in NAV:
+    for key, href, label in items:
         cur = ' aria-current="page"' if key == active else ''
         out.append(f'<a href="{href}"{cur}>{label}</a>')
     return '\n        '.join(out)
@@ -144,7 +169,7 @@ def head(name, title, desc, ver):
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css?v={ver}">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
@@ -154,32 +179,41 @@ def head(name, title, desc, ver):
 
 def header(active):
     return f'''<body>
+{SHAPES}
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="wrap site-header__inner">
-    <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">
-      {mark()}
-      {wordmark(19)}
-    </a>
-    <nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">
+        {mark(w=31, h=38)}
+        {wordmark(19)}
+      </a>
+      <nav class="nav" aria-label="Main">
         {nav_links(active)}
-    </nav>
-    <a class="btn btn--primary btn--sm header-cta" href="partner.html">Support a child</a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
-      <span class="menu-toggle__label">Menu</span><span class="menu-toggle__icon" aria-hidden="true"></span>
-    </button>
+      </nav>
+      <a class="btn btn--sun btn--sm header-cta" href="contact.html#apply">Join us {ARROW}</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-toggle__label">Menu</span><span class="menu-toggle__icon" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </header>
 <div class="mobile-menu" id="mobile-menu" hidden>
   <nav aria-label="Main menu">
-        {nav_links(active)}
+        {nav_links(active, home=True)}
   </nav>
   <div class="mobile-menu__foot">
-    <a class="btn btn--primary" href="partner.html">Support a child</a>
-    <a class="btn btn--ghost" href="contact.html#apply">Apply for a child</a>
+    <a class="btn btn--sun" href="contact.html#apply">Apply for a child {ARROW}</a>
+    <a class="btn btn--light" href="partner.html">Partner with us</a>
     <a class="fine" href="mailto:{EMAIL}">{EMAIL}</a>
   </div>
 </div>'''
+
+
+SPOTIFY_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">'
+                '<circle cx="12" cy="12" r="9.5"/><path d="M7.2 9.4c3.3-1 6.9-.7 9.8.9"/><path d="M7.8 12.4c2.7-.8 5.6-.5 8 .8"/><path d="M8.4 15.2c2.1-.6 4.3-.4 6.2.6"/></svg>')
+MAIL_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+             '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7.5l8 5.5 8-5.5"/></svg>')
 
 
 def footer(name):
@@ -187,56 +221,44 @@ def footer(name):
         cur = ' aria-current="page"' if name == key else ''
         return f'<a href="{href}"{cur}>{label}</a>'
     return f'''<footer class="site-footer">
-  <div class="wrap site-footer__inner">
-    <div class="newsletter">
-      <div class="newsletter__text">
-        <h2>Subscribe to our newsletter</h2>
-        <p>One short update each school term: new books, new episodes and where young advocates are speaking next.</p>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand__row">
+        <a class="footer-logo" href="index.html" aria-label="Dunia Endelevu, home">{mark(fg='#FFFFFF', w=26, h=32)}<img src="assets/img/wordmark-white.svg" alt="" width="154" height="17"></a>
+        <p>Free climate programmes for children in Kenya.</p>
       </div>
-      <form data-form data-subject="Newsletter sign-up" data-ok-title="You’re on the list." data-ok=" Look out for our next update at the start of term.">
-        <label class="label" for="newsletter-email-{name}">Stay up to date</label>
-        <div class="inline field">
-          <input class="input" id="newsletter-email-{name}" type="email" name="email" autocomplete="email" placeholder="Enter your email" required>
-          <button class="btn btn--sun btn--md" type="submit">Subscribe</button>
-        </div>
-        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <input type="hidden" name="form" value="Newsletter">
-        <span class="fine">For adults only. By subscribing you agree to our <a href="privacy.html">Privacy Policy</a>.</span>
-      </form>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-brand">
-        <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">{mark(w=24, h=30)}{wordmark(16)}</a>
-        <p>A youth-led climate incubator giving children the platform to lead the conversation.</p>
-        <a class="email" href="mailto:{EMAIL}">{EMAIL}</a>
-      </div>
-      <nav class="footer-nav" aria-labelledby="f-org-{name}">
-        <h2 id="f-org-{name}">Organisation</h2>
-        <a href="about.html">About us</a>
-        <a href="programs.html">Programs</a>
+      <nav class="footer-nav" aria-labelledby="f-menu-{name}">
+        <h2 id="f-menu-{name}">Menu</h2>
+        <a href="programs.html">Programmes</a>
         <a href="stories.html">Stories</a>
-        <a href="about.html#team">Our team</a>
-        <a href="assets/brand/dunia-endelevu-logo-pack.zip" download>Logo pack</a>
-      </nav>
-      <nav class="footer-nav" aria-labelledby="f-inv-{name}">
-        <h2 id="f-inv-{name}">Get involved</h2>
-        <a href="contact.html#apply">Join the programme</a>
         <a href="partner.html">Partner with us</a>
-        <a href="partner.html#ways">Fund a young author</a>
-        <a href="contact.html#enquiry">Contact</a>
       </nav>
-      <nav class="footer-nav" aria-labelledby="f-legal-{name}">
-        <h2 id="f-legal-{name}">Legal</h2>
-        {legal('privacy.html', 'Privacy Policy', 'privacy')}
-        {legal('terms.html', 'Terms of Service', 'terms')}
-        {legal('cookies.html', 'Cookie Policy', 'cookies')}
+      <nav class="footer-nav" aria-labelledby="f-about-{name}">
+        <h2 id="f-about-{name}">About</h2>
+        <a href="about.html">Our story</a>
         <a href="about.html#safeguarding">Safeguarding</a>
       </nav>
+      <div class="footer-nav">
+        <h2>Contact</h2>
+        <a href="mailto:{EMAIL}">{EMAIL}</a>
+        <span>Nairobi, Kenya</span>
+      </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span data-year>2026</span> Dunia Endelevu. All rights reserved.</span>
-      <span>Nairobi, Kenya</span>
+      <span>© <span data-year>2026</span> Dunia Endelevu</span>
+      <div class="footer-bottom__end">
+        <nav class="footer-legal" aria-label="Legal">
+          {legal('privacy.html', 'Privacy Policy', 'privacy')}
+          {legal('terms.html', 'Terms', 'terms')}
+          {legal('cookies.html', 'Cookies', 'cookies')}
+        </nav>
+        <div class="footer-social">
+          <a href="{SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Climate Gumzo on Spotify">{SPOTIFY_ICON}</a>
+          <a href="mailto:{EMAIL}" aria-label="Email us">{MAIL_ICON}</a>
+        </div>
+      </div>
     </div>
+    <div class="footer-giant" aria-hidden="true"><img src="assets/img/footer-word.svg" alt="" width="1397" height="126" loading="lazy"></div>
   </div>
 </footer>
 </body>
@@ -245,18 +267,25 @@ def footer(name):
 
 
 def expand(body):
-    body = body.replace('{{mark_white}}', mark(fg='#FFFFFF', w=26, h=32))
+    body = body.replace('{{mark_white}}', mark(fg='#FFFFFF', w=28, h=35))
     body = body.replace('{{mark}}', mark())
     body = body.replace('{{email}}', EMAIL)
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
     body = body.replace('{{updated}}', '25 October 2026')
+    body = body.replace('{{arrow}}', ARROW)
+    body = re.sub(r'\{\{doodle:([a-z]+)\}\}', lambda m: DOODLES[m.group(1)], body)
+    body = re.sub(r'\{\{sticker:([^|}]+)\|([^|}]+)\|([a-z]+)\}\}', lambda m: sticker(m.group(1), m.group(2), m.group(3)), body)
 
     def art(m):
-        return (SRC / 'art' / f'{m.group(1)}.svg').read_text().strip()
-    body = re.sub(r'\{\{art:([a-z0-9-]+)\}\}', art, body)
+        svg = (SRC / 'art' / f'{m.group(1)}.svg').read_text().strip()
+        if m.group(2):
+            svg = svg.replace('<rect width="500" height="400" fill="#F7F8F5"/>', '', 1)
+        return svg
+    body = re.sub(r'\{\{art:([a-z0-9-]+)(:clear)?\}\}', art, body)
     left = re.findall(r'\{\{[^}]+\}\}', body)
     assert not left, f'unexpanded tokens: {left}'
     return body
+
 
 
 def build():
