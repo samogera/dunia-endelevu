@@ -22,7 +22,7 @@ BASE_PATH = '/dunia-endelevu/'
 
 EMAIL = 'hello@duniaendelevu.org'
 SPOTIFY_SHOW = 'https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq'
-UPDATED = '2026-10-25'
+UPDATED = '2026-11-01'
 
 PAGES = [
     # name, title, description, nav key, sitemap priority
@@ -30,17 +30,14 @@ PAGES = [
      'Dunia Endelevu helps children in Kenya publish their own climate books, speak on our podcast Climate Gumzo and take the stage at environmental events. Free for every family.',
      'index', '1.0'),
     ('about', 'About us · Dunia Endelevu',
-     'A youth-led social enterprise and incubator in Kenya. Our mission, our team and our safeguarding promise to every child under 18.',
+     'Dunia Endelevu is a youth-led climate incubator in Kenya, founded by Alana Chelangat. Our story, our safeguarding promise and how to volunteer.',
      'about', '0.8'),
     ('programs', 'The Youth Advocate Journey · Dunia Endelevu',
      'Three free tracks for children under 18: Storyteller (publish a book), Voice (speak on our podcast) and Diplomat (take the stage at real events).',
      'programs', '0.9'),
-    ('stories', 'Stories, episodes and stages · Dunia Endelevu',
-     'The Dunia Endelevu Climate Anthology, our podcast Climate Gumzo and the young advocates speaking at events in Nairobi.',
-     'stories', '0.7'),
-    ('partner', 'Partner with us · Dunia Endelevu',
-     'Sponsor a podcast series, book youth speakers, order the Climate Anthology or fund a young author. Every partnership keeps our programme free for children.',
-     'partner', '0.9'),
+    ('donate', 'Donate · Dunia Endelevu',
+     'Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.',
+     'donate', '0.9'),
     ('contact', 'Contact and apply · Dunia Endelevu',
      'Parents and guardians can apply for a child under 18. Schools, partners and press can send an enquiry. We reply within three working days.',
      'contact', '0.8'),
@@ -87,9 +84,7 @@ def asset_version():
 NAV = [
     ('about', 'about.html', 'About'),
     ('programs', 'programs.html', 'Programmes'),
-    ('stories', 'stories.html', 'Stories'),
-    ('partner', 'partner.html', 'Partner'),
-    ('contact', 'contact.html', 'Contact'),
+    ('donate', 'donate.html', 'Donate'),
 ]
 
 ARROW = ('<svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
@@ -204,7 +199,7 @@ def header(active):
   </nav>
   <div class="mobile-menu__foot">
     <a class="btn btn--sun" href="contact.html#apply">Apply for a child {ARROW}</a>
-    <a class="btn btn--light" href="partner.html">Partner with us</a>
+    <a class="btn btn--light" href="donate.html">Donate</a>
     <a class="fine" href="mailto:{EMAIL}">{EMAIL}</a>
   </div>
 </div>'''
@@ -223,24 +218,22 @@ def footer(name):
     return f'''<footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-brand__row">
-        <a class="footer-logo" href="index.html" aria-label="Dunia Endelevu, home">{mark(fg='#FFFFFF', w=26, h=32)}<img src="assets/img/wordmark-white.svg" alt="" width="154" height="17"></a>
-        <p>Free climate programmes for children in Kenya.</p>
-      </div>
       <nav class="footer-nav" aria-labelledby="f-menu-{name}">
         <h2 id="f-menu-{name}">Menu</h2>
+        <a href="about.html">About us</a>
         <a href="programs.html">Programmes</a>
-        <a href="stories.html">Stories</a>
-        <a href="partner.html">Partner with us</a>
+        <a href="donate.html">Donate</a>
       </nav>
-      <nav class="footer-nav" aria-labelledby="f-about-{name}">
-        <h2 id="f-about-{name}">About</h2>
-        <a href="about.html">Our story</a>
-        <a href="about.html#safeguarding">Safeguarding</a>
+      <nav class="footer-nav" aria-labelledby="f-help-{name}">
+        <h2 id="f-help-{name}">Get involved</h2>
+        <a href="contact.html#apply">Apply for a child</a>
+        <a href="about.html#volunteer">Volunteer</a>
+        <a href="donate.html?for=book">Sponsor a book</a>
       </nav>
       <div class="footer-nav">
         <h2>Contact</h2>
         <a href="mailto:{EMAIL}">{EMAIL}</a>
+        <a href="contact.html">Send a message</a>
         <span>Nairobi, Kenya</span>
       </div>
     </div>
@@ -271,7 +264,7 @@ def expand(body):
     body = body.replace('{{mark}}', mark())
     body = body.replace('{{email}}', EMAIL)
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
-    body = body.replace('{{updated}}', '25 October 2026')
+    body = body.replace('{{updated}}', '1 November 2026')
     body = body.replace('{{arrow}}', ARROW)
     body = re.sub(r'\{\{doodle:([a-z]+)\}\}', lambda m: DOODLES[m.group(1)], body)
     body = re.sub(r'\{\{sticker:([^|}]+)\|([^|}]+)\|([a-z]+)\}\}', lambda m: sticker(m.group(1), m.group(2), m.group(3)), body)

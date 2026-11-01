@@ -9,10 +9,9 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 | File | Page |
 | --- | --- |
 | `index.html` | Home |
-| `about.html` | About, team, values, safeguarding promise |
-| `programs.html` | The Youth Advocate Journey: Storyteller, Voice and Diplomat tracks, FAQ |
-| `stories.html` | Climate Anthology, Climate Gumzo podcast, first cohort |
-| `partner.html` | Ways to partner, where support goes, partnership enquiry form |
+| `about.html` | Who we are, what we believe, founder bio, volunteer form, safety FAQ |
+| `programs.html` | The Youth Advocate Journey: Storyteller, Voice and Diplomat tracks, sponsor options, FAQ |
+| `donate.html` | Donation pledge form: a child’s book, a podcast episode, a child at an event, books for a school |
 | `contact.html` | Apply for a child (parent or guardian form) and an enquiry form |
 | `privacy.html`, `terms.html`, `cookies.html` | Legal pages |
 | `404.html` | Page not found |
@@ -25,7 +24,7 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 
 ## Switch on the forms
 
-The application, enquiry and newsletter forms send email through [FormSubmit](https://formsubmit.co) to **hello@duniaendelevu.org**.
+The application, enquiry, volunteer and donation forms send email through [FormSubmit](https://formsubmit.co) to **hello@duniaendelevu.org**.
 
 1. Make sure that inbox exists. To use a different one, change `FORM_INBOX` at the top of `assets/js/site.js`, and the address shown on the pages (`EMAIL` in `src/build.py`), then rebuild.
 2. Send one test message from the live site. FormSubmit emails the inbox an **Activate Form** link. Click it once.
@@ -67,9 +66,9 @@ Only publish photos of children with separate written permission from a parent o
 ## Brand
 
 - **Logo, "The Speaking D":** the D of Dunia is a speech bubble, the E of Endelevu hides inside it, and a sun rises over the horizon. In the wordmark, the dot of the i is the same sun. The full logo pack (SVG, PNG, favicon, social banner) is at `assets/brand/dunia-endelevu-logo-pack.zip`.
-- **Colours:** White `#FFFFFF`, Evergreen `#12372F`, Ink `#0F2A23`, Sun `#F2B233`. Use the accents sparingly: Leaf `#2F6B57` and Clay `#B9542F`.
-- **Type:** Fraunces (headings) and Inter (text). Both are under the SIL Open Font License, included in `assets/fonts/`.
-- **Buttons, one rule:** the filled Evergreen button is the main action, used once per section; the outlined button is the secondary action beside it. Sun yellow is used only on dark Evergreen surfaces (the newsletter), where Evergreen would not show.
+- **Colours:** Sage page `#EDF3EF`, White cards `#FFFFFF`, Evergreen `#12372F`, Ink `#0F2A23`, Sun `#F2B233`. Use the accents sparingly: Leaf `#2F6B57` and Clay `#B9542F`.
+- **Type:** Inter Tight (headings) and Inter (text). Both are under the SIL Open Font License, included in `assets/fonts/`. The logo wordmark is drawn from Fraunces and stored as outlines.
+- **Buttons, one rule:** the filled Evergreen button is the main action, used once per section; the outlined button is the secondary action beside it. Sun yellow is used for the small arrow circle inside buttons, and as the button colour on dark Evergreen surfaces, where Evergreen would not show.
 - **Forms:** field borders are `#8A938F`, which meets the 3:1 contrast needed for form controls.
 
 ### Photos

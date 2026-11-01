@@ -288,6 +288,7 @@
   function messageFor(el) {
     if (el.validity.valueMissing) {
       if (el.type === 'checkbox') return 'Please tick this box to continue.';
+      if (el.type === 'radio') return 'Please choose one.';
       if (el.tagName === 'SELECT') return 'Please choose an option.';
       return 'Please fill in this field.';
     }
@@ -302,6 +303,7 @@
     wrap.classList.add('is-invalid');
     el.setAttribute('aria-invalid', 'true');
     if (el.type === 'checkbox') return;
+    if (el.type === 'radio' && wrap.querySelector('.field__error')) return;
     var msg = document.createElement('span');
     msg.className = 'field__error';
     msg.id = (el.id || el.name) + '-error';
@@ -331,7 +333,7 @@
   document.querySelectorAll('form[data-form]').forEach(function (form) {
     form.setAttribute('novalidate', '');
     form.querySelectorAll('input, select, textarea').forEach(function (el) {
-      var evt = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+      var evt = (el.type === 'checkbox' || el.type === 'radio' || el.tagName === 'SELECT') ? 'change' : 'input';
       el.addEventListener(evt, function () { if (el.checkValidity()) clearError(el); });
       el.addEventListener('blur', function () {
         if (el.value && !el.checkValidity()) showError(el);
@@ -344,6 +346,7 @@
         return el.willValidate && !el.checkValidity();
       });
       form.querySelectorAll('[aria-invalid]').forEach(clearError);
+      form.querySelectorAll('.field__error').forEach(function (m) { m.remove(); });
       if (invalid.length) {
         invalid.forEach(showError);
         invalid[0].focus();
@@ -397,6 +400,39 @@
       });
     });
   });
+
+  /* ---------- Donate: preselect what to fund, suggest an amount, show "other" ---------- */
+  var donate = document.querySelector('form[data-donate]');
+  if (donate) {
+    var otherField = donate.querySelector('[data-other-field]');
+    var otherInput = otherField ? otherField.querySelector('input') : null;
+    var syncOther = function () {
+      var other = donate.querySelector('input[name="amount"][data-other]');
+      var on = !!(other && other.checked);
+      if (otherField) otherField.classList.toggle('is-on', on);
+      if (otherInput) {
+        otherInput.required = on;
+        if (!on) clearError(otherInput);
+      }
+    };
+    donate.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.name === 'fund' && t.getAttribute('data-amount') && !donate.querySelector('input[name="amount"]:checked')) {
+        var value = 'KSh ' + Number(t.getAttribute('data-amount')).toLocaleString('en');
+        var match = donate.querySelector('input[name="amount"][value="' + value + '"]');
+        if (match) { match.checked = true; clearError(match); }
+      }
+      syncOther();
+    });
+    donate.addEventListener('reset', function () { setTimeout(syncOther, 0); });
+    var wanted = (window.location.search.match(/[?&]for=([a-z]+)/) || [])[1];
+    var pick = wanted ? donate.querySelector('input[name="fund"][data-key="' + wanted + '"]') : null;
+    if (pick) {
+      pick.checked = true;
+      pick.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    syncOther();
+  }
 
   /* ---------- Footer year ---------- */
   var year = document.querySelector('[data-year]');
