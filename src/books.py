@@ -43,15 +43,15 @@ def _pic(src, alt, w, h, lazy=True, cls=''):
             f'<img src="{src}.jpg" alt="{escape(alt)}" width="{w}" height="{h}"{load}></picture>')
 
 
-def shelf(books):
-    cards = []
-    for i, b in enumerate(books):
-        d = f' reveal-d{i % 3}' if i % 3 else ''
-        cards.append(
-            f'      <li class="reveal{d}"><a class="book-card" href="story-{b["slug"]}.html">'
+def card(b, i=0):
+    d = f' reveal-d{i % 3}' if i % 3 else ''
+    return (f'      <li class="reveal{d}"><a class="book-card" href="story-{b["slug"]}.html">'
             f'<span class="book-card__cover">{_pic(f"assets/books/{b["slug"]}/cover", b["cover_alt"], *cover_size(b), lazy=i > 3)}</span>'
-            f'<span class="book-card__title">{escape(b["title"])}</span>'
-            f'<span class="book-card__meta">{escape(b["topic"])} · Ages {escape(b["ages"])}</span></a></li>')
+            f'<span class="book-card__title">{escape(b["title"])}</span></a></li>')
+
+
+def shelf(books):
+    cards = [card(b, i) for i, b in enumerate(books)]
     cards.append('      <li class="reveal"><div class="book-card book-card--soon"><span class="book-card__cover">'
                  '<span>More stories<br>are on the way</span></span></div></li>')
     return f'''<main id="main">
@@ -72,7 +72,7 @@ def shelf(books):
 '''
 
 
-def book_page(b):
+def book_page(b, books=()):
     """Title, what children will learn, a short summary, then the book itself.
 
     With JavaScript the book opens as you scroll to it and its pages turn in 3D: two pages side by side on
@@ -93,9 +93,15 @@ def book_page(b):
                      f'{_pic(f"{base}/page-{i:02d}", "", pw, ph)}<p>{escape(text)}</p></li>')
     learn = ''
     if b.get('learn'):
-        learn = ('\n      <div class="book-learn"><h2 class="book-learn__title">What you’ll learn</h2><ul>'
+        learn = (f'\n      <div class="book-learn"><h2 class="book-learn__title">Learn more about {escape(b["topic"].lower())}</h2><ul>'
                  + ''.join(f'<li>{escape(x)}</li>' for x in b['learn']) + '</ul></div>')
-    summary = f'\n      <p class="lead">{escape(b["summary"])}</p>' if b.get('summary') else ''
+    summary = f'\n      <p class="book-summary">{escape(b["summary"])}</p>' if b.get('summary') else ''
+    others = [o for o in books if o['slug'] != slug]
+    more = ''
+    if others:
+        more = ('\n  <section class="wrap more-books" aria-labelledby="more-title">\n'
+                '    <h2 id="more-title" class="h2 h2--sm">More stories to read</h2>\n'
+                '    <ul class="books books--more">\n' + '\n'.join(card(o, i) for i, o in enumerate(others)) + '\n    </ul>\n  </section>\n')
     by = b['pages'][0].split('By ', 1)[-1].rstrip('.') if 'By ' in b['pages'][0] else 'Dunia Endelevu'
     return f"""<main id="main">
 
@@ -120,6 +126,9 @@ def book_page(b):
       <div class="flip__progress" aria-hidden="true"><span></span></div>
     </div>
 
+  </section>
+{more}
+  <section class="wrap book-foot">
     <p class="book-back"><a class="more" href="learn.html"><span class="arrow arrow--back">{{{{arrow}}}}</span> All storybooks</a></p>
   </section>
 

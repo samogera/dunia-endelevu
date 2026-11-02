@@ -369,7 +369,7 @@ def build():
         if name == 'learn':
             body = booklib.shelf(BOOKS)
         elif name in by_page:
-            body = booklib.book_page(by_page[name])
+            body = booklib.book_page(by_page[name], BOOKS)
             og = booklib.og_for(by_page[name])
         else:
             body = (SRC / 'pages' / f'{name}.html').read_text()
