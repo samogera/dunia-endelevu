@@ -35,6 +35,30 @@ PAGES = [
     ('programs', 'The Youth Advocate Journey · Dunia Endelevu',
      'Three free tracks for children under 18: Storyteller (publish a book), Voice (speak on our podcast) and Diplomat (take the stage at real events).',
      'programs', '0.9'),
+    ('learn', 'Learn · Dunia Endelevu',
+     'Free climate lessons, storybooks and quizzes for children: climate change basics, biodiversity, climate justice, environmental rights and climate action.',
+     'learn', '0.9'),
+    ('learn-climate', 'Why is our planet getting warmer? · Learn · Dunia Endelevu',
+     'A simple climate change lesson for children: weather and climate, Earth’s warm blanket, what it means for Kenya, and the good news.',
+     'learn', '0.7'),
+    ('learn-biodiversity', 'The web of life · Learn · Dunia Endelevu',
+     'A biodiversity lesson for children: why bees matter, Kenya’s wild places, and how to protect them.',
+     'learn', '0.7'),
+    ('learn-justice', 'Is climate change fair? · Learn · Dunia Endelevu',
+     'A climate justice lesson for children: who caused climate change, who is hurt most, and why children deserve a say.',
+     'learn', '0.7'),
+    ('learn-rights', 'Your right to a healthy environment · Learn · Dunia Endelevu',
+     'An environmental rights lesson for children: Article 42 of Kenya’s Constitution, children’s rights, and the duty to protect nature.',
+     'learn', '0.7'),
+    ('learn-action', 'What can we do? · Learn · Dunia Endelevu',
+     'A climate action lesson for children: simple actions at home and at school, and how the world is acting together.',
+     'learn', '0.7'),
+    ('learn-resources', 'Learn more · Dunia Endelevu',
+     'Books, podcasts, games and real science for curious children, parents and teachers.',
+     'learn', '0.6'),
+    ('story-baraka', 'Baraka and the Warm Blanket · Storybook · Dunia Endelevu',
+     'A free illustrated storybook about climate change for children aged 6 to 10. Read online or download the PDF.',
+     'learn', '0.7'),
     ('donate', 'Donate · Dunia Endelevu',
      'Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.',
      'donate', '0.9'),
@@ -84,6 +108,7 @@ def asset_version():
 NAV = [
     ('about', 'about.html', 'About'),
     ('programs', 'programs.html', 'Programmes'),
+    ('learn', 'learn.html', 'Learn'),
     ('donate', 'donate.html', 'Donate'),
     ('contact', 'contact.html', 'Contact'),
 ]
@@ -284,6 +309,7 @@ def footer(name):
         <h2 id="f-menu-{name}">Menu</h2>
         <a href="about.html">About us</a>
         <a href="programs.html">Programmes</a>
+        <a href="learn.html">Learn</a>
         <a href="donate.html">Donate</a>
       </nav>
       <nav class="footer-nav" aria-labelledby="f-help-{name}">

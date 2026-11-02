@@ -24,9 +24,9 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=540ec66c">
+<link rel="stylesheet" href="assets/css/site.css?v=cf085248">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
-<script src="assets/js/site.js?v=540ec66c" defer></script>
+<script src="assets/js/site.js?v=cf085248" defer></script>
 </head>
 <body>
 <svg class="shape-defs" aria-hidden="true" focusable="false"><defs><clipPath id="bubble" clipPathUnits="objectBoundingBox"><path d="M0.06 0H0.4634A0.5366 0.4231 0 0 1 0.4634 0.8462H0.2927L0 1V0.045Q0 0 0.06 0Z"/></clipPath></defs></svg>
@@ -41,6 +41,7 @@
       <nav class="nav" aria-label="Main">
         <a href="about.html" aria-current="page">About</a>
         <a href="programs.html">Programmes</a>
+        <a href="learn.html">Learn</a>
         <a href="donate.html">Donate</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -56,6 +57,7 @@
         <a href="index.html">Home</a>
         <a href="about.html" aria-current="page">About</a>
         <a href="programs.html">Programmes</a>
+        <a href="learn.html">Learn</a>
         <a href="donate.html">Donate</a>
         <a href="contact.html">Contact</a>
   </nav>
@@ -75,29 +77,67 @@
     </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="who-title" style="padding-top: clamp(56px, 7vw, 96px)">
+  <section class="wrap section" aria-labelledby="vm-title" style="padding-top: clamp(56px, 7vw, 96px)">
+    <h2 id="vm-title" class="sr-only">Vision and mission</h2>
+    <div class="vm">
+      <div class="vm__card vm__card--sun reveal">
+        <span class="tag tag--start">Our vision</span>
+        <p class="vm__text">A sustainable world, led by the children who will live in it.</p>
+      </div>
+      <div class="vm__card reveal reveal-d1">
+        <span class="tag tag--start">Our mission</span>
+        <p class="vm__text">To give children in Kenya the skills, the stage and the support to write, speak and lead on climate, free for every family.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="story" aria-labelledby="story-title">
+    <div class="story">
+      <div class="story__intro stack stack--lg">
+        <span class="tag tag--start">How it started</span>
+        <h2 id="story-title" class="h2">It started with one young voice.</h2>
+        <p class="lead">Dunia Endelevu was founded by Alana Chelangat, a young climate advocate from Kenya.</p>
+        <p class="body">On stages from Dubai to Baku, Alana saw how much changes when leaders hear directly from children. Most children never get that chance. Dunia Endelevu exists to give it to them: the training, the microphone and the audience.</p>
+        <blockquote class="quote">
+          <p>“Children aren’t just victims of climate change. We’re problem solvers.”</p>
+          <footer>Alana Chelangat, speaking to The Standard, November 2024</footer>
+        </blockquote>
+      </div>
+      <ol class="timeline" aria-label="Milestones">
+        <li class="reveal"><span class="timeline__date">Dec 2023</span><div><strong>COP28, Dubai</strong><p>Keynote at a children’s climate event, standing with 20 children from climate-vulnerable communities.</p></div></li>
+        <li class="reveal"><span class="timeline__date">Feb 2024</span><div><strong>UNEP, Nairobi</strong><p>One of 300+ young people shaping a global youth declaration on the environment.</p></div></li>
+        <li class="reveal"><span class="timeline__date">Nov 2024</span><div><strong>COP29, Baku</strong><p>Speaks on a children’s rights panel and signs copies of her climate book.</p></div></li>
+        <li class="reveal"><span class="timeline__date">Mar 2025</span><div><strong>Little Miss Environment Kenya</strong><p>Crowned Little Miss Environment Kenya 2025 in Nairobi.</p></div></li>
+        <li class="reveal"><span class="timeline__date">Nov 2025</span><div><strong>Child protection keynote</strong><p>Calls for safe, climate-resilient schools at a child protection conference in Nairobi.</p></div></li>
+        <li class="reveal timeline__now"><span class="timeline__date">Today</span><div><strong>Dunia Endelevu</strong><p>Three free tracks for children: books, a podcast and real stages. Plus Climate Gumzo, and a school tree nursery of more than 20,000 trees that Alana co-founded with classmates and teachers.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="who-title">
     <div class="split2">
       <figure class="media reveal">
         <div class="arch"><picture><source type="image/webp" srcset="assets/img/photos/kids-circle.webp"><img src="assets/img/photos/kids-circle.jpg" alt="Children lying in a circle on the grass, smiling up at the camera" width="472" height="472" loading="lazy"></picture></div>
       </figure>
       <div class="stack stack--lg">
-        <span class="tag tag--start">Who we are</span>
-        <h2 id="who-title" class="h2">Our name means “a sustainable world”.</h2>
+        <span class="tag tag--start">Our name</span>
+        <h2 id="who-title" class="h2">Dunia Endelevu means “a sustainable world”.</h2>
         <p class="lead"><span lang="sw">Dunia</span> is Kiswahili for “the world”. <span lang="sw">Endelevu</span> means “sustainable, lasting”.</p>
-        <p class="body">Climate change will shape the lives of today’s children more than anyone’s, yet they are rarely asked what they think. We change that. Children under 18 join one of three free tracks: they publish their own climate book, co-host our podcast Climate Gumzo, or speak at real events. Trained adults coach them, keep them safe and raise the money, so families never pay.</p>
+        <p class="body">Climate change will shape today’s children’s lives more than anyone’s, yet they are rarely asked what they think. Children under 18 join one of three free tracks: they publish their own climate book, co-host our podcast Climate Gumzo, or speak at real events. Trained adults coach them, keep them safe and raise the money, so families never pay.</p>
       </div>
     </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="believe-title">
+  <section class="wrap section" aria-labelledby="values-title">
     <div class="center-head">
-      <span class="tag">What we believe</span>
-      <h2 id="believe-title" class="h2">Three simple ideas.</h2>
+      <span class="tag">Our values</span>
+      <h2 id="values-title" class="h2">What guides us.</h2>
     </div>
-    <div class="grid-3">
-      <div class="tile reveal"><span class="card3__num">01</span><h3 class="h3">Children are experts on their own future.</h3><p>They see the problem clearly. They deserve to be asked.</p></div>
-      <div class="tile tile--sun reveal reveal-d1"><span class="card3__num">02</span><h3 class="h3">Every young voice deserves a real audience.</h3><p>Not a classroom exercise. A real book, a real broadcast, a real stage.</p></div>
-      <div class="tile reveal reveal-d2"><span class="card3__num">03</span><h3 class="h3">No family should pay to be heard.</h3><p>Donors and sponsors cover every cost, so talent is all a child needs.</p></div>
+    <div class="grid-4">
+      <div class="tile reveal"><span class="tile__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><rect x="17" y="4" width="14" height="23" rx="7" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 12.5h4.5M17 17h4.5M17 21.5h4.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 21a13 13 0 0 0 26 0" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 34v8M16 43h16" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3 class="h3">Child-led</h3><p>Children choose the stories, the questions and the speeches.</p></div>
+      <div class="tile tile--sun reveal reveal-d1"><span class="tile__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 41.5S6.5 31.7 6.5 18.8C6.5 13 10.9 8.5 16.4 8.5c3.3 0 6 1.6 7.6 4.2 1.6-2.6 4.3-4.2 7.6-4.2 5.5 0 9.9 4.5 9.9 10.3C41.5 31.7 24 41.5 24 41.5z" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 17.5c.3-2.3 2-4 4.2-4.3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/></svg></span><h3 class="h3">Safe, always</h3><p>Vetted adults, written consent, first names only.</p></div>
+      <div class="tile reveal reveal-d2"><span class="tile__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="35" width="35" height="8" rx="2.5" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M35.5 35v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="27" width="32" height="8" rx="2.5" fill="#CFE3D6" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 27v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="19" width="33" height="8" rx="2.5" fill="#F3C3AE" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.5 19v8" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 10.5v4.8c0 1.6 4 2.7 9 2.7s9-1.1 9-2.7v-4.8" fill="#12372F" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 3.5l17 6.3-17 6.3-17-6.3z" fill="#12372F" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.5 10v6.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40.5" cy="18.3" r="2" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3 class="h3">Free for every family</h3><p>Donors and sponsors cover every cost.</p></div>
+      <div class="tile reveal"><span class="tile__icon" aria-hidden="true"><svg class="duo" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 15.5V40h15.5c2 0 3.6.8 4.5 2 .9-1.2 2.5-2 4.5-2H44V15.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 41.5C20 38 14.5 36.6 8 37V11.6c6.3-.5 11.8 1 16 4.4z" fill="#FFFFFF" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 41.5c4-3.5 9.5-4.9 16-4.5V11.6c-6.3-.5-11.8 1-16 4.4z" fill="#FFFFFF" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16C23 9.6 25.6 5 31 2.5c2.8 6.5 2.2 14-1.6 20-1.6 2.4-3.4 4.3-5.4 5.8z" fill="#F2B233" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16v25.5" fill="none" stroke="#12372F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.5 27c2-.5 4-.7 5.6-.6M31.5 31.6c2-.5 4-.7 5.6-.6M11 20.5c2.4-.1 5 .4 7 1.3M11 25.5c2.4-.1 5 .4 7 1.3" fill="none" stroke="#12372F" stroke-width="1.8" stroke-linecap="round" opacity=".45"/></svg></span><h3 class="h3">Hope through action</h3><p>Every lesson ends with something a child can do.</p></div>
     </div>
   </section>
 
@@ -213,6 +253,7 @@
         <h2 id="f-menu-about">Menu</h2>
         <a href="about.html">About us</a>
         <a href="programs.html">Programmes</a>
+        <a href="learn.html">Learn</a>
         <a href="donate.html">Donate</a>
       </nav>
       <nav class="footer-nav" aria-labelledby="f-help-about">

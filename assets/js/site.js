@@ -498,6 +498,78 @@
     update();
   }
 
+  /* ---------- Learn: flip cards ---------- */
+  document.querySelectorAll('.fact').forEach(function (card) {
+    card.addEventListener('click', function () {
+      card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    });
+  });
+
+  /* ---------- Learn: quizzes ---------- */
+  document.querySelectorAll('[data-quiz]').forEach(function (quiz) {
+    var qs = Array.prototype.slice.call(quiz.querySelectorAll('.q'));
+    var score = quiz.querySelector('.quiz__score');
+    var again = quiz.querySelector('.quiz__again');
+    var answered = 0, right = 0;
+    qs.forEach(function (q) {
+      var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+      opts.forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          var ok = opt.hasAttribute('data-correct');
+          opts.forEach(function (o) {
+            o.disabled = true;
+            if (o.hasAttribute('data-correct')) o.classList.add('is-right');
+          });
+          if (!ok) opt.classList.add('is-wrong');
+          q.querySelector('.q__why').hidden = false;
+          answered += 1; if (ok) right += 1;
+          if (answered === qs.length) {
+            score.textContent = right === qs.length ? 'Brilliant! You got all ' + right + ' right.' : 'You got ' + right + ' of ' + qs.length + ' right. Try again to beat your score!';
+            score.hidden = false; again.hidden = false;
+          }
+        });
+      });
+    });
+    if (again) again.addEventListener('click', function () {
+      answered = 0; right = 0; score.hidden = true; again.hidden = true;
+      quiz.querySelectorAll('.opt').forEach(function (o) { o.disabled = false; o.classList.remove('is-right', 'is-wrong'); });
+      quiz.querySelectorAll('.q__why').forEach(function (w) { w.hidden = true; });
+      var first = quiz.querySelector('.opt'); if (first) first.focus();
+    });
+  });
+
+  /* ---------- Storybook reader ---------- */
+  document.querySelectorAll('[data-reader]').forEach(function (reader) {
+    var pages = Array.prototype.slice.call(reader.querySelectorAll('.reader__page'));
+    var prev = reader.querySelector('[data-prev]');
+    var next = reader.querySelector('[data-next]');
+    var count = reader.querySelector('[data-count]');
+    var at = 0;
+    var show = function (i) {
+      at = Math.max(0, Math.min(pages.length - 1, i));
+      pages.forEach(function (p, n) { p.classList.toggle('is-on', n === at); });
+      count.textContent = String(at + 1);
+      prev.disabled = at === 0; next.disabled = at === pages.length - 1;
+      var ahead = pages[at + 1] && pages[at + 1].querySelector('img');
+      if (ahead) ahead.loading = 'eager';
+    };
+    prev.addEventListener('click', function () { show(at - 1); });
+    next.addEventListener('click', function () { show(at + 1); });
+    reader.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
+    });
+    reader.tabIndex = 0;
+    var sx = null;
+    reader.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+    reader.addEventListener('pointerup', function (e) {
+      if (sx === null) return;
+      var dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1));
+    });
+    show(0);
+  });
+
   /* ---------- Footer year ---------- */
   var year = document.querySelector('[data-year]');
   if (year) year.textContent = String(new Date().getFullYear());
