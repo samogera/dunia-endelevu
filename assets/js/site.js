@@ -498,49 +498,149 @@
     update();
   }
 
-  /* ---------- Storybook reader, with read-aloud ---------- */
-  document.querySelectorAll('[data-reader]').forEach(function (reader) {
-    var pages = Array.prototype.slice.call(reader.querySelectorAll('.reader__page'));
-    var prev = reader.querySelector('[data-prev]');
-    var next = reader.querySelector('[data-next]');
-    var count = reader.querySelector('[data-count]');
-    var at = 0;
-    var onTurn = null; // set by read-aloud below
-    var show = function (i, quiet) {
-      var was = at;
-      at = Math.max(0, Math.min(pages.length - 1, i));
-      pages.forEach(function (p, n) { p.classList.toggle('is-on', n === at); });
-      count.textContent = String(at + 1);
-      prev.disabled = at === 0; next.disabled = at === pages.length - 1;
-      var ahead = pages[at + 1] && pages[at + 1].querySelector('img');
-      if (ahead) ahead.loading = 'eager';
-      if (!quiet && onTurn && at !== was) onTurn();
-    };
-    prev.addEventListener('click', function () { show(at - 1); });
-    next.addEventListener('click', function () { show(at + 1); });
-    reader.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
+  /* ---------- Storybook: a book that opens and turns its pages, with read-aloud ---------- */
+  document.querySelectorAll('[data-book]').forEach(function (root) {
+    var srcs = Array.prototype.slice.call(root.querySelectorAll('.flip__src'));
+    var stage = root.querySelector('.flip__stage');
+    var book = root.querySelector('.flip__book');
+    if (!srcs.length || !stage || !book) return;
+    var sideL = book.querySelector('.flip__side--l');
+    var sideR = book.querySelector('.flip__side--r');
+    var prev = root.querySelector('[data-prev]');
+    var next = root.querySelector('[data-next]');
+    var count = root.querySelector('[data-count]');
+    var bar = root.querySelector('.flip__progress span');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var ext = (function () {
+      try { return document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0 ? '.webp' : '.jpg'; } catch (e) { return '.jpg'; }
+    })();
+    var cover = root.getAttribute('data-cover');
+    var coverAlt = root.getAttribute('data-cover-alt') || '';
+    var by = root.getAttribute('data-by') || '';
+    var pageRatio = parseFloat(getComputedStyle(root).getPropertyValue('--page')) || 0.647;
+    var spreads = srcs.map(function (li, i) {
+      return { img: li.getAttribute('data-img'), text: li.getAttribute('data-say') || '', audio: li.getAttribute('data-audio'), n: i + 1 };
     });
-    reader.tabIndex = 0;
-    var sx = null;
-    reader.addEventListener('pointerdown', function (e) { sx = e.clientX; });
-    reader.addEventListener('pointerup', function (e) {
-      if (sx === null) return;
-      var dx = e.clientX - sx; sx = null;
-      if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1));
-    });
-    show(0, true);
+    root.classList.add('is-ready');
 
-    // Read-aloud: recorded narration when a page has data-audio, otherwise the device's own voice.
+    var el = function (cls) { var d = document.createElement('div'); d.className = cls; return d; };
+    var img = function (src, alt) { var i = new Image(); i.decoding = 'async'; i.alt = alt || ''; i.src = src; return i; };
+    var face = function (f) {
+      var d;
+      if (!f) return el('face face--empty');
+      if (f.kind === 'cover') { d = el('face face--cover'); d.appendChild(img(cover + ext, coverAlt)); return d; }
+      if (f.kind === 'pic') { d = el('face face--pic'); d.appendChild(img(f.s.img + ext, '')); return d; }
+      d = el('face face--text');
+      var head = document.createElement('span'); head.className = 'face__head'; head.setAttribute('aria-hidden', 'true'); head.textContent = by;
+      var words = document.createElement('p'); words.className = 'face__words'; words.textContent = f.s.text;
+      var num = document.createElement('span'); num.className = 'face__num'; num.setAttribute('aria-hidden', 'true'); num.textContent = String(f.s.n);
+      d.appendChild(head); d.appendChild(words); d.appendChild(num);
+      return d;
+    };
+    // shrink the words a little if a long page would not fit
+    var fit = function (node) {
+      var w = node && node.querySelector && node.querySelector('.face__words');
+      if (!w) return;
+      w.style.fontSize = '';
+      var size = parseFloat(getComputedStyle(w).fontSize), guard = 0;
+      while (node.scrollHeight > node.clientHeight + 1 && size > 12 && guard++ < 24) { size -= 0.5; w.style.fontSize = size + 'px'; }
+    };
+    var put = function (side, node) {
+      while (side.firstChild) side.removeChild(side.firstChild);
+      side.appendChild(node); fit(node);
+    };
+
+    // views: what is open at each step. Big screens show two pages, phones one.
+    var mode = null, views = [], at = 0, busy = null, opened = false;
+    var titleSay = root.getAttribute('data-title-say') || '';
+    var coverAudio = root.getAttribute('data-cover-audio');
+    var build = function (m) {
+      var v = [m === 'spread' ? { L: null, R: { kind: 'cover' }, say: titleSay, audio: coverAudio } : { P: { kind: 'cover' }, say: titleSay, audio: coverAudio }];
+      spreads.forEach(function (s) {
+        if (m === 'spread') v.push({ L: { kind: 'pic', s: s }, R: { kind: 'text', s: s }, say: s.text, audio: s.audio });
+        else { v.push({ P: { kind: 'pic', s: s }, say: '', hold: 1600 }); v.push({ P: { kind: 'text', s: s }, say: s.text, audio: s.audio }); }
+      });
+      return v;
+    };
+    var fitsSpread = function () {
+      var w = root.clientWidth, h = window.innerHeight - 190;
+      return Math.min(w, h * pageRatio * 2) >= 620;
+    };
+    var preload = function (i) {
+      var v = views[i]; if (!v) return;
+      [v.L, v.R, v.P].forEach(function (f) {
+        if (f && f.kind === 'pic') img(f.s.img + ext);
+        if (f && f.kind === 'cover') img(cover + ext);
+      });
+    };
+    var ui = function () {
+      count.textContent = at === 0 ? 'Cover' : at + ' of ' + (views.length - 1);
+      prev.disabled = at === 0; next.disabled = at === views.length - 1;
+      if (bar) bar.style.width = (at / (views.length - 1) * 100) + '%';
+    };
+    var paint = function () {
+      var v = views[at];
+      if (mode === 'spread') { put(sideL, face(v.L)); put(sideR, face(v.R)); }
+      else put(sideR, face(v.P));
+      book.classList.toggle('is-closed', mode === 'spread' && at === 0);
+      ui(); preload(at + 1); preload(at - 1);
+    };
+    var setMode = function () {
+      var m = fitsSpread() ? 'spread' : 'single';
+      if (m === mode) { fit(sideL.firstChild); fit(sideR.firstChild); return; }
+      if (busy) busy.finish();
+      var spreadAt = mode === 'spread' ? at : mode === 'single' ? Math.ceil(at / 2) : 0;
+      mode = m;
+      root.classList.toggle('flip--spread', m === 'spread');
+      root.classList.toggle('flip--single', m === 'single');
+      views = build(m);
+      at = m === 'spread' ? spreadAt : (spreadAt === 0 ? 0 : spreadAt * 2 - 1);
+      paint();
+    };
+
+    // turn to view `to`, animating one leaf; `done` runs when the page has landed
+    var go = function (to, done) {
+      if (busy) busy.finish();
+      if (to < 0 || to >= views.length || to === at) { if (done) done(); return; }
+      var from = at, fwd = to > from, a = views[from], b = views[to];
+      at = to;
+      if (reduce.matches || Math.abs(to - from) > 1) { paint(); if (done) done(); return; }
+      var leaf, front, back, target;
+      if (mode === 'spread') {
+        leaf = el('flip__leaf ' + (fwd ? 'flip__leaf--r' : 'flip__leaf--l'));
+        if (fwd) { front = face(a.R); back = face(b.L); put(sideR, face(b.R)); target = sideL; }
+        else { front = face(a.L); back = face(b.R); put(sideL, face(b.L)); target = sideR; }
+      } else {
+        leaf = el('flip__leaf flip__leaf--page' + (fwd ? '' : ' is-back'));
+        if (fwd) { front = face(a.P); back = el('face face--blank'); put(sideR, face(b.P)); target = null; }
+        else { front = face(b.P); back = el('face face--blank'); target = sideR; }
+      }
+      front.classList.add('leaf__front'); back.classList.add('leaf__back');
+      leaf.appendChild(front); leaf.appendChild(back);
+      book.appendChild(leaf); fit(front); fit(back);
+      if (mode === 'spread') book.classList.toggle('is-closed', to === 0);
+      void leaf.offsetWidth;
+      leaf.classList.add('is-turning');
+      ui(); preload(to + 1); preload(to - 1);
+      var landed = false, timer;
+      var finish = function () {
+        if (landed) return;
+        landed = true; clearTimeout(timer); busy = null;
+        var keep = mode === 'spread' ? back : (fwd ? null : front);
+        if (keep && target) { keep.classList.remove('leaf__front', 'leaf__back'); put(target, keep); }
+        if (leaf.parentNode) leaf.parentNode.removeChild(leaf);
+        if (done) done();
+      };
+      busy = { finish: finish };
+      timer = setTimeout(finish, 960);
+    };
+
+    // read-aloud: recorded narration if a page has it, otherwise the device's own voice
     var synth = window.speechSynthesis;
     var canSpeak = !!(synth && window.SpeechSynthesisUtterance);
-    var hasAudio = pages.some(function (p) { return p.hasAttribute('data-audio'); });
-    var buttons = Array.prototype.slice.call(document.querySelectorAll('[data-listen]'));
-    if (!buttons.length || (!canSpeak && !hasAudio)) return;
-    buttons.forEach(function (b) { b.hidden = false; });
-
-    var playing = false, finished = false, run = 0, line = 0, voice = null, player = null, timer = null, current = null;
+    var hasAudio = !!coverAudio || spreads.some(function (s) { return !!s.audio; });
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('[data-listen]'));
+    var playing = false, finished = false, run = 0, line = 0, voice = null, player = null, wait = null, current = null;
     var pickVoice = function () {
       var best = null, top = -1;
       (synth.getVoices() || []).forEach(function (v) {
@@ -555,11 +655,6 @@
       });
       voice = best;
     };
-    if (canSpeak) {
-      pickVoice();
-      if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice);
-      else synth.onvoiceschanged = pickVoice;
-    }
     var sentences = function (text) {
       return (String(text).match(/[^.!?…]+[.!?…]+["”’)]*|[^.!?…]+$/g) || [])
         .map(function (t) { return t.replace(/[“”"]/g, '').trim(); })
@@ -567,7 +662,7 @@
     };
     var setPlaying = function (on) {
       playing = on;
-      reader.classList.toggle('is-reading', on);
+      root.classList.toggle('is-reading', on);
       buttons.forEach(function (b) {
         b.setAttribute('aria-pressed', on ? 'true' : 'false');
         var label = b.querySelector('[data-listen-label]');
@@ -576,55 +671,53 @@
     };
     var hush = function () {
       run += 1;
-      clearTimeout(timer);
+      clearTimeout(wait);
       if (canSpeak && (synth.speaking || synth.pending)) synth.cancel();
       if (player) player.pause();
     };
-    var stop;
-    var turn = function (token) {
+    var stop = function () { hush(); current = null; setPlaying(false); };
+    var readView, after;
+    after = function (token) {
       if (token !== run) return;
-      if (at >= pages.length - 1) { finished = true; setPlaying(false); line = 0; return; }
-      timer = setTimeout(function () {
+      if (at >= views.length - 1) { finished = true; line = 0; setPlaying(false); return; }
+      wait = setTimeout(function () {
         if (token !== run) return;
-        show(at + 1, true);
         line = 0;
-        readPage(token);
-      }, 800);
+        go(at + 1, function () { if (token === run) readView(token); });
+      }, 600);
     };
-    var readPage = function (token) {
-      var page = pages[at];
-      var src = page.getAttribute('data-audio');
-      if (src) {
+    readView = function (token) {
+      var v = views[at];
+      if (v.audio) {
         player = player || new Audio();
-        if (player.getAttribute('data-src') !== src) { player.src = src; player.setAttribute('data-src', src); }
-        player.onended = function () { player.removeAttribute('data-src'); turn(token); };
-        var p = player.play();
-        if (p && p.catch) p.catch(function () { if (token === run) setPlaying(false); });
+        if (player.getAttribute('data-src') !== v.audio) { player.src = v.audio; player.setAttribute('data-src', v.audio); }
+        player.onended = function () { player.removeAttribute('data-src'); after(token); };
+        var pr = player.play();
+        if (pr && pr.catch) pr.catch(function () { if (token === run) stop(); });
         return;
       }
-      if (!canSpeak) { turn(token); return; }
-      var list = sentences(page.getAttribute('data-say') || '');
+      if (!v.say || !canSpeak) { wait = setTimeout(function () { after(token); }, v.hold || 900); return; }
+      var list = sentences(v.say);
       var say = function () {
         if (token !== run) return;
-        if (line >= list.length) { turn(token); return; }
+        if (line >= list.length) { after(token); return; }
         var u = new SpeechSynthesisUtterance(list[line]);
         if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = 'en-GB'; }
         u.rate = 0.9; u.pitch = 1.05;
         var done = false;
-        var after = function () {
+        var next = function () {
           if (done || token !== run) return;
-          done = true; clearTimeout(timer);
+          done = true; clearTimeout(wait);
           line += 1; say();
         };
-        u.onend = after;
+        u.onend = next;
         u.onerror = function (e) {
           if (e && (e.error === 'interrupted' || e.error === 'canceled')) return;
           if (token === run) stop(); // no voice on this device
         };
         current = u; // keeps Safari from dropping the utterance before it ends
-        // some browsers never fire "end": move on if a line takes far too long
-        clearTimeout(timer);
-        timer = setTimeout(after, 4000 + list[line].length * 260);
+        clearTimeout(wait);
+        wait = setTimeout(next, 4000 + list[line].length * 260); // in case "end" never fires
         synth.speak(u);
       };
       if (synth.paused) synth.resume();
@@ -632,29 +725,68 @@
     };
     var start = function () {
       hush();
-      if (finished && at === pages.length - 1) { show(0, true); line = 0; }
-      finished = false;
+      if (finished && at === views.length - 1) { go(0); line = 0; }
+      finished = false; opened = true;
       setPlaying(true);
-      readPage(run);
+      readView(run);
     };
-    stop = function () { hush(); current = null; setPlaying(false); };
-    onTurn = function () {
-      line = 0; finished = false;
+    // a page turned by hand: if reading, carry on reading from the new page
+    var turnTo = function (to) {
+      opened = true;
+      if (to < 0 || to >= views.length || to === at) return;
+      finished = false; line = 0;
       if (player) player.removeAttribute('data-src');
-      if (!playing) return;
-      hush();
-      var token = run;
-      timer = setTimeout(function () { if (token === run) readPage(token); }, 150);
+      if (playing) {
+        hush();
+        var token = run;
+        go(to, function () { if (token === run) readView(token); });
+      } else go(to);
     };
+
+    setMode();
+    prev.addEventListener('click', function () { turnTo(at - 1); });
+    next.addEventListener('click', function () { turnTo(at + 1); });
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); turnTo(at - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); turnTo(at + 1); }
+    });
+    var sx = null, sy = null;
+    stage.addEventListener('pointerdown', function (e) { sx = e.clientX; sy = e.clientY; });
+    stage.addEventListener('pointerup', function (e) {
+      if (sx === null) return;
+      var dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { turnTo(at + (dx < 0 ? 1 : -1)); return; }
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+        var r = book.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        turnTo(at + (x > (mode === 'spread' ? 0.5 : 0.3) ? 1 : -1));
+      }
+    });
+    stage.addEventListener('pointercancel', function () { sx = null; });
+    var rt;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(setMode, 150); });
+
+    // open the book when it scrolls into view
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting || opened) return;
+          opened = true; io.disconnect();
+          setTimeout(function () { if (at === 0 && !playing) go(1); }, 800);
+        });
+      }, { threshold: 0.55 });
+      io.observe(book);
+    }
+
+    if (!buttons.length || (!canSpeak && !hasAudio)) return;
+    buttons.forEach(function (b) { b.hidden = false; });
+    if (canSpeak) {
+      pickVoice();
+      if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice);
+      else synth.onvoiceschanged = pickVoice;
+    }
     buttons.forEach(function (b) {
-      b.addEventListener('click', function () {
-        if (playing) { stop(); return; }
-        if (!reader.contains(b)) {
-          var top = reader.getBoundingClientRect().top;
-          if (top < 0 || top > window.innerHeight * 0.5) reader.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-        }
-        start();
-      });
+      b.addEventListener('click', function () { if (playing) stop(); else start(); });
     });
     window.addEventListener('pagehide', stop);
   });

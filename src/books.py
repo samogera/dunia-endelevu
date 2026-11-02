@@ -73,41 +73,55 @@ def shelf(books):
 
 
 def book_page(b):
+    """Title, what children will learn, a short summary, then the book itself.
+
+    With JavaScript the book opens as you scroll to it and its pages turn in 3D: two pages side by side on
+    big screens, one page at a time on phones. The words are real text, so they stay sharp at every size.
+    Without JavaScript the pictures and words simply stack.
+    """
     slug, title = b['slug'], b['title']
-    w, h = b.get('page_size', [1600, 1236])
+    pw, ph = b.get('page_size', [1000, 1545])
+    ratio = pw / ph
     base = f'assets/books/{slug}'
-    # page 1 of the export is the cover, already shown above the book, so the reader starts at the story;
-    # Listen says the title first
-    story = b['pages'][1:]
-    figs = []
-    for i, text in enumerate(story, start=2):
-        say = f'{b["pages"][0]} {text}' if i == 2 else text
+    cover_audio = ROOT / base / 'audio' / 'page-01.mp3'
+    ca = f' data-cover-audio="{base}/audio/page-01.mp3"' if cover_audio.exists() else ''
+    items = []
+    for i, text in enumerate(b['pages'][1:], start=2):
         audio = ROOT / base / 'audio' / f'page-{i:02d}.mp3'
         a = f' data-audio="{base}/audio/page-{i:02d}.mp3"' if audio.exists() else ''
-        figs.append(f'        <figure class="reader__page" data-say="{escape(say)}"{a}>'
-                    f'{_pic(f"{base}/page-{i:02d}", text, w, h, lazy=i > 3)}</figure>')
-    summary = f'\n    <p class="lead">{escape(b["summary"])}</p>' if b.get('summary') else ''
-    return f'''<main id="main">
+        items.append(f'        <li class="flip__src" data-img="{base}/page-{i:02d}" data-say="{escape(text)}"{a}>'
+                     f'{_pic(f"{base}/page-{i:02d}", "", pw, ph)}<p>{escape(text)}</p></li>')
+    learn = ''
+    if b.get('learn'):
+        learn = ('\n      <div class="book-learn"><h2 class="book-learn__title">What you’ll learn</h2><ul>'
+                 + ''.join(f'<li>{escape(x)}</li>' for x in b['learn']) + '</ul></div>')
+    summary = f'\n      <p class="lead">{escape(b["summary"])}</p>' if b.get('summary') else ''
+    by = b['pages'][0].split('By ', 1)[-1].rstrip('.') if 'By ' in b['pages'][0] else 'Dunia Endelevu'
+    return f"""<main id="main">
 
-  <section class="wrap book-intro" aria-labelledby="book-title">
-    <h1 id="book-title" class="sr-only">{escape(title)}</h1>
-    <figure class="book-intro__cover">{_pic(f"{base}/cover", b["cover_alt"], *cover_size(b), lazy=False)}</figure>{summary}
-  </section>
+  <section class="wrap book-page" aria-labelledby="book-title">
+    <div class="book-head">
+      <h1 id="book-title" class="h2">{escape(title)}</h1>{learn}{summary}
+    </div>
 
-  <section class="wrap reader-wrap" id="read" aria-label="Read {escape(title)}">
-    <div class="reader" data-reader>
-      <div class="reader__pages">
-{chr(10).join(figs)}
+    <div class="flip" data-book data-cover="{base}/cover" data-cover-alt="{escape(b['cover_alt'])}" data-title-say="{escape(b['pages'][0])}" data-by="{escape(by)}"{ca} style="--page: {ratio:.4f}; --spread: {2 * ratio:.4f}">
+      <div class="flip__stage" tabindex="0" role="region" aria-roledescription="book" aria-label="{escape(title)}. Swipe, tap the page or use the arrow keys to turn the pages.">
+        <div class="flip__book"><div class="flip__side flip__side--l"></div><div class="flip__side flip__side--r"></div></div>
       </div>
-      <div class="reader__bar">
+      <ol class="flip__list">
+{chr(10).join(items)}
+      </ol>
+      <div class="flip__bar">
         <button class="reader__btn" type="button" data-prev aria-label="Previous page">{{{{arrow}}}}</button>
-        <span class="reader__count" aria-live="polite"><span data-count>1</span> of {len(story)}</span>
+        <span class="reader__count" aria-live="polite" data-count>Cover</span>
         <button class="reader__btn reader__btn--next" type="button" data-next aria-label="Next page">{{{{arrow}}}}</button>
         <button class="reader__listen" type="button" data-listen aria-pressed="false" hidden><span class="listen-ico" aria-hidden="true">{{{{icon:volume}}}}{{{{icon:pause}}}}</span><span data-listen-label>Listen</span></button>
       </div>
+      <div class="flip__progress" aria-hidden="true"><span></span></div>
     </div>
+
     <p class="book-back"><a class="more" href="learn.html"><span class="arrow arrow--back">{{{{arrow}}}}</span> All storybooks</a></p>
   </section>
 
 </main>
-'''
+"""
