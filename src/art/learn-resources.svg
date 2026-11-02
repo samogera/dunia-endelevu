@@ -1,0 +1,11 @@
+<svg class="scene" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="An open book with a page turning, under a glowing light bulb and twinkling stars">
+<circle cx="200" cy="152" r="130" fill="#DDE9E1"/>
+<circle class="a-pulse" cx="200" cy="78" r="44" fill="#FCEBC0"/>
+<g transform="translate(200 78)"><path d="M-18 6a26 26 0 1 1 36 0c-6 6-8 10-8 18h-20c0-8-2-12-8-18z" fill="#F2B233" stroke="#12372F" stroke-width="3" stroke-linejoin="round"/><rect x="-11" y="26" width="22" height="12" rx="4" fill="#FFFFFF" stroke="#12372F" stroke-width="3"/><path d="M-6 0l6 8 6-8" stroke="#12372F" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+<path d="M70 150v86h120l10 8 10-8h120v-86" fill="none" stroke="#12372F" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M200 242c-24-18-60-24-112-20v-92c46-4 82 6 112 26z" fill="#FFFFFF" stroke="#12372F" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M200 242c24-18 60-24 112-20v-92c-46-4-82 6-112 26z" fill="#FFFFFF" stroke="#12372F" stroke-width="3.5" stroke-linejoin="round"/>
+<g class="a-flip" style="transform-origin:200px 160px;transform-box:view-box"><path d="M200 156c20-14 50-22 92-20v86c-40-2-70 4-92 20z" fill="#FCEBC0" stroke="#12372F" stroke-width="3" stroke-linejoin="round"/></g>
+<path d="M104 160c24-2 46 2 64 10M104 182c24-2 46 2 64 10M104 204c24-2 46 2 64 10" stroke="#CFE3D6" stroke-width="6" stroke-linecap="round" fill="none"/>
+<g fill="#F2B233"><path class="a-twinkle" d="M96 70l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/><path class="a-twinkle" style="animation-delay:.7s" d="M310 58l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path class="a-twinkle" style="animation-delay:1.4s" d="M326 120l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></g>
+</svg>

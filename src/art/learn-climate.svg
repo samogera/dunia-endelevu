@@ -1,0 +1,16 @@
+<svg class="scene" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The sun shines on Earth, which is wrapped in a warm blanket of gases, while a factory puffs smoke and a thermometer rises">
+<circle cx="200" cy="152" r="130" fill="#DDE9E1"/>
+<g transform="translate(78 72)"><g class="a-spin"><path d="M0-44v-12M0 44v12M-44 0h-12M44 0h12M-31-31l-9-9M31 31l9 9M-31 31l-9 9M31-31l9-9" stroke="#F2B233" stroke-width="5" stroke-linecap="round" fill="none"/></g><circle r="28" fill="#F2B233" stroke="#12372F" stroke-width="3"/></g>
+<path class="a-dash" d="M112 96l52 30M100 116l48 32" stroke="#F2B233" stroke-width="4" stroke-linecap="round" fill="none"/>
+<circle class="a-pulse" cx="214" cy="164" r="86" fill="#F3C3AE" opacity=".35"/>
+<circle class="a-dash a-dash--slow" cx="214" cy="164" r="86" fill="none" stroke="#E39A7A" stroke-width="5" stroke-linecap="round"/>
+<clipPath id="lc-earth"><circle cx="214" cy="164" r="60"/></clipPath>
+<circle cx="214" cy="164" r="60" fill="#CFE3D6"/>
+<g clip-path="url(#lc-earth)" fill="#2F6B57"><path d="M180 124c12-9 30-7 36 4 7 11-2 18 7 27 9 9 4 25-9 27-11 2-13 13-24 11-11-2-9-18-18-25-9-7-5-34 8-44z"/><path d="M238 120c11 2 20 11 18 22-2 9-13 7-15 16-2 9-13 7-13-5 0-13 0-35 10-33z"/><path d="M226 196c9-2 20 2 20 11s-13 13-22 9-7-18 2-20z"/></g>
+<circle cx="214" cy="164" r="60" fill="none" stroke="#12372F" stroke-width="3"/>
+<path class="a-pulse" d="M268 120l14-8M276 160h16M266 204l14 8" stroke="#E39A7A" stroke-width="4" stroke-linecap="round" fill="none"/>
+<g><rect x="44" y="214" width="62" height="40" rx="3" fill="#FFFFFF" stroke="#12372F" stroke-width="3"/><rect x="84" y="186" width="14" height="30" fill="#FFFFFF" stroke="#12372F" stroke-width="3"/><path d="M56 228h10M72 228h10M56 240h10M72 240h10" stroke="#12372F" stroke-width="3" stroke-linecap="round"/>
+<circle class="a-puff" cx="91" cy="176" r="9" fill="#B9C6C0"/><circle class="a-puff" style="animation-delay:1.3s" cx="91" cy="176" r="9" fill="#B9C6C0"/><circle class="a-puff" style="animation-delay:2.6s" cx="91" cy="176" r="9" fill="#B9C6C0"/></g>
+<g><rect x="322" y="70" width="22" height="130" rx="11" fill="#FFFFFF" stroke="#12372F" stroke-width="3"/><rect class="a-rise" x="328" y="92" width="10" height="112" rx="5" fill="#B9542F"/><circle cx="333" cy="210" r="18" fill="#B9542F" stroke="#12372F" stroke-width="3"/><path d="M344 96h8M344 120h8M344 144h8M344 168h8" stroke="#12372F" stroke-width="3" stroke-linecap="round"/></g>
+<path d="M36 256h328" stroke="#12372F" stroke-width="3" stroke-linecap="round"/>
+</svg>
