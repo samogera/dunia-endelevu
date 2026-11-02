@@ -6,16 +6,14 @@
     --topic "Biodiversity"     shown on the shelf and the book page (default: Climate change)
     --ages "6 to 10"           (default: 6 to 10)
     --by "Dunia Endelevu"      author line read aloud with the cover
-    --summary "..."            two sentences about the story
-    --learn "..." --learn "..."  one line per thing children will learn
+    --summary "..."            a short paragraph about the story
     --no-build                 skip rebuilding the site
 
 What it does:
-  1. renders every page to web images in assets/books/<slug>/ (page-01.webp/.jpg, ...),
-  2. cuts the cover out of page 1 (cover.webp/.jpg),
-  3. reads each page's text with OCR, for the alt text, the text version and the Listen voice,
-  4. makes a small PDF to download (the Gemini export is often hundreds of MB),
-  5. adds or updates the book in src/books.json, then rebuilds the site.
+  1. cuts the cover out of page 1 (cover.webp/.jpg),
+  2. renders the story pages to web images in assets/books/<slug>/ (page-02.webp/.jpg, ...),
+  3. reads each page's text with OCR, for the alt text and the Listen voice,
+  4. adds or updates the book in src/books.json, then rebuilds the site.
 
 Check the OCR text in src/books.json afterwards: fix any misread words there and rebuild.
 """
@@ -27,7 +25,6 @@ import subprocess
 import sys
 import tempfile
 
-import img2pdf
 from PIL import Image, ImageChops, ImageOps
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -97,7 +94,6 @@ def main():
     ap.add_argument('--ages', default='6 to 10')
     ap.add_argument('--by', default='Dunia Endelevu')
     ap.add_argument('--summary', default='')
-    ap.add_argument('--learn', action='append', default=[])
     ap.add_argument('--no-build', action='store_true')
     a = ap.parse_args()
     if not re.fullmatch(r'[a-z0-9-]+', a.slug):
@@ -109,21 +105,16 @@ def main():
     with tempfile.TemporaryDirectory() as t:
         tmp = pathlib.Path(t)
         pages = render(a.pdf, tmp)
-        jpgs = []
+        size = None
         for i, path in enumerate(pages, start=1):
             im = Image.open(path)
-            size = save_web(im, out / f'page-{i:02d}', WEB_W)
-            jpgs.append(out / f'page-{i:02d}.jpg')
             if i == 1:
                 save_web(crop_cover(im), out / 'cover', 800)
                 texts.append(f'{a.title}. By {a.by}.')
             else:
+                size = save_web(im, out / f'page-{i:02d}', WEB_W)
                 texts.append(ocr_text(im))
             print(f'  page {i}/{len(pages)} done')
-    pdf_name = re.sub(r'[^a-z0-9]+', '-', a.title.lower()).strip('-') + '.pdf'
-    letter = (img2pdf.in_to_pt(11), img2pdf.in_to_pt(8.5))
-    (out / pdf_name).write_bytes(img2pdf.convert([str(j) for j in jpgs], layout_fun=img2pdf.get_layout_fun(letter)))
-    mb = (out / pdf_name).stat().st_size / 1e6
     cover_size = list(Image.open(out / 'cover.jpg').size)
 
     books = json.loads(BOOKS_FILE.read_text(encoding='utf-8'))
@@ -134,13 +125,9 @@ def main():
         'topic': a.topic,
         'ages': a.ages,
         'summary': a.summary or (old or {}).get('summary', ''),
-        'learn': a.learn or (old or {}).get('learn', []),
         'cover_alt': (old or {}).get('cover_alt', f'Cover of {a.title}.'),
-        'pdf': pdf_name,
-        'pdf_size': f'{max(1, round(mb))} MB',
-        'page_size': list(size),
+        'page_size': list(size or (WEB_W, 1236)),
         'cover_size': cover_size,
-        'credit': (old or {}).get('credit', 'Story by Dunia Endelevu. Illustrated with AI (Gemini).'),
         'pages': texts,
     }
     if old:
@@ -148,11 +135,11 @@ def main():
     else:
         books.append(entry)
     BOOKS_FILE.write_text(json.dumps(books, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
-    print(f'\nAdded "{a.title}" ({len(texts)} pages, PDF {mb:.1f} MB). Text read from the pages:\n')
+    print(f'\nAdded "{a.title}" ({len(texts)} pages). Text read from the pages:\n')
     for i, tx in enumerate(texts, start=1):
         print(f'  {i:>2}. {tx}\n')
-    if not entry['summary'] or not entry['learn']:
-        print('Remember to add a summary and "What children will learn" in src/books.json.')
+    if not entry['summary']:
+        print('Remember to add a short summary in src/books.json.')
     if not a.no_build:
         subprocess.run([sys.executable, str(ROOT / 'src' / 'build.py')], check=True)
 
