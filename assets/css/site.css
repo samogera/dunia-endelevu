@@ -599,6 +599,8 @@ html.no-js .amounts { display: none; }
 .paymethod { position: relative; display: block; }
 .paymethod span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 80px; padding: 10px; border: 1.5px solid var(--line); border-radius: 16px; background: #fff; font-size: 14px; font-weight: 600; color: var(--ink); text-align: center; transition: border-color .2s, background-color .2s, box-shadow .2s; }
 .paymethod .ico { width: 24px; height: 24px; color: var(--evergreen); }
+.paymethod .duo { width: 38px; height: 38px; }
+.paymethod span { gap: 8px; }
 .paymethods--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .paymethod--row span { flex-direction: row; gap: 10px; min-height: 56px; }
 .paymethod--row .ico { width: 20px; height: 20px; }
@@ -640,6 +642,9 @@ html.no-js .amounts { display: none; }
 }
 
 /* ---------- About: vision, mission, story ---------- */
+.story-note { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 760px; margin-inline: auto; text-align: center; }
+.story-note .lead { max-width: 660px; margin-inline: auto; }
+.quote--center { max-width: 560px; margin-top: 8px; padding: 24px 28px; }
 .vm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .vm__card { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-lg); background: var(--card); }
 .vm__card--sun { background: var(--sun); }
