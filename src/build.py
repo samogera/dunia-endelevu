@@ -12,6 +12,8 @@ import json
 import pathlib
 import re
 
+import books as booklib
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 
@@ -35,30 +37,9 @@ PAGES = [
     ('programs', 'The Youth Advocate Journey · Dunia Endelevu',
      'Three free tracks for children under 18: Storyteller (publish a book), Voice (speak on our podcast) and Diplomat (take the stage at real events).',
      'programs', '0.9'),
-    ('learn', 'Learn · Dunia Endelevu',
-     'Free climate lessons, storybooks and quizzes for children: climate change basics, biodiversity, climate justice, environmental rights and climate action.',
+    ('learn', 'Storybooks · Learn · Dunia Endelevu',
+     'Free illustrated storybooks about climate and nature for children aged 6 to 10. Read them online, listen along or download the PDF.',
      'learn', '0.9'),
-    ('learn-climate', 'Why is our planet getting warmer? · Learn · Dunia Endelevu',
-     'A simple climate change lesson for children: weather and climate, Earth’s warm blanket, what it means for Kenya, and the good news.',
-     'learn', '0.7'),
-    ('learn-biodiversity', 'The web of life · Learn · Dunia Endelevu',
-     'A biodiversity lesson for children: why bees matter, Kenya’s wild places, and how to protect them.',
-     'learn', '0.7'),
-    ('learn-justice', 'Is climate change fair? · Learn · Dunia Endelevu',
-     'A climate justice lesson for children: who caused climate change, who is hurt most, and why children deserve a say.',
-     'learn', '0.7'),
-    ('learn-rights', 'Your right to a healthy environment · Learn · Dunia Endelevu',
-     'An environmental rights lesson for children: Article 42 of Kenya’s Constitution, children’s rights, and the duty to protect nature.',
-     'learn', '0.7'),
-    ('learn-action', 'What can we do? · Learn · Dunia Endelevu',
-     'A climate action lesson for children: simple actions at home and at school, and how the world is acting together.',
-     'learn', '0.7'),
-    ('learn-resources', 'Learn more · Dunia Endelevu',
-     'Books, podcasts, games and real science for curious children, parents and teachers.',
-     'learn', '0.6'),
-    ('story-baraka', 'Baraka and the Warm Blanket · Storybook · Dunia Endelevu',
-     'A free illustrated storybook about climate change for children aged 6 to 10. Read online or download the PDF.',
-     'learn', '0.7'),
     ('donate', 'Donate · Dunia Endelevu',
      'Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.',
      'donate', '0.9'),
@@ -78,6 +59,10 @@ PAGES = [
      'This page could not be found.',
      None, None),
 ]
+
+BOOKS = booklib.load()
+_at = [p[0] for p in PAGES].index('learn') + 1
+PAGES[_at:_at] = booklib.page_entries(BOOKS)
 
 
 # The Speaking D: a D-shaped speech bubble; its spine, top, bottom and horizon form an E; a sun rises inside.
@@ -147,7 +132,7 @@ def nav_links(active, home=False):
     return '\n        '.join(out)
 
 
-def head(name, title, desc, ver):
+def head(name, title, desc, ver, og=None):
     url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
     base = f'\n<base href="{BASE_PATH}">' if name == '404' else ''
     robots = '\n<meta name="robots" content="noindex">' if name == '404' else ''
@@ -167,6 +152,9 @@ def head(name, title, desc, ver):
         }
         jsonld = '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
     og_title = title.split(' · ')[0] if name != 'index' else 'Dunia Endelevu'
+    og = og or {'image': 'assets/img/og-image.png', 'w': 1200, 'h': 630,
+                'alt': 'Dunia Endelevu. Children aren’t just in the room. They’re on the stage.'}
+    card = 'summary_large_image' if og['w'] > og['h'] else 'summary'
     return f'''<!doctype html>
 <html lang="en" class="no-js">
 <head>
@@ -180,12 +168,12 @@ def head(name, title, desc, ver):
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE_URL}assets/img/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Dunia Endelevu. Children aren’t just in the room. They’re on the stage.">
+<meta property="og:image" content="{SITE_URL}{og['image']}">
+<meta property="og:image:width" content="{og['w']}">
+<meta property="og:image:height" content="{og['h']}">
+<meta property="og:image:alt" content="{og['alt']}">
 <meta property="og:locale" content="en_KE">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{card}">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -247,6 +235,9 @@ _ICON_PATHS = {
     'card': ['M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z', 'M3 10l18 0', 'M7 15l.01 0', 'M11 15l2 0'],
     'user': ['M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0', 'M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2'],
     'eye-off': ['M10.585 10.587a2 2 0 0 0 2.829 2.828', 'M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87', 'M3 3l18 18'],
+    'volume': ['M15 8a5 5 0 0 1 0 8', 'M17.7 5a9 9 0 0 1 0 14', 'M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5'],
+    'pause': ['M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z', 'M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z'],
+    'download': ['M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2', 'M7 11l5 5l5 -5', 'M12 4l0 12'],
     'pin': ['M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0', 'M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z'],
 }
 
@@ -372,9 +363,18 @@ def expand(body):
 
 def build():
     ver = asset_version()
+    by_page = {f'story-{b["slug"]}': b for b in BOOKS}
     for name, title, desc, nav, _ in PAGES:
-        body = expand((SRC / 'pages' / f'{name}.html').read_text())
-        html = '\n'.join([head(name, title, desc, ver), header(nav), body.strip(), footer(name)])
+        og = None
+        if name == 'learn':
+            body = booklib.shelf(BOOKS)
+        elif name in by_page:
+            body = booklib.book_page(by_page[name])
+            og = booklib.og_for(by_page[name])
+        else:
+            body = (SRC / 'pages' / f'{name}.html').read_text()
+        body = expand(body)
+        html = '\n'.join([head(name, title, desc, ver, og), header(nav), body.strip(), footer(name)])
         (ROOT / f'{name}.html').write_text(html)
     urls = []
     for name, _, _, _, prio in PAGES:

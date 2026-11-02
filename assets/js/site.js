@@ -498,60 +498,23 @@
     update();
   }
 
-  /* ---------- Learn: flip cards ---------- */
-  document.querySelectorAll('.fact').forEach(function (card) {
-    card.addEventListener('click', function () {
-      card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-    });
-  });
-
-  /* ---------- Learn: quizzes ---------- */
-  document.querySelectorAll('[data-quiz]').forEach(function (quiz) {
-    var qs = Array.prototype.slice.call(quiz.querySelectorAll('.q'));
-    var score = quiz.querySelector('.quiz__score');
-    var again = quiz.querySelector('.quiz__again');
-    var answered = 0, right = 0;
-    qs.forEach(function (q) {
-      var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
-      opts.forEach(function (opt) {
-        opt.addEventListener('click', function () {
-          var ok = opt.hasAttribute('data-correct');
-          opts.forEach(function (o) {
-            o.disabled = true;
-            if (o.hasAttribute('data-correct')) o.classList.add('is-right');
-          });
-          if (!ok) opt.classList.add('is-wrong');
-          q.querySelector('.q__why').hidden = false;
-          answered += 1; if (ok) right += 1;
-          if (answered === qs.length) {
-            score.textContent = right === qs.length ? 'Brilliant! You got all ' + right + ' right.' : 'You got ' + right + ' of ' + qs.length + ' right. Try again to beat your score!';
-            score.hidden = false; again.hidden = false;
-          }
-        });
-      });
-    });
-    if (again) again.addEventListener('click', function () {
-      answered = 0; right = 0; score.hidden = true; again.hidden = true;
-      quiz.querySelectorAll('.opt').forEach(function (o) { o.disabled = false; o.classList.remove('is-right', 'is-wrong'); });
-      quiz.querySelectorAll('.q__why').forEach(function (w) { w.hidden = true; });
-      var first = quiz.querySelector('.opt'); if (first) first.focus();
-    });
-  });
-
-  /* ---------- Storybook reader ---------- */
+  /* ---------- Storybook reader, with read-aloud ---------- */
   document.querySelectorAll('[data-reader]').forEach(function (reader) {
     var pages = Array.prototype.slice.call(reader.querySelectorAll('.reader__page'));
     var prev = reader.querySelector('[data-prev]');
     var next = reader.querySelector('[data-next]');
     var count = reader.querySelector('[data-count]');
     var at = 0;
-    var show = function (i) {
+    var onTurn = null; // set by read-aloud below
+    var show = function (i, quiet) {
+      var was = at;
       at = Math.max(0, Math.min(pages.length - 1, i));
       pages.forEach(function (p, n) { p.classList.toggle('is-on', n === at); });
       count.textContent = String(at + 1);
       prev.disabled = at === 0; next.disabled = at === pages.length - 1;
       var ahead = pages[at + 1] && pages[at + 1].querySelector('img');
       if (ahead) ahead.loading = 'eager';
+      if (!quiet && onTurn && at !== was) onTurn();
     };
     prev.addEventListener('click', function () { show(at - 1); });
     next.addEventListener('click', function () { show(at + 1); });
@@ -567,7 +530,133 @@
       var dx = e.clientX - sx; sx = null;
       if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1));
     });
-    show(0);
+    show(0, true);
+
+    // Read-aloud: recorded narration when a page has data-audio, otherwise the device's own voice.
+    var synth = window.speechSynthesis;
+    var canSpeak = !!(synth && window.SpeechSynthesisUtterance);
+    var hasAudio = pages.some(function (p) { return p.hasAttribute('data-audio'); });
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('[data-listen]'));
+    if (!buttons.length || (!canSpeak && !hasAudio)) return;
+    buttons.forEach(function (b) { b.hidden = false; });
+
+    var playing = false, finished = false, run = 0, line = 0, voice = null, player = null, timer = null, current = null;
+    var pickVoice = function () {
+      var best = null, top = -1;
+      (synth.getVoices() || []).forEach(function (v) {
+        var lang = String(v.lang || '').toLowerCase().replace('_', '-');
+        if (lang.indexOf('en') !== 0) return;
+        var s = 1;
+        if (lang === 'en-ke') s += 40; else if (lang === 'en-gb') s += 20;
+        else if (lang === 'en-za' || lang === 'en-ie' || lang === 'en-au') s += 12; else if (lang === 'en-us') s += 10;
+        if (/natural|neural|enhanced|premium|google/i.test(v.name)) s += 15;
+        if (v.localService === false) s += 2;
+        if (s > top) { top = s; best = v; }
+      });
+      voice = best;
+    };
+    if (canSpeak) {
+      pickVoice();
+      if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice);
+      else synth.onvoiceschanged = pickVoice;
+    }
+    var sentences = function (text) {
+      return (String(text).match(/[^.!?…]+[.!?…]+["”’)]*|[^.!?…]+$/g) || [])
+        .map(function (t) { return t.replace(/[“”"]/g, '').trim(); })
+        .filter(function (t) { return t.length > 1; });
+    };
+    var setPlaying = function (on) {
+      playing = on;
+      reader.classList.toggle('is-reading', on);
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var label = b.querySelector('[data-listen-label]');
+        if (label) label.textContent = on ? 'Pause' : 'Listen';
+      });
+    };
+    var hush = function () {
+      run += 1;
+      clearTimeout(timer);
+      if (canSpeak && (synth.speaking || synth.pending)) synth.cancel();
+      if (player) player.pause();
+    };
+    var stop;
+    var turn = function (token) {
+      if (token !== run) return;
+      if (at >= pages.length - 1) { finished = true; setPlaying(false); line = 0; return; }
+      timer = setTimeout(function () {
+        if (token !== run) return;
+        show(at + 1, true);
+        line = 0;
+        readPage(token);
+      }, 800);
+    };
+    var readPage = function (token) {
+      var page = pages[at];
+      var src = page.getAttribute('data-audio');
+      if (src) {
+        player = player || new Audio();
+        if (player.getAttribute('data-src') !== src) { player.src = src; player.setAttribute('data-src', src); }
+        player.onended = function () { player.removeAttribute('data-src'); turn(token); };
+        var p = player.play();
+        if (p && p.catch) p.catch(function () { if (token === run) setPlaying(false); });
+        return;
+      }
+      if (!canSpeak) { turn(token); return; }
+      var list = sentences(page.getAttribute('data-say') || '');
+      var say = function () {
+        if (token !== run) return;
+        if (line >= list.length) { turn(token); return; }
+        var u = new SpeechSynthesisUtterance(list[line]);
+        if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = 'en-GB'; }
+        u.rate = 0.9; u.pitch = 1.05;
+        var done = false;
+        var after = function () {
+          if (done || token !== run) return;
+          done = true; clearTimeout(timer);
+          line += 1; say();
+        };
+        u.onend = after;
+        u.onerror = function (e) {
+          if (e && (e.error === 'interrupted' || e.error === 'canceled')) return;
+          if (token === run) stop(); // no voice on this device
+        };
+        current = u; // keeps Safari from dropping the utterance before it ends
+        // some browsers never fire "end": move on if a line takes far too long
+        clearTimeout(timer);
+        timer = setTimeout(after, 4000 + list[line].length * 260);
+        synth.speak(u);
+      };
+      if (synth.paused) synth.resume();
+      say();
+    };
+    var start = function () {
+      hush();
+      if (finished && at === pages.length - 1) { show(0, true); line = 0; }
+      finished = false;
+      setPlaying(true);
+      readPage(run);
+    };
+    stop = function () { hush(); current = null; setPlaying(false); };
+    onTurn = function () {
+      line = 0; finished = false;
+      if (player) player.removeAttribute('data-src');
+      if (!playing) return;
+      hush();
+      var token = run;
+      timer = setTimeout(function () { if (token === run) readPage(token); }, 150);
+    };
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (playing) { stop(); return; }
+        if (!reader.contains(b)) {
+          var top = reader.getBoundingClientRect().top;
+          if (top < 0 || top > window.innerHeight * 0.5) reader.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        }
+        start();
+      });
+    });
+    window.addEventListener('pagehide', stop);
   });
 
   /* ---------- Footer year ---------- */
