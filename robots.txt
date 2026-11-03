@@ -1,4 +1,71 @@
+# Dunia Endelevu
+# Everyone is welcome to read and index this site, including search engines and AI assistants.
+
 User-agent: *
+Allow: /
+Disallow: /src/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /src/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /src/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /src/
+
+User-agent: Applebot
+Allow: /
+Disallow: /src/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /src/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /src/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /src/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /src/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /src/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /src/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /src/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /src/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /src/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /src/
+
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /src/
+
+User-agent: CCBot
 Allow: /
 Disallow: /src/
 

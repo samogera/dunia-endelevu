@@ -24,6 +24,24 @@ BASE_PATH = '/'
 
 EMAIL = 'hello@duniaendelevu.org'
 SPOTIFY_SHOW = 'https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq'
+ALANA_SITE = 'https://alanachelangat.vercel.app/'
+SLOGAN = 'Young voices for a sustainable world.'
+
+# Search engine verification: paste the code Google Search Console or Bing Webmaster Tools gives you
+# (only the content="..." part), rebuild and push.
+GOOGLE_SITE_VERIFICATION = ''
+BING_SITE_VERIFICATION = ''
+
+# Words and phrases people search for. Google mostly reads titles, headings and text; Bing and some
+# AI tools also read this list.
+KEYWORDS = ('Dunia Endelevu, Dunia Endelevu Kenya, youth-led climate incubator Kenya, climate change education for children, '
+            'climate education Kenya, children climate programmes Nairobi, free climate storybooks for children, '
+            'climate change storybooks for kids, children’s books about climate change, Kenyan children’s books environment, '
+            'Climate Gumzo podcast, climate podcast for kids, young climate advocates Kenya, child climate activists Kenya, '
+            'Alana Chelangat, climate justice for children, environmental rights for children, Article 42 Kenya, '
+            'biodiversity for kids, climate action for kids, early warning for schools Kenya, air quality alerts schools, '
+            'sponsor a child’s book Kenya, donate climate education Kenya, volunteer Nairobi children climate, '
+            'dunia endelevu meaning sustainable world')
 UPDATED = '2026-11-03'
 
 PAGES = [
@@ -35,7 +53,7 @@ PAGES = [
      'Dunia Endelevu is a youth-led climate incubator in Kenya, founded by Alana Chelangat. Our story, our safeguarding promise and how to volunteer.',
      'about', '0.8'),
     ('programs', 'Free climate programmes for children in Kenya · Dunia Endelevu',
-     'Three free tracks for children under 18: Storyteller (publish a book), Voice (speak on our podcast) and Diplomat (take the stage at real events).',
+     'Three free tracks for children under 18: publish a climate book, speak on our podcast or take the stage at real events. Plus early warning alerts for schools, now in pilot.',
      'programs', '0.9'),
     ('learn', 'Climate storybooks for children · Learn · Dunia Endelevu',
      'Illustrated storybooks that help children aged 6 to 10 learn about climate change, biodiversity, climate justice, climate action and environmental rights.',
@@ -135,7 +153,13 @@ def nav_links(active, home=False):
 def head(name, title, desc, ver, og=None, ld=None):
     url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
     base = f'\n<base href="{BASE_PATH}">' if name == '404' else ''
-    robots = '\n<meta name="robots" content="noindex">' if name == '404' else ''
+    robots = ('\n<meta name="robots" content="noindex">' if name == '404' else
+              '\n<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">')
+    verify = ''
+    if GOOGLE_SITE_VERIFICATION:
+        verify += f'\n<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">'
+    if BING_SITE_VERIFICATION:
+        verify += f'\n<meta name="msvalidate.01" content="{BING_SITE_VERIFICATION}">'
     canonical = '' if name == '404' else f'\n<link rel="canonical" href="{url}">'
     jsonld = ''
     blocks = list(ld or [])
@@ -143,8 +167,12 @@ def head(name, title, desc, ver, og=None, ld=None):
         data = {
             '@context': 'https://schema.org',
             '@type': 'NGO',
+            '@id': f'{SITE_URL}#organization',
             'name': 'Dunia Endelevu',
+            'alternateName': ['Dunia Endelevu Kenya', 'Dunia Endelevu youth climate incubator'],
+            'slogan': SLOGAN,
             'url': SITE_URL,
+            'image': f'{SITE_URL}assets/img/og-image.png',
             'logo': f'{SITE_URL}assets/img/icon-512.png',
             'email': EMAIL,
             'description': 'A youth-led climate incubator in Kenya that helps children publish books, speak on a podcast and take the stage at environmental events.',
@@ -152,7 +180,11 @@ def head(name, title, desc, ver, og=None, ld=None):
             'areaServed': {'@type': 'Country', 'name': 'Kenya'},
             'knowsAbout': ['Climate change education for children', 'Children’s climate storybooks', 'Youth climate advocacy',
                            'Biodiversity', 'Climate justice', 'Environmental rights'],
-            'sameAs': [SPOTIFY_SHOW],
+            'founder': {'@type': 'Person', 'name': 'Alana Chelangat', 'url': ALANA_SITE,
+                        'description': 'Kenyan climate justice advocate, author and podcaster; Little Miss Environment Kenya 2025.'},
+            'foundingLocation': {'@type': 'Place', 'name': 'Nairobi, Kenya'},
+            'nonprofitStatus': 'Nonprofit',
+            'sameAs': [SPOTIFY_SHOW, ALANA_SITE],
         }
         site = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Dunia Endelevu', 'url': SITE_URL, 'inLanguage': 'en-KE'}
         blocks = [data, site] + blocks
@@ -160,7 +192,7 @@ def head(name, title, desc, ver, og=None, ld=None):
         jsonld += '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
     og_title = title.split(' · ')[0] if name != 'index' else 'Dunia Endelevu'
     og = og or {'image': 'assets/img/og-image.png', 'w': 1200, 'h': 630,
-                'alt': 'Dunia Endelevu. Children aren’t just in the room. They’re on the stage.'}
+                'alt': 'Dunia Endelevu. Young voices for a sustainable world.'}
     card = 'summary_large_image' if og['w'] > og['h'] else 'summary'
     return f'''<!doctype html>
 <html lang="en" class="no-js">
@@ -168,7 +200,9 @@ def head(name, title, desc, ver, og=None, ld=None):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">{base}
 <title>{title}</title>
-<meta name="description" content="{desc}">{robots}{canonical}
+<meta name="description" content="{desc}">
+<meta name="keywords" content="{KEYWORDS}">
+<meta name="author" content="Dunia Endelevu">{robots}{canonical}{verify}
 <meta name="theme-color" content="#FFFFFF">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dunia Endelevu">
@@ -185,11 +219,14 @@ def head(name, title, desc, ver, og=None, ld=None):
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text summary for AI assistants">
 <link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css?v={ver}">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
-<script src="assets/js/site.js?v={ver}" defer></script>{jsonld}
+<script src="assets/js/site.js?v={ver}" defer></script>
+<script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
+<script defer src="/_vercel/insights/script.js"></script>{jsonld}
 </head>'''
 
 
@@ -354,6 +391,7 @@ def expand(body):
     body = body.replace('{{mark}}', mark())
     body = body.replace('{{email}}', EMAIL)
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
+    body = body.replace('{{alana}}', ALANA_SITE)
     body = body.replace('{{updated}}', '1 November 2026')
     body = body.replace('{{arrow}}', ARROW)
     body = re.sub(r'\{\{icon:([a-z-]+)\}\}', lambda m: icon(m.group(1)), body)
@@ -373,6 +411,89 @@ def expand(body):
 
 
 
+def _text(fragment):
+    from html import unescape
+    return re.sub(r'\s+', ' ', unescape(re.sub(r'<[^>]+>', ' ', expand(fragment)))).strip()
+
+
+def faq_ld(body):
+    """Question-and-answer data from a page's <details><summary> blocks, so Google and AI tools can quote them."""
+    pairs = re.findall(r'<details[^>]*>\s*<summary>(.*?)</summary>(.*?)</details>', body, re.S)
+    if not pairs:
+        return None
+    return {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': _text(q), 'acceptedAnswer': {'@type': 'Answer', 'text': _text(a)}} for q, a in pairs]}
+
+
+PROGRAMMES = [
+    ('Storyteller', 'programs.html#storyteller', 'Children write, illustrate and publish their own climate book, with workshops, editing and a launch.'),
+    ('Voice', 'programs.html#voice', 'Children research, script and co-host episodes of Climate Gumzo, our climate podcast for young listeners.'),
+    ('Diplomat', 'programs.html#diplomat', 'Children train to speak at real conferences, climate summits and panels.'),
+    ('Early warning for schools (pilot)', 'programs.html#early-warning',
+     'Alerts that warn schools about unhealthy air, heat and heavy rain, with a suggested step for each school. Now in pilot.'),
+]
+
+
+def programmes_ld():
+    return {'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'Dunia Endelevu programmes', 'itemListElement': [
+        {'@type': 'ListItem', 'position': i, 'item': {
+            '@type': 'Service', 'name': n, 'url': f'{SITE_URL}{u}', 'description': d, 'areaServed': 'Kenya',
+            'provider': {'@id': f'{SITE_URL}#organization'}, 'isAccessibleForFree': True}}
+        for i, (n, u, d) in enumerate(PROGRAMMES, start=1)]}
+
+
+AI_BOTS = ['Googlebot', 'Bingbot', 'DuckDuckBot', 'Applebot', 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot',
+           'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended',
+           'Meta-ExternalAgent', 'CCBot']
+
+
+def robots_txt():
+    lines = ['# Dunia Endelevu', '# Everyone is welcome to read and index this site, including search engines and AI assistants.', '',
+             'User-agent: *', 'Allow: /', f'Disallow: {BASE_PATH}src/', '']
+    for bot in AI_BOTS:
+        lines += [f'User-agent: {bot}', 'Allow: /', f'Disallow: {BASE_PATH}src/', '']
+    lines += [f'Sitemap: {SITE_URL}sitemap.xml', '']
+    return '\n'.join(lines)
+
+
+def llms_txt(full=False):
+    """A plain-text summary for AI assistants (the llms.txt convention); llms-full.txt adds every story."""
+    out = [
+        '# Dunia Endelevu', '',
+        f'> Dunia Endelevu ("a sustainable world" in Kiswahili) is a youth-led climate incubator in Nairobi, Kenya, '
+        f'founded by Alana Chelangat. It helps children under 18 write, speak and lead on climate, free for every family. '
+        f'Slogan: "{SLOGAN}"', '',
+        'Key facts:', '',
+        '- Founded by: Alana Chelangat, Kenyan climate justice advocate, author and podcaster; Little Miss Environment Kenya 2025',
+        f'- Founder’s website: {ALANA_SITE}',
+        '- Based in: Nairobi, Kenya',
+        '- Who it is for: children under 18, with written consent from a parent or guardian',
+        '- Cost to families: free; donors and sponsors cover every cost',
+        '- Three tracks: Storyteller (publish a climate book), Voice (co-host the podcast Climate Gumzo), Diplomat (speak at real events)',
+        '- For schools: early warning alerts for unhealthy air, heat and heavy rain, now in pilot',
+        f'- Free storybooks for children aged 6 to 10 on climate change, biodiversity, climate justice, climate action and environmental rights',
+        f'- Podcast: Climate Gumzo, {SPOTIFY_SHOW}',
+        f'- Contact: {EMAIL}',
+        '- Safeguarding: vetted adults, at least two adults at every session, children credited by first name and age only',
+        '', '## Pages', '']
+    for name, title, desc, _, prio in PAGES:
+        if prio is None or name.startswith('story-'):
+            continue
+        url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
+        out.append(f'- [{title.split(" · ")[0]}]({url}): {desc}')
+    out += ['', '## Storybooks', '']
+    for bk in BOOKS:
+        out.append(f'- [{bk["title"]}]({SITE_URL}story-{bk["slug"]}.html): {bk["topic"]}, ages {bk["ages"]}. {bk.get("summary", "")}')
+    if full:
+        for bk in BOOKS:
+            out += ['', f'## {bk["title"]}', '', f'Topic: {bk["topic"]}. Ages {bk["ages"]}. By Dunia Endelevu.', '',
+                    'What children learn: ' + '; '.join(bk.get('learn', [])) + '.', '']
+            out += [f'Page {i}. {t}' for i, t in enumerate(bk['pages'][1:], start=1)]
+    else:
+        out += ['', f'- [Full text of every storybook, for AI assistants]({SITE_URL}llms-full.txt)']
+    return '\n'.join(out) + '\n'
+
+
 def build():
     ver = asset_version()
     by_page = {f'story-{b["slug"]}': b for b in BOOKS}
@@ -388,6 +509,9 @@ def build():
             ld = booklib.book_ld(by_page[name], SITE_URL)
         else:
             body = (SRC / 'pages' / f'{name}.html').read_text()
+            ld = [x for x in [faq_ld(body)] if x] or None
+            if name == 'programs':
+                ld = (ld or []) + [programmes_ld()]
         body = expand(body)
         html = '\n'.join([head(name, title, desc, ver, og, ld), header(nav), body.strip(), footer(name)])
         (ROOT / f'{name}.html').write_text(html)
@@ -404,7 +528,9 @@ def build():
                                       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
                                       'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
                                       + '\n'.join(urls) + '\n</urlset>\n')
-    (ROOT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: {BASE_PATH}src/\n\nSitemap: {SITE_URL}sitemap.xml\n')
+    (ROOT / 'robots.txt').write_text(robots_txt())
+    (ROOT / 'llms.txt').write_text(llms_txt())
+    (ROOT / 'llms-full.txt').write_text(llms_txt(full=True))
     print(f'Built {len(PAGES)} pages (assets v{ver}).')
 
 
