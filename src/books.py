@@ -85,6 +85,7 @@ def card(b, i=0):
     d = f' reveal-d{i % 3}' if i % 3 else ''
     return (f'      <li class="reveal{d}"><a class="book-card" href="story-{b["slug"]}.html">'
             f'<span class="book-card__cover">{_pic(f"assets/books/{b["slug"]}/cover", b["cover_alt"], *cover_size(b), lazy=i > 3)}</span>'
+            f'<span class="book-card__topic">{escape(b["topic"])}</span>'
             f'<span class="book-card__title">{escape(b["title"])}</span></a></li>')
 
 
@@ -95,7 +96,7 @@ def shelf(books):
   <section class="wrap shelf-head" aria-labelledby="learn-title">
     <span class="tag">Storybooks</span>
     <h1 id="learn-title" class="h1 split">Stories about our planet.</h1>
-    <p class="lead">Free picture books about climate and nature, for children aged 6 to 10. Tap a cover to read, or listen along.</p>
+    <p class="lead">These stories help children aged 6 to 10 learn more about climate change, nature and their rights. Tap a cover to read, or listen along.</p>
   </section>
 
   <section class="wrap shelf" aria-label="Our storybooks">
