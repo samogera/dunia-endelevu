@@ -634,13 +634,6 @@ html.no-js .amounts { display: none; }
 .summary__total dd { font-family: var(--display); font-size: clamp(28px, 2.6vw, 36px); font-weight: 600; letter-spacing: -0.035em; color: var(--sun); }
 .summary__note { display: flex; align-items: flex-start; gap: 10px; margin: 18px 8px 0; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, .07); font-size: 13.5px; line-height: 1.5; color: var(--on-dark); }
 .summary__note .ico { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 1px; color: var(--sun); }
-.organizer { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; padding: 22px; border-radius: var(--r-lg); background: var(--card); }
-.organizer__row { display: flex; align-items: center; gap: 14px; }
-.organizer__row img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 20%; }
-.organizer__row strong { display: block; font-size: 16px; font-weight: 600; }
-.organizer__row span { font-size: 13.5px; color: var(--muted); }
-.organizer__line { display: flex; align-items: center; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--slate); text-decoration: none; overflow-wrap: anywhere; }
-.organizer__line .ico { flex: 0 0 auto; width: 18px; height: 18px; color: var(--evergreen); }
 @media (max-width: 520px) {
   .choices { grid-template-columns: minmax(0, 1fr); }
   .choice__body { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; row-gap: 2px; align-items: center; padding: 14px 48px 14px 14px; }
