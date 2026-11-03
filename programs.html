@@ -26,11 +26,11 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text summary for AI assistants">
-<link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=74f4123e">
+<link rel="stylesheet" href="assets/css/site.css?v=e678a1be">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
-<script src="assets/js/site.js?v=74f4123e" defer></script>
+<script src="assets/js/site.js?v=e678a1be" defer></script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Who can join?", "acceptedAnswer": {"@type": "Answer", "text": "Any child under 18, through a partner school or one of our tree-planting events. Schools can apply to become partners."}}, {"@type": "Question", "name": "What does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "Nothing. Donations, sponsorships and anthology sales pay for books, recordings and travel to events."}}, {"@type": "Question", "name": "What do you need from parents?", "acceptedAnswer": {"@type": "Answer", "text": "The child’s name, age and school, and the parent or guardian’s name, relationship, phone number and email. Before the first session, the parent or guardian signs a consent form."}}, {"@type": "Question", "name": "When and where are sessions?", "acceptedAnswer": {"@type": "Answer", "text": "Weekly, for one school term, at partner schools and public venues, always with vetted adults."}}]}</script>
@@ -204,29 +204,51 @@
 
   <section class="wrap section" id="early-warning" aria-labelledby="ew-title">
     <div class="ew">
-      <div class="ew__head">
-        <span class="chip ew__chip"><span class="ew__pulse" aria-hidden="true"></span>For schools · Now in pilot</span>
-        <h2 id="ew-title" class="h2">Early warning for schools.</h2>
-        <p class="lead">Heat, dusty or smoky air and heavy rain put children at risk at school. Our early warning service tells schools in good time, so they can keep pupils safe and learning.</p>
-      </div>
-      <figure class="ew__photo"><picture><source type="image/webp" srcset="assets/img/photos/early-warning.webp"><img src="assets/img/photos/early-warning.jpg" alt="Two warning sirens on a pole against a blue sky" width="1200" height="675" loading="lazy"></picture></figure>
-      <ol class="ew__steps">
-        <li><span class="ew__n" aria-hidden="true">1</span><div><h3>We watch</h3><p>We follow open air-quality readings and official weather forecasts for each school’s area.</p></div></li>
-        <li><span class="ew__n" aria-hidden="true">2</span><div><h3>We alert</h3><p>When the air turns unhealthy, or heat or heavy rain is on the way, the head teacher gets a clear alert with a suggested step, in line with the school’s own health rules.</p></div></li>
-        <li><span class="ew__n" aria-hidden="true">3</span><div><h3>The school acts</h3><p>The school confirms the alert and notes what it did, such as moving PE indoors or keeping pupils in at break.</p></div></li>
-        <li><span class="ew__n" aria-hidden="true">4</span><div><h3>Everyone is ready</h3><p>Parents can be told ahead of time, and partners are alerted when a school needs extra help.</p></div></li>
-      </ol>
-      <div class="ew__example" aria-label="Example alert">
-        <span class="ew__example-label">Example alert</span>
-        <p><strong>Air quality: unhealthy for sensitive groups.</strong> Suggested step: move today’s PE lesson indoors and check on pupils with asthma.</p>
-      </div>
-      <div class="ew__foot">
-        <p class="fine">We are piloting the service now. We record only what each school did, never pupils’ names.</p>
-        <div class="btn-row">
-          <a class="btn btn--sun" href="contact.html?topic=alerts#enquiry">Join the pilot <svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn--light" href="contact.html?topic=school#enquiry">Partner with us</a>
+      <div class="ew__top">
+        <div class="ew__intro">
+          <span class="chip ew__chip"><span class="ew__pulse" aria-hidden="true"></span>For schools · Now in pilot</span>
+          <h2 id="ew-title" class="h2">Early warning for schools.</h2>
+          <p class="lead">Unhealthy air, heat and heavy rain put children at risk at school. We warn schools in good time, with one clear step to take, so pupils stay safe and keep learning.</p>
+          <ul class="ew__hazards" aria-label="What we watch">
+            <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.24"/><path d="M3 12h15.5a2.5 2.5 0 1 1 -2.34 3.24"/><path d="M4 16h5.5a2.5 2.5 0 1 1 -2.34 3.24"/></svg>Air quality</li>
+            <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5"/><path d="M10 9l4 0"/></svg>Heat</li>
+            <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7"/><path d="M11 13v2m0 3v2m4 -5v2m0 3v2"/></svg>Heavy rain</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--sun" href="contact.html?topic=alerts#enquiry">Join the pilot <svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn--light" href="contact.html?topic=school#enquiry">Partner with us</a>
+          </div>
+          <p class="ew__privacy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></svg>We record only what each school did, never pupils’ names.</p>
         </div>
+
+        <figure class="ew__visual" data-reveal aria-label="An example of the alert a head teacher receives">
+          <div class="ew__photo"><picture><source type="image/webp" srcset="assets/img/photos/early-warning.webp"><img src="assets/img/photos/early-warning.jpg" alt="" width="1200" height="675" loading="lazy"></picture></div>
+          <div class="ew-alert">
+            <div class="ew-alert__head">
+              <span class="ew-alert__app"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg></span>
+              <span class="ew-alert__who"><strong>Dunia Alerts</strong><span>Example School · Nairobi</span></span>
+              <span class="ew-alert__time">07:30</span>
+            </div>
+            <div class="ew-alert__reading">
+              <span class="ew-alert__num">128</span>
+              <span class="ew-alert__unit"><strong>Air quality index</strong><span>Measured near the school</span></span>
+            </div>
+            <span class="ew-alert__level">Unhealthy for sensitive groups</span>
+            <div class="ew-alert__scale" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><i style="--at: 51%"></i></div>
+            <div class="ew-alert__step"><span>Suggested step</span><p>Move today’s PE lesson indoors and check on pupils with asthma.</p></div>
+            <div class="ew-alert__actions" aria-hidden="true"><span class="ew-alert__btn ew-alert__btn--go">Acknowledge</span><span class="ew-alert__btn">School protocol</span></div>
+          </div>
+          <div class="ew-toast"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 12l2 2l4 -4"/></svg><span><strong>Acknowledged 07:42</strong>PE moved indoors</span></div>
+          <figcaption class="sr-only">Example alert: air quality index 128, unhealthy for sensitive groups. Suggested step: move today’s PE lesson indoors and check on pupils with asthma. The school acknowledged at 07:42 and moved PE indoors.</figcaption>
+        </figure>
       </div>
+
+      <ol class="ew__flow" aria-label="How it works">
+        <li><span class="ew__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg></span><span class="ew__step">Step 1</span><h3>We watch</h3><p>Open air-quality readings and official weather forecasts for each school’s area.</p></li>
+        <li><span class="ew__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg></span><span class="ew__step">Step 2</span><h3>We alert</h3><p>The head teacher gets a clear alert with one suggested step, in line with the school’s own health rules.</p></li>
+        <li><span class="ew__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 12l2 2l4 -4"/></svg></span><span class="ew__step">Step 3</span><h3>The school acts</h3><p>The school confirms the alert and notes what it did, such as moving PE indoors.</p></li>
+        <li><span class="ew__ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/></svg></span><span class="ew__step">Step 4</span><h3>Everyone is ready</h3><p>Parents hear in good time, and partners are alerted when a school needs extra help.</p></li>
+      </ol>
     </div>
   </section>
 

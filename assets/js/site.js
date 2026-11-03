@@ -123,7 +123,7 @@
   }
 
   /* ---------- Gentle reveal on scroll ---------- */
-  var reveals = document.querySelectorAll('.reveal');
+  var reveals = document.querySelectorAll('.reveal, [data-reveal]');
   if (reduceMotion || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('is-in'); });
   } else {
