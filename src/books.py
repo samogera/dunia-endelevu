@@ -7,6 +7,7 @@ the Listen button then plays those recordings instead of the device voice.
 """
 import json
 import pathlib
+import re
 from html import escape
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -17,13 +18,50 @@ def load():
     return json.loads(BOOKS_FILE.read_text(encoding='utf-8'))
 
 
+def describe(b):
+    """A search-result description: the story's opening question, then what the book is."""
+    first = re.split(r'(?<=[.!?”])\s+', b.get('summary', ''))[0] if b.get('summary') else ''
+    short = f'A free {b["topic"].lower()} storybook for ages {b["ages"]}.'
+    text = f'{first} {short}'.strip()
+    if first and len(text) <= 220:
+        return text
+    return f'A free illustrated {b["topic"].lower()} storybook for children aged {b["ages"]}. Read it online or listen along.'
+
+
+def shelf_ld(books, site):
+    return {
+        '@context': 'https://schema.org', '@type': 'ItemList', 'name': 'Free climate storybooks for children',
+        'itemListElement': [{'@type': 'ListItem', 'position': i, 'url': f'{site}story-{b["slug"]}.html', 'name': b['title']}
+                            for i, b in enumerate(books, start=1)],
+    }
+
+
+def book_ld(b, site):
+    url = f'{site}story-{b["slug"]}.html'
+    org = {'@type': 'Organization', 'name': 'Dunia Endelevu', 'url': site}
+    lo, hi = (int(n) for n in re.findall(r'\d+', b['ages'])[:2])
+    book = {
+        '@context': 'https://schema.org', '@type': 'Book', 'name': b['title'], 'url': url,
+        'image': f'{site}assets/books/{b["slug"]}/cover.jpg', 'description': b.get('summary', ''),
+        'author': org, 'publisher': org, 'inLanguage': 'en', 'isAccessibleForFree': True,
+        'bookFormat': 'https://schema.org/EBook', 'numberOfPages': len(b['pages']) - 1,
+        'genre': 'Children’s picture book', 'about': b['topic'],
+        'audience': {'@type': 'PeopleAudience', 'suggestedMinAge': lo, 'suggestedMaxAge': hi},
+    }
+    crumbs = {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': site},
+            {'@type': 'ListItem', 'position': 2, 'name': 'Storybooks', 'item': f'{site}learn.html'},
+            {'@type': 'ListItem', 'position': 3, 'name': b['title'], 'item': url},
+        ]}
+    return [book, crumbs]
+
+
 def page_entries(books):
     """PAGES rows for build.py: (name, title, description, nav key, sitemap priority)."""
     rows = []
     for b in books:
-        desc = (f'A free illustrated storybook about {b["topic"].lower()} for children aged {b["ages"]}. '
-                f'Read it online or listen along.')
-        rows.append((f'story-{b["slug"]}', f'{b["title"]} · Storybook · Dunia Endelevu', desc, 'learn', '0.7'))
+        rows.append((f'story-{b["slug"]}', f'{b["title"]} · Free children’s storybook · Dunia Endelevu', describe(b), 'learn', '0.7'))
     return rows
 
 

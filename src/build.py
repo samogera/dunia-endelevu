@@ -28,22 +28,22 @@ UPDATED = '2026-11-03'
 
 PAGES = [
     # name, title, description, nav key, sitemap priority
-    ('index', 'Dunia Endelevu · Youth-led climate incubator in Kenya',
-     'Dunia Endelevu helps children in Kenya publish their own climate books, speak on our podcast Climate Gumzo and take the stage at environmental events. Free for every family.',
+    ('index', 'Dunia Endelevu · Youth-led climate action for children in Kenya',
+     'Dunia Endelevu helps children in Kenya publish climate books, speak on our podcast Climate Gumzo and take the stage at events. Free for every family.',
      'index', '1.0'),
-    ('about', 'About us · Dunia Endelevu',
+    ('about', 'About us · Founded by Alana Chelangat · Dunia Endelevu',
      'Dunia Endelevu is a youth-led climate incubator in Kenya, founded by Alana Chelangat. Our story, our safeguarding promise and how to volunteer.',
      'about', '0.8'),
-    ('programs', 'The Youth Advocate Journey · Dunia Endelevu',
+    ('programs', 'Free climate programmes for children in Kenya · Dunia Endelevu',
      'Three free tracks for children under 18: Storyteller (publish a book), Voice (speak on our podcast) and Diplomat (take the stage at real events).',
      'programs', '0.9'),
-    ('learn', 'Storybooks · Learn · Dunia Endelevu',
-     'Free illustrated storybooks about climate and nature for children aged 6 to 10. Read them online, listen along or download the PDF.',
+    ('learn', 'Free climate storybooks for children · Dunia Endelevu',
+     'Free illustrated storybooks for children aged 6 to 10 about climate change, biodiversity, climate justice, climate action and environmental rights in Kenya.',
      'learn', '0.9'),
-    ('donate', 'Donate · Dunia Endelevu',
+    ('donate', 'Donate · Sponsor a child’s climate book · Dunia Endelevu',
      'Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.',
      'donate', '0.9'),
-    ('contact', 'Contact and apply · Dunia Endelevu',
+    ('contact', 'Apply for your child or contact us · Dunia Endelevu',
      'Parents and guardians can apply for a child under 18. Schools, partners and press can send an enquiry. We reply within three working days.',
      'contact', '0.8'),
     ('privacy', 'Privacy Policy · Dunia Endelevu',
@@ -132,25 +132,32 @@ def nav_links(active, home=False):
     return '\n        '.join(out)
 
 
-def head(name, title, desc, ver, og=None):
+def head(name, title, desc, ver, og=None, ld=None):
     url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
     base = f'\n<base href="{BASE_PATH}">' if name == '404' else ''
     robots = '\n<meta name="robots" content="noindex">' if name == '404' else ''
     canonical = '' if name == '404' else f'\n<link rel="canonical" href="{url}">'
     jsonld = ''
+    blocks = list(ld or [])
     if name == 'index':
         data = {
             '@context': 'https://schema.org',
-            '@type': 'Organization',
+            '@type': 'NGO',
             'name': 'Dunia Endelevu',
             'url': SITE_URL,
             'logo': f'{SITE_URL}assets/img/icon-512.png',
             'email': EMAIL,
             'description': 'A youth-led climate incubator in Kenya that helps children publish books, speak on a podcast and take the stage at environmental events.',
             'address': {'@type': 'PostalAddress', 'addressLocality': 'Nairobi', 'addressCountry': 'KE'},
+            'areaServed': {'@type': 'Country', 'name': 'Kenya'},
+            'knowsAbout': ['Climate change education for children', 'Children’s climate storybooks', 'Youth climate advocacy',
+                           'Biodiversity', 'Climate justice', 'Environmental rights'],
             'sameAs': [SPOTIFY_SHOW],
         }
-        jsonld = '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
+        site = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Dunia Endelevu', 'url': SITE_URL, 'inLanguage': 'en-KE'}
+        blocks = [data, site] + blocks
+    for data in blocks:
+        jsonld += '\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
     og_title = title.split(' · ')[0] if name != 'index' else 'Dunia Endelevu'
     og = og or {'image': 'assets/img/og-image.png', 'w': 1200, 'h': 630,
                 'alt': 'Dunia Endelevu. Children aren’t just in the room. They’re on the stage.'}
@@ -371,24 +378,31 @@ def build():
     by_page = {f'story-{b["slug"]}': b for b in BOOKS}
     for name, title, desc, nav, _ in PAGES:
         og = None
+        ld = None
         if name == 'learn':
             body = booklib.shelf(BOOKS)
+            ld = [booklib.shelf_ld(BOOKS, SITE_URL)]
         elif name in by_page:
             body = booklib.book_page(by_page[name], BOOKS)
             og = booklib.og_for(by_page[name])
+            ld = booklib.book_ld(by_page[name], SITE_URL)
         else:
             body = (SRC / 'pages' / f'{name}.html').read_text()
         body = expand(body)
-        html = '\n'.join([head(name, title, desc, ver, og), header(nav), body.strip(), footer(name)])
+        html = '\n'.join([head(name, title, desc, ver, og, ld), header(nav), body.strip(), footer(name)])
         (ROOT / f'{name}.html').write_text(html)
     urls = []
     for name, _, _, _, prio in PAGES:
         if prio is None:
             continue
         loc = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
-        urls.append(f'  <url><loc>{loc}</loc><lastmod>{UPDATED}</lastmod><priority>{prio}</priority></url>')
+        img = ''
+        if name in by_page:
+            img = f'<image:image><image:loc>{SITE_URL}assets/books/{by_page[name]["slug"]}/cover.jpg</image:loc></image:image>'
+        urls.append(f'  <url><loc>{loc}</loc><lastmod>{UPDATED}</lastmod><priority>{prio}</priority>{img}</url>')
     (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
-                                      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                                      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                                      'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
                                       + '\n'.join(urls) + '\n</urlset>\n')
     (ROOT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: {BASE_PATH}src/\n\nSitemap: {SITE_URL}sitemap.xml\n')
     print(f'Built {len(PAGES)} pages (assets v{ver}).')
