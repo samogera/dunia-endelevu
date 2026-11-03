@@ -373,7 +373,7 @@
       data.page = window.location.pathname.split('/').pop() || 'index.html';
 
       var button = form.querySelector('[type="submit"]');
-      var label = button ? button.textContent : '';
+      var label = button ? button.innerHTML : '';
       if (button) { button.disabled = true; button.textContent = 'Sending…'; }
       var box = statusBox(form);
       box.hidden = true;
@@ -392,7 +392,7 @@
           (form.getAttribute('data-ok') || 'We reply within three working days.');
         box.hidden = false;
         form.reset();
-        if (button) { button.disabled = false; button.textContent = label; }
+        if (button) { button.disabled = false; button.innerHTML = label; }
         box.setAttribute('tabindex', '-1');
         box.focus();
       }).catch(function () {
@@ -400,7 +400,7 @@
         box.innerHTML = '<strong>We couldn’t send that just now.</strong>Please try again, or <a href="' +
           mailtoLink(subject, data) + '">send it by email instead</a>. Nothing you typed has been lost.';
         box.hidden = false;
-        if (button) { button.disabled = false; button.textContent = label; }
+        if (button) { button.disabled = false; button.innerHTML = label; }
       });
     });
   });
@@ -411,14 +411,13 @@
     var funds = Array.prototype.slice.call(donate.querySelectorAll('input[name="fund"]'));
     var amountInput = donate.querySelector('#d-amount');
     var chips = Array.prototype.slice.call(donate.querySelectorAll('[data-amount-chip]'));
-    var payLabel = donate.querySelector('[data-pay-label]');
     var nameInput = donate.querySelector('#d-name');
     var emailInput = donate.querySelector('#d-email');
-    var steps = Array.prototype.slice.call(document.querySelectorAll('[data-stepper] li'));
+    var giveSteps = Array.prototype.slice.call(donate.querySelectorAll('[data-give-step]'));
     var sumItems = document.querySelector('[data-sum-items]');
     var sumCount = document.querySelector('[data-sum-count]');
     var sumPay = document.querySelector('[data-sum-pay]');
-    var sumTotal = document.querySelector('[data-sum-total]');
+    var sumTotals = Array.prototype.slice.call(document.querySelectorAll('[data-sum-total]'));
     var sumCredit = document.querySelector('[data-sum-credit]');
     var ksh = function (n) { return 'KSh ' + Math.round(n).toLocaleString('en'); };
     var amount = function () { var n = parseInt(amountInput.value.replace(/[^0-9]/g, ''), 10); return isNaN(n) ? 0 : n; };
@@ -435,6 +434,7 @@
       funds.forEach(function (f) { f.required = chosen.length === 0; });
       var n = amount();
       chips.forEach(function (c) { c.classList.toggle('is-on', parseFloat(c.getAttribute('data-amount-chip')) === n); });
+      var payLabel = donate.querySelector('[data-pay-label]');
       if (payLabel) payLabel.textContent = n > 0 ? 'Donate ' + ksh(n) : 'Donate';
       if (sumItems) {
         sumItems.innerHTML = '';
@@ -452,17 +452,12 @@
       if (sumCount) sumCount.textContent = String(chosen.length);
       var pay = donate.querySelector('input[name="pay_by"]:checked');
       if (sumPay) sumPay.textContent = pay ? pay.value : 'Not chosen';
-      if (sumTotal) sumTotal.textContent = ksh(n);
+      sumTotals.forEach(function (el) { el.textContent = ksh(n); });
       var credit = donate.querySelector('input[name="credit"]:checked');
       if (sumCredit) sumCredit.textContent = credit && credit.value === 'Show my name' ? (nameInput.value.trim() || 'Your name') : 'Anonymous';
-      var done = [chosen.length > 0, n > 0, !!(emailInput.value && emailInput.checkValidity())];
-      var current = done.indexOf(false);
-      if (current === -1) current = 3;
-      steps.forEach(function (li, i) {
-        li.classList.toggle('is-done', i < 3 && done[i]);
-        li.classList.toggle('is-current', i === current);
-        if (i === current) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
-      });
+      // tick off each numbered step once it is filled in
+      var done = [chosen.length > 0, n > 0, !!pay, !!(emailInput.value && emailInput.checkValidity())];
+      giveSteps.forEach(function (fs, i) { fs.classList.toggle('is-done', !!done[i]); });
     };
 
     chips.forEach(function (chip) {
@@ -496,6 +491,21 @@
       pick.dispatchEvent(new Event('change', { bubbles: true }));
     }
     update();
+
+    // phones: show the total and a Donate button while the form is on screen but its own button is not
+    var giveBar = document.querySelector('[data-give-bar]');
+    var mainBtn = donate.querySelector('[type="submit"]');
+    if (giveBar && mainBtn && 'IntersectionObserver' in window) {
+      var formOn = false, btnOn = false;
+      var syncBar = function () {
+        var on = formOn && !btnOn;
+        giveBar.classList.toggle('is-on', on);
+        giveBar.setAttribute('aria-hidden', on ? 'false' : 'true');
+        var b = giveBar.querySelector('button'); if (b) b.tabIndex = on ? 0 : -1;
+      };
+      new IntersectionObserver(function (en) { formOn = en[0].isIntersecting; syncBar(); }).observe(donate);
+      new IntersectionObserver(function (en) { btnOn = en[0].isIntersecting; syncBar(); }).observe(mainBtn);
+    }
   }
 
   /* ---------- Storybook: a book that opens and turns its pages, with read-aloud ---------- */

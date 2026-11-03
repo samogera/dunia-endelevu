@@ -19,12 +19,12 @@ SRC = ROOT / 'src'
 
 # Change these two lines when the site moves to its own domain,
 # e.g. SITE_URL = 'https://duniaendelevu.org/' and BASE_PATH = '/'.
-SITE_URL = 'https://samogera.github.io/dunia-endelevu/'
-BASE_PATH = '/dunia-endelevu/'
+SITE_URL = 'https://dunia-endelevu.vercel.app/'
+BASE_PATH = '/'
 
 EMAIL = 'hello@duniaendelevu.org'
 SPOTIFY_SHOW = 'https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq'
-UPDATED = '2026-11-01'
+UPDATED = '2026-11-03'
 
 PAGES = [
     # name, title, description, nav key, sitemap priority
@@ -229,6 +229,7 @@ _ICON_PATHS = {
     'youtube': ['M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z', 'M10 9l5 3l-5 3z'],
     'spotify': ['M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0', 'M8 11.973c2.5 -1.473 5.5 -.973 7.5 .527', 'M9 15c1.5 -1 4 -1 5 .5', 'M7 9c2 -1 6 -2 10 .5'],
     'mail': ['M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z', 'M3 7l9 6l9 -6'],
+    'heart': ['M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572'],
     'lock': ['M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z', 'M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0', 'M8 11v-4a4 4 0 1 1 8 0v4'],
     'phone': ['M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14z', 'M11 4h2', 'M12 17v.01'],
     'bank': ['M3 21l18 0', 'M3 10l18 0', 'M5 6l7 -3l7 3', 'M4 10l0 11', 'M20 10l0 11', 'M8 14l0 3', 'M12 14l0 3', 'M16 14l0 3'],

@@ -1,33 +1,29 @@
 <main id="main">
 
-  <section class="wrap" aria-labelledby="donate-title">
-    <div class="donate-hero">
-      <div class="donate-hero__copy">
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">›</span><span aria-current="page">Donate</span></nav>
-        <h1 id="donate-title" class="h1 split">Help a child be heard.</h1>
-        <p class="lead">Your gift pays for books, podcast episodes and stages. Families never pay a shilling.</p>
-      </div>
-      <div class="donate-hero__faces" aria-hidden="true">
-        <figure><picture><source type="image/webp" srcset="assets/img/photos/kids-circle.webp"><img src="assets/img/photos/kids-circle.jpg" alt="" width="472" height="472"></picture></figure>
-        <figure><picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="" width="568" height="720"></picture></figure>
-        <figure><picture><source type="image/webp" srcset="assets/img/photos/book-tower.webp"><img src="assets/img/photos/book-tower.jpg" alt="" width="730" height="926"></picture></figure>
-      </div>
+  <section class="wrap give-hero" aria-labelledby="donate-title">
+    <div class="give-hero__copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">›</span><span aria-current="page">Donate</span></nav>
+      <h1 id="donate-title" class="h1 split">Help a child be heard.</h1>
+      <p class="lead">Your gift pays for books, podcast episodes and stages. Families never pay a shilling.</p>
+      <ul class="give-trust">
+        <li>{{icon:heart}}<span>Free for every child and family</span></li>
+        <li>{{icon:lock}}<span>Nothing is charged on this website</span></li>
+        <li>{{icon:mail}}<span>We email you how to pay within two working days</span></li>
+      </ul>
+      <a class="btn btn--sun" href="#give">Choose your gift {{arrow}}</a>
+    </div>
+    <div class="give-hero__media">
+      <figure class="give-hero__photo"><picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="A smiling boy looking straight at the camera" width="568" height="720"></picture></figure>
+      <div class="give-hero__fact"><span class="give-hero__fact-icon" aria-hidden="true">{{duo:book}}</span><p><strong>KSh 50,000</strong><span>publishes one child’s book</span></p></div>
     </div>
   </section>
 
-  <section class="wrap donate" aria-label="Make a donation">
-    <ol class="stepper" data-stepper aria-label="Your progress">
-      <li class="is-current"><span class="stepper__dot" aria-hidden="true"></span>Gift</li>
-      <li><span class="stepper__dot" aria-hidden="true"></span>Amount</li>
-      <li><span class="stepper__dot" aria-hidden="true"></span>Your details</li>
-      <li><span class="stepper__dot" aria-hidden="true"></span>We email you</li>
-    </ol>
-
+  <section class="wrap donate" id="give" aria-label="Make a donation">
     <div class="donate__grid">
-      <div class="form-card">
-        <form class="form form--roomy" data-form data-donate data-subject="Donation pledge" data-ok-title="Thank you for your gift." data-ok=" We’ll email you within two working days with how to pay." data-autoresponse="Thank you for choosing to support Dunia Endelevu. We have received your pledge and will email you within two working days with how to pay. Thank you for helping a child be heard. The Dunia Endelevu team">
-          <fieldset>
-            <legend>What would you like to fund? <small class="legend-sub">Choose one or more.</small></legend>
+      <div class="form-card give-card">
+        <form class="form form--roomy" id="give-form" data-form data-donate data-subject="Donation pledge" data-ok-title="Thank you for your gift." data-ok=" We’ll email you within two working days with how to pay." data-autoresponse="Thank you for choosing to support Dunia Endelevu. We have received your pledge and will email you within two working days with how to pay. Thank you for helping a child be heard. The Dunia Endelevu team">
+          <fieldset class="give-step" data-give-step>
+            <legend><span class="give-num" aria-hidden="true">1</span>What would you like to fund? <small class="legend-sub">Choose one or more.</small></legend>
             <div class="field">
               <div class="choices">
                 <label class="choice"><input type="checkbox" name="fund" value="A child’s book" data-key="book" data-amount="50000" data-msg-missing="Please choose at least one."><span class="choice__body"><span class="choice__icon" aria-hidden="true">{{duo:book}}</span><strong>A child’s book</strong><small>KSh 50,000 publishes one book.</small></span></label>
@@ -39,8 +35,8 @@
             </div>
           </fieldset>
 
-          <fieldset>
-            <legend>How much?</legend>
+          <fieldset class="give-step" data-give-step>
+            <legend><span class="give-num" aria-hidden="true">2</span>How much would you like to give?</legend>
             <div class="field">
               <label class="amount-bar" for="d-amount"><span class="amount-bar__cur">KSh</span><input class="amount-bar__input" id="d-amount" type="text" name="amount" inputmode="numeric" autocomplete="off" pattern="0*[1-9][0-9,]*" placeholder="Any amount" required data-msg-pattern="Please enter an amount above zero." aria-label="Amount in Kenyan shillings" data-msg-missing="Please enter any amount." data-msg-min="Please enter an amount above zero."></label>
             </div>
@@ -54,17 +50,17 @@
             </div>
           </fieldset>
 
-          <fieldset>
-            <legend>How would you like to pay?</legend>
+          <fieldset class="give-step" data-give-step>
+            <legend><span class="give-num" aria-hidden="true">3</span>How would you like to pay? <small class="legend-sub">We email you the details. Nothing is charged here.</small></legend>
             <div class="paymethods">
-              <label class="paymethod"><input type="radio" name="pay_by" value="M-Pesa" checked><span>{{duo:payphone}}M-Pesa</span></label>
+              <label class="paymethod"><input type="radio" name="pay_by" value="Mobile money" checked><span>{{duo:payphone}}Mobile money</span></label>
               <label class="paymethod"><input type="radio" name="pay_by" value="Bank transfer"><span>{{duo:paybank}}Bank transfer</span></label>
               <label class="paymethod"><input type="radio" name="pay_by" value="Card"><span>{{duo:paycard}}Card</span></label>
             </div>
           </fieldset>
 
-          <fieldset>
-            <legend>Your details</legend>
+          <fieldset class="give-step" data-give-step>
+            <legend><span class="give-num" aria-hidden="true">4</span>Your details</legend>
             <div class="form-row">
               <label class="field" for="d-name"><span class="field__label">Full name <span class="hint">(optional)</span></span><input class="input" id="d-name" type="text" name="name" autocomplete="name"></label>
               <label class="field" for="d-email"><span class="field__label">Email</span><input class="input" id="d-email" type="email" name="email" autocomplete="email" required data-msg-missing="Please enter your email, so we can tell you how to pay."></label>
@@ -88,19 +84,18 @@
           <input type="hidden" name="currency" value="KES">
           <div class="stack" style="gap: 12px">
             <button class="btn btn--sun btn--block" type="submit"><span data-pay-label>Donate</span> {{arrow}}</button>
-            <p class="fine" style="text-align: center">We’ll email you how to pay. No payment is taken on this website.</p>
+            <p class="fine give-fine">{{icon:lock}}We’ll email you how to pay. No payment is taken on this website.</p>
           </div>
         </form>
       </div>
 
       <aside class="donate__side" aria-label="Your gift">
         <div class="summary" data-summary>
-          <figure class="summary__img"><picture><source type="image/webp" srcset="assets/img/photos/boy-portrait.webp"><img src="assets/img/photos/boy-portrait.jpg" alt="" width="568" height="720" loading="lazy"></picture></figure>
           <h2 class="h3">Your gift</h2>
           <ul class="summary__items" data-sum-items aria-live="polite"><li class="summary__empty">Choose what to fund.</li></ul>
           <dl class="summary__rows">
             <div><dt>Gifts chosen</dt><dd data-sum-count>0</dd></div>
-            <div><dt>Paying by</dt><dd data-sum-pay>M-Pesa</dd></div>
+            <div><dt>Paying by</dt><dd data-sum-pay>Mobile money</dd></div>
             <div><dt>Thanked as</dt><dd data-sum-credit>Anonymous</dd></div>
             <div class="summary__total"><dt>Total</dt><dd data-sum-total>KSh 0</dd></div>
           </dl>
@@ -118,6 +113,11 @@
       </aside>
     </div>
   </section>
+
+  <div class="give-bar" data-give-bar aria-hidden="true">
+    <div class="give-bar__total"><span>Your gift</span><strong data-sum-total>KSh 0</strong></div>
+    <button class="btn btn--sun btn--sm" type="submit" form="give-form" tabindex="-1">Donate {{arrow}}</button>
+  </div>
 
   <section class="wrap section" aria-labelledby="more-title">
     <div class="center-head">

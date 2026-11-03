@@ -52,8 +52,6 @@ def card(b, i=0):
 
 def shelf(books):
     cards = [card(b, i) for i, b in enumerate(books)]
-    cards.append('      <li class="reveal"><div class="book-card book-card--soon"><span class="book-card__cover">'
-                 '<span>More stories<br>are on the way</span></span></div></li>')
     return f'''<main id="main">
 
   <section class="wrap shelf-head" aria-labelledby="learn-title">
