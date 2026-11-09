@@ -42,7 +42,7 @@ KEYWORDS = ('Dunia Endelevu, Dunia Endelevu Kenya, youth-led climate incubator K
             'biodiversity for kids, climate action for kids, early warning for schools Kenya, air quality alerts schools, '
             'sponsor a child’s book Kenya, donate climate education Kenya, volunteer Nairobi children climate, '
             'dunia endelevu meaning sustainable world')
-UPDATED = '2026-11-03'
+UPDATED = '2026-11-09'
 
 PAGES = [
     # name, title, description, nav key, sitemap priority
@@ -175,6 +175,7 @@ def head(name, title, desc, ver, og=None, ld=None):
             'image': f'{SITE_URL}assets/img/og-image.png',
             'logo': f'{SITE_URL}assets/img/icon-512.png',
             'email': EMAIL,
+            'contactPoint': {'@type': 'ContactPoint', 'contactType': 'general enquiries', 'email': EMAIL, 'url': f'{SITE_URL}contact', 'availableLanguage': ['English', 'Swahili']},
             'description': 'A youth-led climate incubator in Kenya that helps children publish books, speak on a podcast and take the stage at environmental events.',
             'address': {'@type': 'PostalAddress', 'addressLocality': 'Nairobi', 'addressCountry': 'KE'},
             'areaServed': {'@type': 'Country', 'name': 'Kenya'},
@@ -215,6 +216,10 @@ def head(name, title, desc, ver, og=None, ld=None):
 <meta property="og:image:alt" content="{og['alt']}">
 <meta property="og:locale" content="en_KE">
 <meta name="twitter:card" content="{card}">
+<meta name="twitter:title" content="{og_title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{SITE_URL}{og['image']}">
+<meta name="twitter:image:alt" content="{og['alt']}">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -478,7 +483,7 @@ def llms_txt(full=False):
         '- Who it is for: children under 18, with written consent from a parent or guardian',
         '- Cost to families: free; donors and sponsors cover every cost',
         '- Three tracks: Storyteller (publish a climate book), Voice (co-host the podcast Climate Gumzo), Diplomat (speak at real events)',
-        '- For schools: early warning alerts for unhealthy air, heat and heavy rain, now in pilot',
+        '- For schools: early warning alerts for unhealthy air, heat and heavy rain, now in pilot. Live dashboard: https://alerts.duniaendelevu.org (about the pilot: https://alerts.duniaendelevu.org/about)',
         f'- Free storybooks for children aged 6 to 10 on climate change, biodiversity, climate justice, climate action and environmental rights',
         f'- Podcast: Climate Gumzo, {SPOTIFY_SHOW}',
         f'- Contact: {EMAIL}',
