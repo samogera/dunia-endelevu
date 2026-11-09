@@ -18,7 +18,7 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 
 ## Where it lives
 
-Live at **https://duniaendelevu.org**, hosted on Vercel from this repository: every push to `main` goes live. The domain is registered at GoDaddy, with an A record `@ → 216.198.79.1` and a CNAME `www → cname.vercel-dns.com`. Visits to `www.duniaendelevu.org` and `dunia-endelevu.vercel.app` are sent to `duniaendelevu.org` (see `vercel.json`).
+Live at **https://duniaendelevu.org**, hosted on Vercel from this repository: every push to `main` goes live. The domain is registered at GoDaddy, with an A record `@ → 216.198.79.1` and a CNAME `www → cname.vercel-dns.com`. Visits to `dunia-endelevu.vercel.app` are sent to `duniaendelevu.org` (see `vercel.json`); Vercel's domain settings send `www.duniaendelevu.org` there too.
 
 ## Put it online with GitHub Pages (alternative)
 
