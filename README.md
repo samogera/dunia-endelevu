@@ -16,7 +16,11 @@ It is a fast, dependency-free static site: plain HTML, one stylesheet and one sm
 | `privacy.html`, `terms.html`, `cookies.html` | Legal pages |
 | `404.html` | Page not found |
 
-## Put it online with GitHub Pages
+## Where it lives
+
+Live at **https://duniaendelevu.org**, hosted on Vercel from this repository: every push to `main` goes live. The domain is registered at GoDaddy, with an A record `@ → 216.198.79.1` and a CNAME `www → cname.vercel-dns.com`. Visits to `www.duniaendelevu.org` and `dunia-endelevu.vercel.app` are sent to `duniaendelevu.org` (see `vercel.json`).
+
+## Put it online with GitHub Pages (alternative)
 
 1. On GitHub, open **Settings → Pages**.
 2. Under **Build and deployment**, choose **Deploy from a branch**, then branch **main** and folder **/ (root)**. Save.

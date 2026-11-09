@@ -69,4 +69,4 @@ User-agent: CCBot
 Allow: /
 Disallow: /src/
 
-Sitemap: https://dunia-endelevu.vercel.app/sitemap.xml
+Sitemap: https://duniaendelevu.org/sitemap.xml

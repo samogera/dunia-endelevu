@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url><loc>https://dunia-endelevu.vercel.app/</loc><lastmod>2026-11-03</lastmod><priority>1.0</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/about</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/programs</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/learn</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/story-baraka</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://dunia-endelevu.vercel.app/assets/books/baraka/cover.jpg</image:loc></image:image></url>
-  <url><loc>https://dunia-endelevu.vercel.app/story-kobe</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://dunia-endelevu.vercel.app/assets/books/kobe/cover.jpg</image:loc></image:image></url>
-  <url><loc>https://dunia-endelevu.vercel.app/story-babu</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://dunia-endelevu.vercel.app/assets/books/babu/cover.jpg</image:loc></image:image></url>
-  <url><loc>https://dunia-endelevu.vercel.app/story-little-steps</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://dunia-endelevu.vercel.app/assets/books/little-steps/cover.jpg</image:loc></image:image></url>
-  <url><loc>https://dunia-endelevu.vercel.app/story-imani</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://dunia-endelevu.vercel.app/assets/books/imani/cover.jpg</image:loc></image:image></url>
-  <url><loc>https://dunia-endelevu.vercel.app/donate</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/contact</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/privacy</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/terms</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
-  <url><loc>https://dunia-endelevu.vercel.app/cookies</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
+  <url><loc>https://duniaendelevu.org/</loc><lastmod>2026-11-03</lastmod><priority>1.0</priority></url>
+  <url><loc>https://duniaendelevu.org/about</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://duniaendelevu.org/programs</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
+  <url><loc>https://duniaendelevu.org/learn</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
+  <url><loc>https://duniaendelevu.org/story-baraka</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://duniaendelevu.org/assets/books/baraka/cover.jpg</image:loc></image:image></url>
+  <url><loc>https://duniaendelevu.org/story-kobe</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://duniaendelevu.org/assets/books/kobe/cover.jpg</image:loc></image:image></url>
+  <url><loc>https://duniaendelevu.org/story-babu</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://duniaendelevu.org/assets/books/babu/cover.jpg</image:loc></image:image></url>
+  <url><loc>https://duniaendelevu.org/story-little-steps</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://duniaendelevu.org/assets/books/little-steps/cover.jpg</image:loc></image:image></url>
+  <url><loc>https://duniaendelevu.org/story-imani</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority><image:image><image:loc>https://duniaendelevu.org/assets/books/imani/cover.jpg</image:loc></image:image></url>
+  <url><loc>https://duniaendelevu.org/donate</loc><lastmod>2026-11-03</lastmod><priority>0.9</priority></url>
+  <url><loc>https://duniaendelevu.org/contact</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://duniaendelevu.org/privacy</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
+  <url><loc>https://duniaendelevu.org/terms</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
+  <url><loc>https://duniaendelevu.org/cookies</loc><lastmod>2026-11-03</lastmod><priority>0.3</priority></url>
 </urlset>

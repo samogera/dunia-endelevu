@@ -19,7 +19,7 @@ SRC = ROOT / 'src'
 
 # Change these two lines when the site moves to its own domain,
 # e.g. SITE_URL = 'https://duniaendelevu.org/' and BASE_PATH = '/'.
-SITE_URL = 'https://dunia-endelevu.vercel.app/'
+SITE_URL = 'https://duniaendelevu.org/'
 BASE_PATH = '/'
 
 EMAIL = 'hello@duniaendelevu.org'
