@@ -109,11 +109,11 @@ def asset_version():
 
 
 NAV = [
-    ('about', 'about.html', 'About'),
-    ('programs', 'programs.html', 'Programmes'),
-    ('learn', 'learn.html', 'Learn'),
-    ('donate', 'donate.html', 'Donate'),
-    ('contact', 'contact.html', 'Contact'),
+    ('about', '/about', 'About'),
+    ('programs', '/programs', 'Programmes'),
+    ('learn', '/learn', 'Learn'),
+    ('donate', '/donate', 'Donate'),
+    ('contact', '/contact', 'Contact'),
 ]
 
 ARROW = ('<svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
@@ -142,7 +142,7 @@ def sticker(text, core, variant='ink', cls=''):
 
 
 def nav_links(active, home=False):
-    items = ([('index', 'index.html', 'Home')] if home else []) + NAV
+    items = ([('index', '/', 'Home')] if home else []) + NAV
     out = []
     for key, href, label in items:
         cur = ' aria-current="page"' if key == active else ''
@@ -151,7 +151,7 @@ def nav_links(active, home=False):
 
 
 def head(name, title, desc, ver, og=None, ld=None):
-    url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
+    url = SITE_URL if name == 'index' else f'{SITE_URL}{name}'
     base = f'\n<base href="{BASE_PATH}">' if name == '404' else ''
     robots = ('\n<meta name="robots" content="noindex">' if name == '404' else
               '\n<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">')
@@ -181,7 +181,7 @@ def head(name, title, desc, ver, og=None, ld=None):
             'knowsAbout': ['Climate change education for children', 'Children’s climate storybooks', 'Youth climate advocacy',
                            'Biodiversity', 'Climate justice', 'Environmental rights'],
             'founder': {'@type': 'Person', 'name': 'Alana Chelangat', 'url': ALANA_SITE,
-                        'description': 'Kenyan climate justice advocate, author and podcaster; Little Miss Environment Kenya 2025.'},
+                        'description': 'Kenyan climate advocate, author and podcaster; Little Miss Environment Kenya 2025.'},
             'foundingLocation': {'@type': 'Place', 'name': 'Nairobi, Kenya'},
             'nonprofitStatus': 'Nonprofit',
             'sameAs': [SPOTIFY_SHOW, ALANA_SITE],
@@ -237,14 +237,14 @@ def header(active):
 <header class="site-header">
   <div class="wrap">
     <div class="site-header__inner">
-      <a class="brand" href="index.html" aria-label="Dunia Endelevu, home">
+      <a class="brand" href="/" aria-label="Dunia Endelevu, home">
         {mark(w=31, h=38)}
         {wordmark(19)}
       </a>
       <nav class="nav" aria-label="Main">
         {nav_links(active)}
       </nav>
-      <a class="btn btn--sun btn--sm header-cta" href="contact.html#apply">Join us {ARROW}</a>
+      <a class="btn btn--sun btn--sm header-cta" href="/contact#apply">Join us {ARROW}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
         <span class="menu-toggle__label">Menu</span><span class="menu-toggle__icon" aria-hidden="true"></span>
       </button>
@@ -256,8 +256,8 @@ def header(active):
         {nav_links(active, home=True)}
   </nav>
   <div class="mobile-menu__foot">
-    <a class="btn btn--sun" href="contact.html#apply">Apply for a child {ARROW}</a>
-    <a class="btn btn--light" href="donate.html">Donate</a>
+    <a class="btn btn--sun" href="/contact#apply">Apply for a child {ARROW}</a>
+    <a class="btn btn--light" href="/donate">Donate</a>
     <a class="fine" href="mailto:{EMAIL}">{EMAIL}</a>
   </div>
 </div>'''
@@ -355,21 +355,21 @@ def footer(name):
     <div class="footer-top">
       <nav class="footer-nav" aria-labelledby="f-menu-{name}">
         <h2 id="f-menu-{name}">Menu</h2>
-        <a href="about.html">About us</a>
-        <a href="programs.html">Programmes</a>
-        <a href="learn.html">Learn</a>
-        <a href="donate.html">Donate</a>
+        <a href="/about">About us</a>
+        <a href="/programs">Programmes</a>
+        <a href="/learn">Learn</a>
+        <a href="/donate">Donate</a>
       </nav>
       <nav class="footer-nav" aria-labelledby="f-help-{name}">
         <h2 id="f-help-{name}">Get involved</h2>
-        <a href="contact.html#apply">Apply for a child</a>
-        <a href="about.html#volunteer">Volunteer</a>
-        <a href="donate.html?for=book">Sponsor a book</a>
+        <a href="/contact#apply">Apply for a child</a>
+        <a href="/about#volunteer">Volunteer</a>
+        <a href="/donate?for=book">Sponsor a book</a>
       </nav>
       <div class="footer-nav">
         <h2>Contact</h2>
         <a href="mailto:{EMAIL}">{EMAIL}</a>
-        <a href="contact.html">Send a message</a>
+        <a href="/contact">Send a message</a>
         <span>Nairobi, Kenya</span>
       </div>
     </div>
@@ -377,9 +377,9 @@ def footer(name):
       <span>© <span data-year>2026</span> Dunia Endelevu</span>
       <div class="footer-bottom__end">
         <nav class="footer-legal" aria-label="Legal">
-          {legal('privacy.html', 'Privacy Policy', 'privacy')}
-          {legal('terms.html', 'Terms', 'terms')}
-          {legal('cookies.html', 'Cookies', 'cookies')}
+          {legal('/privacy', 'Privacy Policy', 'privacy')}
+          {legal('/terms', 'Terms', 'terms')}
+          {legal('/cookies', 'Cookies', 'cookies')}
         </nav>
         <div class="footer-social" aria-label="Social media">
           {social_links()}
@@ -434,10 +434,10 @@ def faq_ld(body):
 
 
 PROGRAMMES = [
-    ('Storyteller', 'programs.html#storyteller', 'Children write, illustrate and publish their own climate book, with workshops, editing and a launch.'),
-    ('Voice', 'programs.html#voice', 'Children research, script and co-host episodes of Climate Gumzo, our climate podcast for young listeners.'),
-    ('Diplomat', 'programs.html#diplomat', 'Children train to speak at real conferences, climate summits and panels.'),
-    ('Early warning for schools (pilot)', 'programs.html#early-warning',
+    ('Storyteller', 'programs#storyteller', 'Children write, illustrate and publish their own climate book, with workshops, editing and a launch.'),
+    ('Voice', 'programs#voice', 'Children research, script and co-host episodes of Climate Gumzo, our climate podcast for young listeners.'),
+    ('Diplomat', 'programs#diplomat', 'Children train to speak at real conferences, climate summits and panels.'),
+    ('Early warning for schools (pilot)', 'programs#early-warning',
      'Alerts that warn schools about unhealthy air, heat and heavy rain, with a suggested step for each school. Now in pilot.'),
 ]
 
@@ -472,7 +472,7 @@ def llms_txt(full=False):
         f'founded by Alana Chelangat. It helps children under 18 write, speak and lead on climate, free for every family. '
         f'Slogan: "{SLOGAN}"', '',
         'Key facts:', '',
-        '- Founded by: Alana Chelangat, Kenyan climate justice advocate, author and podcaster; Little Miss Environment Kenya 2025',
+        '- Founded by: Alana Chelangat, Kenyan climate advocate, author and podcaster; Little Miss Environment Kenya 2025',
         f'- Founder’s website: {ALANA_SITE}',
         '- Based in: Nairobi, Kenya',
         '- Who it is for: children under 18, with written consent from a parent or guardian',
@@ -487,11 +487,11 @@ def llms_txt(full=False):
     for name, title, desc, _, prio in PAGES:
         if prio is None or name.startswith('story-'):
             continue
-        url = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
+        url = SITE_URL if name == 'index' else f'{SITE_URL}{name}'
         out.append(f'- [{title.split(" · ")[0]}]({url}): {desc}')
     out += ['', '## Storybooks', '']
     for bk in BOOKS:
-        out.append(f'- [{bk["title"]}]({SITE_URL}story-{bk["slug"]}.html): {bk["topic"]}, ages {bk["ages"]}. {bk.get("summary", "")}')
+        out.append(f'- [{bk["title"]}]({SITE_URL}story-{bk["slug"]}): {bk["topic"]}, ages {bk["ages"]}. {bk.get("summary", "")}')
     if full:
         for bk in BOOKS:
             out += ['', f'## {bk["title"]}', '', f'Topic: {bk["topic"]}. Ages {bk["ages"]}. By Dunia Endelevu.', '',
@@ -527,7 +527,7 @@ def build():
     for name, _, _, _, prio in PAGES:
         if prio is None:
             continue
-        loc = SITE_URL if name == 'index' else f'{SITE_URL}{name}.html'
+        loc = SITE_URL if name == 'index' else f'{SITE_URL}{name}'
         img = ''
         if name in by_page:
             img = f'<image:image><image:loc>{SITE_URL}assets/books/{by_page[name]["slug"]}/cover.jpg</image:loc></image:image>'

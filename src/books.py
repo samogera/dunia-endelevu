@@ -31,13 +31,13 @@ def describe(b):
 def shelf_ld(books, site):
     return {
         '@context': 'https://schema.org', '@type': 'ItemList', 'name': 'Free climate storybooks for children',
-        'itemListElement': [{'@type': 'ListItem', 'position': i, 'url': f'{site}story-{b["slug"]}.html', 'name': b['title']}
+        'itemListElement': [{'@type': 'ListItem', 'position': i, 'url': f'{site}story-{b["slug"]}', 'name': b['title']}
                             for i, b in enumerate(books, start=1)],
     }
 
 
 def book_ld(b, site):
-    url = f'{site}story-{b["slug"]}.html'
+    url = f'{site}story-{b["slug"]}'
     org = {'@type': 'Organization', 'name': 'Dunia Endelevu', 'url': site}
     lo, hi = (int(n) for n in re.findall(r'\d+', b['ages'])[:2])
     book = {
@@ -51,7 +51,7 @@ def book_ld(b, site):
     crumbs = {
         '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': site},
-            {'@type': 'ListItem', 'position': 2, 'name': 'Storybooks', 'item': f'{site}learn.html'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'Storybooks', 'item': f'{site}learn'},
             {'@type': 'ListItem', 'position': 3, 'name': b['title'], 'item': url},
         ]}
     return [book, crumbs]
@@ -83,7 +83,7 @@ def _pic(src, alt, w, h, lazy=True, cls=''):
 
 def card(b, i=0):
     d = f' reveal-d{i % 3}' if i % 3 else ''
-    return (f'      <li class="reveal{d}"><a class="book-card" href="story-{b["slug"]}.html">'
+    return (f'      <li class="reveal{d}"><a class="book-card" href="/story-{b["slug"]}">'
             f'<span class="book-card__cover">{_pic(f"assets/books/{b["slug"]}/cover", b["cover_alt"], *cover_size(b), lazy=i > 3)}</span>'
             f'<span class="book-card__topic">{escape(b["topic"])}</span>'
             f'<span class="book-card__title">{escape(b["title"])}</span></a></li>')
@@ -166,7 +166,7 @@ def book_page(b, books=()):
   </section>
 {more}
   <section class="wrap book-foot">
-    <p class="book-back"><a class="more" href="learn.html"><span class="arrow arrow--back">{{{{arrow}}}}</span> All storybooks</a></p>
+    <p class="book-back"><a class="more" href="/learn"><span class="arrow arrow--back">{{{{arrow}}}}</span> All storybooks</a></p>
   </section>
 
 </main>

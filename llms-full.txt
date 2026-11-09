@@ -4,7 +4,7 @@
 
 Key facts:
 
-- Founded by: Alana Chelangat, Kenyan climate justice advocate, author and podcaster; Little Miss Environment Kenya 2025
+- Founded by: Alana Chelangat, Kenyan climate advocate, author and podcaster; Little Miss Environment Kenya 2025
 - Founder’s website: https://alanachelangat.com/
 - Based in: Nairobi, Kenya
 - Who it is for: children under 18, with written consent from a parent or guardian
@@ -19,22 +19,22 @@ Key facts:
 ## Pages
 
 - [Dunia Endelevu](https://dunia-endelevu.vercel.app/): Dunia Endelevu helps children in Kenya publish climate books, speak on our podcast Climate Gumzo and take the stage at events. Free for every family.
-- [About us](https://dunia-endelevu.vercel.app/about.html): Dunia Endelevu is a youth-led climate incubator in Kenya, founded by Alana Chelangat. Our story, our safeguarding promise and how to volunteer.
-- [Free climate programmes for children in Kenya](https://dunia-endelevu.vercel.app/programs.html): Three free tracks for children under 18: publish a climate book, speak on our podcast or take the stage at real events. Plus early warning alerts for schools, now in pilot.
-- [Climate storybooks for children](https://dunia-endelevu.vercel.app/learn.html): Illustrated storybooks that help children aged 6 to 10 learn about climate change, biodiversity, climate justice, climate action and environmental rights.
-- [Donate](https://dunia-endelevu.vercel.app/donate.html): Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.
-- [Apply for your child or contact us](https://dunia-endelevu.vercel.app/contact.html): Parents and guardians can apply for a child under 18. Schools, partners and press can send an enquiry. We reply within three working days.
-- [Privacy Policy](https://dunia-endelevu.vercel.app/privacy.html): How Dunia Endelevu collects, uses and protects personal information, especially information about children, under Kenya’s Data Protection Act, 2019.
-- [Terms of Service](https://dunia-endelevu.vercel.app/terms.html): The rules for using the Dunia Endelevu website and taking part in, or supporting, our programmes.
-- [Cookie Policy](https://dunia-endelevu.vercel.app/cookies.html): Dunia Endelevu does not use advertising or tracking cookies. Here is exactly what the website does and does not store.
+- [About us](https://dunia-endelevu.vercel.app/about): Dunia Endelevu is a youth-led climate incubator in Kenya, founded by Alana Chelangat. Our story, our safeguarding promise and how to volunteer.
+- [Free climate programmes for children in Kenya](https://dunia-endelevu.vercel.app/programs): Three free tracks for children under 18: publish a climate book, speak on our podcast or take the stage at real events. Plus early warning alerts for schools, now in pilot.
+- [Climate storybooks for children](https://dunia-endelevu.vercel.app/learn): Illustrated storybooks that help children aged 6 to 10 learn about climate change, biodiversity, climate justice, climate action and environmental rights.
+- [Donate](https://dunia-endelevu.vercel.app/donate): Sponsor a child’s book, a podcast episode or a seat at a climate event. Every gift keeps Dunia Endelevu free for children in Kenya.
+- [Apply for your child or contact us](https://dunia-endelevu.vercel.app/contact): Parents and guardians can apply for a child under 18. Schools, partners and press can send an enquiry. We reply within three working days.
+- [Privacy Policy](https://dunia-endelevu.vercel.app/privacy): How Dunia Endelevu collects, uses and protects personal information, especially information about children, under Kenya’s Data Protection Act, 2019.
+- [Terms of Service](https://dunia-endelevu.vercel.app/terms): The rules for using the Dunia Endelevu website and taking part in, or supporting, our programmes.
+- [Cookie Policy](https://dunia-endelevu.vercel.app/cookies): Dunia Endelevu does not use advertising or tracking cookies. Here is exactly what the website does and does not store.
 
 ## Storybooks
 
-- [Baraka and the Warm Blanket](https://dunia-endelevu.vercel.app/story-baraka.html): Climate change, ages 6 to 10. It’s getting hotter on Shosho’s farm, and Baraka wants to know why. Kinyonga, a chameleon who turns orange when he’s too hot, takes him high above the clouds to see the warm blanket of air around our Earth, and what we can do to keep it just right.
-- [Kobe and the Web of Life](https://dunia-endelevu.vercel.app/story-kobe.html): Biodiversity, ages 6 to 10. There are no bees in the school garden, and Amani wants to know why. Kobe, a wise old leopard tortoise, shows her and Otieno the glowing web that joins every living thing, then flies them over Kenya’s wild places to see why each thread matters.
-- [Is It Fair, Babu?](https://dunia-endelevu.vercel.app/story-babu.html): Climate justice, ages 6 to 10. When another class uses up all the water in the school tank, Wanjiru cries, “That is just not fair!” Her grandfather Babu helps her see that the air around our Earth is shared in the same way, and why climate change hurts most the people who did least to cause it.
-- [The Little Steps Club](https://dunia-endelevu.vercel.app/story-little-steps.html): Climate action, ages 6 to 10. Kip thinks children are too small to do anything about something as big as climate change. Leila points to a weaver bird building its nest one blade of grass at a time, and starts a club to show how little steps add up to something huge.
-- [Imani and the River Promise](https://dunia-endelevu.vercel.app/story-imani.html): Environmental rights, ages 6 to 10. Plastic is choking the river on the way to school, and Imani and her cousin Juma want to know who can fix it. Auntie Halima shows them that a clean, healthy environment is every child’s right, and that rights come with duties too.
+- [Baraka and the Warm Blanket](https://dunia-endelevu.vercel.app/story-baraka): Climate change, ages 6 to 10. It’s getting hotter on Shosho’s farm, and Baraka wants to know why. Kinyonga, a chameleon who turns orange when he’s too hot, takes him high above the clouds to see the warm blanket of air around our Earth, and what we can do to keep it just right.
+- [Kobe and the Web of Life](https://dunia-endelevu.vercel.app/story-kobe): Biodiversity, ages 6 to 10. There are no bees in the school garden, and Amani wants to know why. Kobe, a wise old leopard tortoise, shows her and Otieno the glowing web that joins every living thing, then flies them over Kenya’s wild places to see why each thread matters.
+- [Is It Fair, Babu?](https://dunia-endelevu.vercel.app/story-babu): Climate justice, ages 6 to 10. When another class uses up all the water in the school tank, Wanjiru cries, “That is just not fair!” Her grandfather Babu helps her see that the air around our Earth is shared in the same way, and why climate change hurts most the people who did least to cause it.
+- [The Little Steps Club](https://dunia-endelevu.vercel.app/story-little-steps): Climate action, ages 6 to 10. Kip thinks children are too small to do anything about something as big as climate change. Leila points to a weaver bird building its nest one blade of grass at a time, and starts a club to show how little steps add up to something huge.
+- [Imani and the River Promise](https://dunia-endelevu.vercel.app/story-imani): Environmental rights, ages 6 to 10. Plastic is choking the river on the way to school, and Imani and her cousin Juma want to know who can fix it. Auntie Halima shows them that a clean, healthy environment is every child’s right, and that rights come with duties too.
 
 ## Baraka and the Warm Blanket
 
