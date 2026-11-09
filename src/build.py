@@ -11,6 +11,7 @@ import hashlib
 import json
 import pathlib
 import re
+import sys
 
 import books as booklib
 
@@ -106,6 +107,44 @@ def asset_version():
     for p in ('assets/css/site.css', 'assets/js/site.js'):
         h.update((ROOT / p).read_bytes())
     return h.hexdigest()[:8]
+
+
+def minify_assets():
+    """Write assets/css/site.min.css and assets/js/site.min.js, the files pages load.
+    Edit site.css and site.js; the .min files are generated. Needs: pip install rcssmin rjsmin"""
+    try:
+        import rcssmin
+        import rjsmin
+    except ImportError:
+        sys.exit('Minifiers missing: pip install rcssmin rjsmin')
+    css = (ROOT / 'assets/css/site.css').read_text()
+    js = (ROOT / 'assets/js/site.js').read_text()
+    (ROOT / 'assets/css/site.min.css').write_text(rcssmin.cssmin(css) + '\n')
+    (ROOT / 'assets/js/site.min.js').write_text(rjsmin.jsmin(js) + '\n')
+
+
+def presplit(html):
+    """Split headlines marked .split into word spans at build time, so the headline paints
+    as soon as the CSS arrives instead of waiting for JavaScript (faster LCP)."""
+    def one(m):
+        attrs, inner = m.group(1), m.group(2)
+        i = 0
+        out = []
+        for part in re.split(r'(<[^>]+>)', inner):
+            if not part or part.startswith('<'):
+                out.append(part)
+                continue
+            for tok in re.split(r'(\s+)', part):
+                if not tok:
+                    continue
+                if tok.isspace():
+                    out.append(tok)
+                else:
+                    out.append(f'<span class="w"><span style="--i:{i}">{tok}</span></span>')
+                    i += 1
+        attrs = re.sub(r'class="([^"]*\bsplit\b[^"]*)"', r'class="\1 is-split"', attrs, count=1)
+        return f'<h1{attrs}>{"".join(out)}</h1>'
+    return re.sub(r'<h1((?:\s[^>]*)?\sclass="[^"]*\bsplit\b[^"]*"[^>]*)>(.*?)</h1>', one, html, flags=re.S)
 
 
 NAV = [
@@ -227,9 +266,9 @@ def head(name, title, desc, ver, og=None, ld=None):
 <link rel="alternate" type="text/plain" href="llms.txt" title="Plain-text summary for AI assistants">
 <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v={ver}">
+<link rel="stylesheet" href="assets/css/site.min.css?v={ver}">
 <script>document.documentElement.className=document.documentElement.className.replace('no-js','js');</script>
-<script src="assets/js/site.js?v={ver}" defer></script>
+<script src="assets/js/site.min.js?v={ver}" defer></script>
 <script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
 <script defer src="/_vercel/insights/script.js"></script>{jsonld}
 </head>'''
@@ -508,6 +547,7 @@ def llms_txt(full=False):
 
 
 def build():
+    minify_assets()
     ver = asset_version()
     by_page = {f'story-{b["slug"]}': b for b in BOOKS}
     for name, title, desc, nav, _ in PAGES:
@@ -526,7 +566,7 @@ def build():
             if name == 'programs':
                 ld = (ld or []) + [programmes_ld()]
         body = expand(body)
-        html = '\n'.join([head(name, title, desc, ver, og, ld), header(nav), body.strip(), footer(name)])
+        html = '\n'.join([head(name, title, desc, ver, og, ld), header(nav), presplit(body.strip()), footer(name)])
         (ROOT / f'{name}.html').write_text(html)
     urls = []
     for name, _, _, _, prio in PAGES:

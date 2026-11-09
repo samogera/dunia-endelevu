@@ -60,7 +60,7 @@
   }
 
   /* ---------- Headlines: words rise in one by one ---------- */
-  document.querySelectorAll('.split').forEach(function (el) {
+  document.querySelectorAll('.split:not(.is-split)').forEach(function (el) {
     if (!reduceMotion) {
       var i = 0;
       (function walk(node) {

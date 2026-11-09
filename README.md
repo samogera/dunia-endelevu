@@ -47,7 +47,7 @@ The finished pages are generated, so edit the sources and rebuild:
 - `src/pages/*.html` holds the main content of each page.
 - `src/build.py` holds the shared parts: the `<head>`, header, mobile menu and footer, plus page titles and descriptions.
 - `src/art/*.svg` holds the illustrations.
-- `assets/css/site.css` and `assets/js/site.js` hold all styling and behaviour.
+- `assets/css/site.css` and `assets/js/site.js` hold all styling and behaviour. The pages load minified copies (`site.min.css`, `site.min.js`), which the build writes; never edit those.
 
 Then run:
 
@@ -55,11 +55,13 @@ Then run:
 python3 src/build.py
 ```
 
-This rewrites the `.html` pages at the root, plus `sitemap.xml` and `robots.txt`. It needs only Python 3, with no packages to install.
+This rewrites the `.html` pages at the root, the minified CSS and JavaScript, `sitemap.xml`, `robots.txt` and the `llms.txt` files. It needs Python 3 and two small minifiers: `pip install rcssmin rjsmin`.
+
+Headlines with the `split` class are split into words at build time, so they show as soon as the CSS arrives; the words still rise in one by one.
 
 ### Use your own domain
 
-In `src/build.py`, set `SITE_URL` (for example `https://duniaendelevu.org/`) and `BASE_PATH` (`/`), then rebuild. Add the domain under **Settings → Pages → Custom domain**.
+The site already uses `https://duniaendelevu.org/` (`SITE_URL` in `src/build.py`). To move it, change `SITE_URL`, rebuild, and add the new domain in the Vercel project's **Domains** settings.
 
 ### Replace an illustration with a photo
 
