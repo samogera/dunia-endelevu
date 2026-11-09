@@ -24,7 +24,7 @@ BASE_PATH = '/'
 
 EMAIL = 'hello@duniaendelevu.org'
 SPOTIFY_SHOW = 'https://open.spotify.com/show/2kU7BcWISSFWf1rI8klQaq'
-ALANA_SITE = 'https://alanachelangat.vercel.app/'
+ALANA_SITE = 'https://alanachelangat.com/'
 SLOGAN = 'Young voices for a sustainable world.'
 
 # Search engine verification: paste the code Google Search Console or Bing Webmaster Tools gives you
