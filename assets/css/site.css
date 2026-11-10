@@ -956,10 +956,35 @@ html.js .flip.is-ready .flip__progress { display: block; max-width: 220px; heigh
 .footer-legal a:hover, .footer-legal a[aria-current="page"] { color: var(--sun); }
 .footer-social { display: flex; gap: 8px; }
 .footer-social { flex-wrap: wrap; }
-.footer-social a, .footer-social span { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .22); display: inline-flex; align-items: center; justify-content: center; transition: background-color .2s, border-color .2s, color .2s; }
-.footer-social a:hover { background: var(--sun); border-color: var(--sun); color: var(--ink); }
-.footer-social svg { width: 17px; height: 17px; }
-.footer-social .is-soon { cursor: default; }
+.footer-social a, .menu-social a { width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16); color: #fff; display: inline-flex; align-items: center; justify-content: center; transition: background-color .2s, box-shadow .2s, color .2s, transform .2s; }
+.footer-social a:hover, .menu-social a:hover { background: var(--sun); box-shadow: inset 0 0 0 1px var(--sun); color: var(--ink); transform: translateY(-2px); }
+.footer-social a:focus-visible, .menu-social a:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
+.brand-ico { width: 18px; height: 18px; display: block; }
+.menu-social { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+
+/* Contact page: follow us */
+.social-card { padding: 22px 20px 20px; border-radius: var(--r); background: var(--card); }
+.social-card__title { margin: 0; font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
+.social-card__sub { margin: 4px 0 16px; font-size: 14.5px; color: var(--muted); }
+.social-card__sub strong { color: var(--ink); font-weight: 600; }
+.social-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.social-tile { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 10px; border-radius: 14px; text-decoration: none; color: var(--ink); background: var(--bg); transition: background-color .2s, transform .2s; }
+.social-tile:hover { background: var(--bg-deep); transform: translateY(-1px); }
+.social-tile:focus-visible { outline: 2px solid var(--leaf); outline-offset: 2px; }
+.social-tile__text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.social-tile__text strong { font-size: 14.5px; font-weight: 600; }
+.social-tile__text span { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.social-badge { flex: none; width: 38px; height: 38px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; color: #fff; }
+.social-badge .brand-ico { width: 19px; height: 19px; }
+.social-badge--instagram { background: radial-gradient(circle at 30% 107%, #FDF497 0%, #FDF497 5%, #FD5949 45%, #D6249F 60%, #285AEB 90%); }
+.social-badge--tiktok { background: #000; }
+.social-badge--x { background: #000; }
+.social-badge--linkedin { background: #0A66C2; }
+.social-badge--facebook { background: #0866FF; }
+.social-badge--youtube { background: #FF0000; }
+.social-badge--mail { background: var(--evergreen); }
+.social-grid li:last-child { grid-column: 1 / -1; }
+@media (max-width: 560px) { .social-tile__handle { display: none; } }
 .footer-giant { margin-top: clamp(4px, 1.5vw, 16px); }
 .footer-giant img { display: block; width: 100%; height: auto; }
 @media (max-width: 560px) {
@@ -993,7 +1018,7 @@ html.js .gallery__item:nth-child(1) { animation-delay: .5s; } html.js .gallery__
 
 /* ---------- Print ---------- */
 @media print {
-  .site-header, .mobile-menu, .skip-link, .toc, .car-nav, .footer-giant, .footer-social { display: none !important; }
+  .site-header, .mobile-menu, .skip-link, .toc, .car-nav, .footer-giant, .footer-social, .social-card { display: none !important; }
   .site-footer { background: none; color: var(--ink); }
   body { background: #fff; font-size: 12pt; }
   .legal { display: block; }

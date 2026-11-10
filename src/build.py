@@ -14,6 +14,7 @@ import re
 import sys
 
 import books as booklib
+from social_icons import BRAND_ICONS
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
@@ -224,7 +225,7 @@ def head(name, title, desc, ver, og=None, ld=None):
                         'description': 'Kenyan climate advocate, author and podcaster; Little Miss Environment Kenya 2025.'},
             'foundingLocation': {'@type': 'Place', 'name': 'Nairobi, Kenya'},
             'nonprofitStatus': 'Nonprofit',
-            'sameAs': [SPOTIFY_SHOW, ALANA_SITE],
+            'sameAs': SOCIAL_URLS,
         }
         site = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Dunia Endelevu', 'url': SITE_URL, 'inLanguage': 'en-KE'}
         blocks = [data, site] + blocks
@@ -303,6 +304,9 @@ def header(active):
     <a class="btn btn--sun" href="/contact#apply">Apply for a child {ARROW}</a>
     <a class="btn btn--light" href="/donate">Donate</a>
     <a class="fine" href="mailto:{EMAIL}">{EMAIL}</a>
+    <div class="menu-social" aria-label="Dunia Endelevu on social media">
+          {social_links(mail=False)}
+    </div>
   </div>
 </div>'''
 
@@ -365,29 +369,45 @@ def duo(name):
     return f'<svg class="duo" viewBox="0 0 48 48" aria-hidden="true">{_DUO[name]}</svg>'
 
 
-# Social profiles for the footer. Paste a full link (https://...) to switch an icon on.
-# Icons without a link are shown, but are not clickable until a link is added.
+# Social profiles. Every account uses the same username, @duniaendelevu.
+HANDLE = 'duniaendelevu'
 SOCIAL = [
-    ('Instagram', 'instagram', ''),
-    ('TikTok', 'tiktok', ''),
-    ('X', 'x', ''),
-    ('Facebook', 'facebook', ''),
-    ('LinkedIn', 'linkedin', ''),
-    ('YouTube', 'youtube', ''),
-    ('Spotify', 'spotify', SPOTIFY_SHOW),
+    ('Instagram', 'instagram', f'https://www.instagram.com/{HANDLE}/'),
+    ('TikTok', 'tiktok', f'https://www.tiktok.com/@{HANDLE}'),
+    ('X', 'x', f'https://x.com/{HANDLE}'),
+    ('LinkedIn', 'linkedin', f'https://www.linkedin.com/company/{HANDLE}/'),
+    ('Facebook', 'facebook', f'https://www.facebook.com/{HANDLE}'),
+    ('YouTube', 'youtube', f'https://www.youtube.com/@{HANDLE}'),
 ]
+SOCIAL_URLS = [url for _, _, url in SOCIAL]
 
 
-def social_links():
-    out = []
-    for label, key, url in SOCIAL:
-        if url:
-            name = 'Climate Gumzo on Spotify' if key == 'spotify' else f'Dunia Endelevu on {label}'
-            out.append(f'<a href="{url}" target="_blank" rel="noopener" aria-label="{name}" title="{label}">{icon(key)}</a>')
-        else:
-            out.append(f'<span class="is-soon" title="{label}, link coming soon" aria-hidden="true">{icon(key)}</span>')
-    out.append(f'<a href="mailto:{EMAIL}" aria-label="Email us" title="Email">{icon("mail")}</a>')
+def brand_icon(key, cls='brand-ico'):
+    return (f'<svg class="{cls}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+            f'<path d="{BRAND_ICONS[key]["path"]}"/></svg>')
+
+
+def social_links(mail=True):
+    """Round icon buttons: footer (with email) and mobile menu (email is already written out there)."""
+    out = [f'<a href="{url}" target="_blank" rel="noopener me" aria-label="Dunia Endelevu on {label} (@{HANDLE})" title="{label}">{brand_icon(key)}</a>'
+           for label, key, url in SOCIAL]
+    out.append(f'<a href="{SPOTIFY_SHOW}" target="_blank" rel="noopener" aria-label="Climate Gumzo podcast on Spotify" title="Spotify">{brand_icon("spotify")}</a>')
+    if mail:
+        out.append(f'<a href="mailto:{EMAIL}" aria-label="Email {EMAIL}" title="Email">{brand_icon("mail")}</a>')
     return '\n          '.join(out)
+
+
+def social_grid():
+    """Contact page: one tile per network, each in its own brand colour."""
+    rows = []
+    for label, key, url in SOCIAL:
+        rows.append(f'<li><a class="social-tile" href="{url}" target="_blank" rel="noopener me">'
+                    f'<span class="social-badge social-badge--{key}">{brand_icon(key)}</span>'
+                    f'<span class="social-tile__text"><strong>{label}</strong><span class="social-tile__handle">@{HANDLE}</span></span></a></li>')
+    rows.append(f'<li><a class="social-tile" href="mailto:{EMAIL}">'
+                f'<span class="social-badge social-badge--mail">{brand_icon("mail")}</span>'
+                f'<span class="social-tile__text"><strong>Email</strong><span>{EMAIL}</span></span></a></li>')
+    return '<ul class="social-grid" role="list">' + ''.join(rows) + '</ul>'
 
 
 def footer(name):
@@ -441,6 +461,7 @@ def footer(name):
 def expand(body):
     body = body.replace('{{mark_white}}', mark(fg='#FFFFFF', w=28, h=35))
     body = body.replace('{{mark}}', mark())
+    body = body.replace('{{social_grid}}', social_grid())
     body = body.replace('{{email}}', EMAIL)
     body = body.replace('{{spotify}}', SPOTIFY_SHOW)
     body = body.replace('{{alana}}', ALANA_SITE)
@@ -526,6 +547,7 @@ def llms_txt(full=False):
         f'- Free storybooks for children aged 6 to 10 on climate change, biodiversity, climate justice, climate action and environmental rights',
         f'- Podcast: Climate Gumzo, {SPOTIFY_SHOW}',
         f'- Contact: {EMAIL}',
+        '- Social media (@' + HANDLE + ' everywhere): ' + ', '.join(f'{label} {url}' for label, _, url in SOCIAL),
         '- Safeguarding: vetted adults, at least two adults at every session, children credited by first name and age only',
         '', '## Pages', '']
     for name, title, desc, _, prio in PAGES:
