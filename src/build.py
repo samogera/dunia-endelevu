@@ -550,7 +550,7 @@ def llms_txt(full=False):
         '- Who it is for: children under 18, with written consent from a parent or guardian',
         '- Cost to families: free; donors and sponsors cover every cost',
         '- Three tracks: Storyteller (publish a climate book), Voice (co-host the podcast Climate Gumzo), Diplomat (speak at real events)',
-        '- For schools: early warning alerts for unhealthy air, heat and heavy rain, now in pilot. How it works: https://alerts.duniaendelevu.org/ (try the demo with example schools: https://alerts.duniaendelevu.org/demo)',
+        '- For schools: early warning alerts for unhealthy air, heat and heavy rain, now in pilot. How it works: https://alerts.duniaendelevu.org/ (try the demo with example schools: https://alerts.duniaendelevu.org/demo). Schools and partners can join the pilot at https://alerts.duniaendelevu.org/join',
         f'- Free storybooks for children aged 6 to 10 on climate change, biodiversity, climate justice, climate action and environmental rights',
         f'- Podcast: Climate Gumzo, {SPOTIFY_SHOW}',
         f'- Contact: {EMAIL}',
