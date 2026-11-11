@@ -148,12 +148,15 @@ def presplit(html):
     return re.sub(r'<h1((?:\s[^>]*)?\sclass="[^"]*\bsplit\b[^"]*"[^>]*)>(.*?)</h1>', one, html, flags=re.S)
 
 
+ALERTS_URL = 'https://alerts.duniaendelevu.org/'
+
 NAV = [
     ('about', '/about', 'About'),
     ('programs', '/programs', 'Programmes'),
     ('learn', '/learn', 'Learn'),
     ('donate', '/donate', 'Donate'),
     ('contact', '/contact', 'Contact'),
+    ('alerts', ALERTS_URL, 'Dunia Alerts'),
 ]
 
 ARROW = ('<svg class="arrow-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
@@ -186,6 +189,9 @@ def nav_links(active, home=False):
     out = []
     for key, href, label in items:
         cur = ' aria-current="page"' if key == active else ''
+        if href.startswith('http'):
+            out.append(f'<a class="nav-ext" href="{href}">{label}<span class="nav-ext__i" aria-hidden="true">↗</span></a>')
+            continue
         out.append(f'<a href="{href}"{cur}>{label}</a>')
     return '\n        '.join(out)
 
@@ -423,6 +429,7 @@ def footer(name):
         <a href="/programs">Programmes</a>
         <a href="/learn">Learn</a>
         <a href="/donate">Donate</a>
+        <a href="{ALERTS_URL}">Dunia Alerts <span aria-hidden="true">↗</span></a>
       </nav>
       <nav class="footer-nav" aria-labelledby="f-help-{name}">
         <h2 id="f-help-{name}">Get involved</h2>

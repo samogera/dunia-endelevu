@@ -207,6 +207,9 @@ a:hover { color: var(--leaf); }
   animation: menu-in .3s var(--ease);
 }
 @keyframes menu-in { from { opacity: 0; } to { opacity: 1; } }
+.nav-ext__i { display: inline-block; margin-left: 4px; font-size: .9em; opacity: .7; transition: transform .2s; }
+.nav a.nav-ext:hover .nav-ext__i { transform: translate(1px, -1px); opacity: 1; }
+.mobile-menu .nav-ext__i { display: none; }
 .mobile-menu nav { display: flex; flex-direction: column; }
 .mobile-menu nav a {
   display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0;
